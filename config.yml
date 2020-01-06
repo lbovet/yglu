@@ -1,0 +1,13 @@
+!ext
+system: !var $import('test/system.yml')
+service: !fn 
+  name: !e $.name
+  image: !e $.name + ':' + $.version
+<env> :
+  env : !var $system.env.toUpper()
+  services: !e
+    $system
+      .services
+      .select($service)
+
+

@@ -1,0 +1,6 @@
+env: test
+services:
+  - name: coder
+    version: "1.0"
+  - name: scanner
+    version: "1.0"

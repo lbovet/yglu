@@ -1,0 +1,9 @@
+services:
+  - name: sorter
+    prefix: stix
+  - name: coder
+    prefix: stix
+  - name: scanner
+    prefix: stix
+  - name: dumper
+    prefix: stix
