@@ -1,0 +1,8 @@
+system: !local $import('test/system.yml')
+service: !function 
+  $.name: !$ $.name
+  image: !$ $.name + ':' + $.version
+services: !$
+  $.system
+    .services
+    .select($service)
