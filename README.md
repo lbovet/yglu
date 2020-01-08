@@ -1,2 +1,2 @@
-# yglu ᕄ
+# Yglu ᕄ
 YAML Glue
