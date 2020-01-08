@@ -1,0 +1,37 @@
+props:
+    env: test
+fields:
+    one: 1
+    two: 2    
+    three: 3
+    four: 4
+    five: 5
+
+fieldsBase: !-
+    one: 1
+    two: 2
+cond1: !-
+    three: 3
+    four: 4
+fields: !$ $.fieldsBase.mergeWith(switch($.props.env = 'test' => $.cond1)
+
+fields:
+    one: 1
+    two: 2    
+    <_: !if $.props.env = 'test' 
+    three: 3
+    _: !else
+    four: 4
+    _>: !end
+    five: 5
+
+fields:
+    one: 1
+    two: 2    
+    <_: !switch $.props.env
+    _t: !case test
+    three: 3
+    _p: !case prod
+    four: 4
+    _>: !end
+    five: 5
