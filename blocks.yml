@@ -1,37 +1,83 @@
+fields:
+  one: != $.props.env
+  two: 2
+  _: !+ if_($.props.env = 'test')
+  _: !-
+    three: 3
+    four: 4
+  five: 5  
+
+services: != $.versions.select($_)
+_: !()
+  name: $.name
+  version: $.version
+
+services:
+  - name: boot
+    version: 1.0
+  - !+ $.versions.select($_)
+  - !-
+    name: $.name
+    version: $.version
+
+---
+
 props:
-    env: test
+  env: test
 fields:
-    one: 1
-    two: 2    
-    three: 3
-    four: 4
-    five: 5
+  one: 1
+  two: 2    
+  three: 3
+  four: 4
+  five: 5
 
-fieldsBase: !-
-    one: 1
+fields: != $._fields.mergeWith(switch($.props.env = 'test' => $.cond1))
+_fields: !/
+  one: 1
+  two: 2
+cond1: !/
+  three: 3
+  four: 4
+
+fields: != mergeAll($next())
+_fields: !-
+  - one: 1
     two: 2
-cond1: !-
+  - != switch($.props.env = 'test' => $next())
+  - !-
     three: 3
-    four: 4
-fields: !$ $.fieldsBase.mergeWith(switch($.props.env = 'test' => $.cond1)
+    four: 4  
 
 fields:
-    one: 1
-    two: 2    
-    <_: !if $.props.env = 'test' 
+  one: 1
+  two: 2
+  _: != switch($.props.env = 'test' => mergeNext())
+  _: !-
     three: 3
-    _: !else
-    four: 4
-    _>: !end
-    five: 5
+    four: 4  
 
-fields:
-    one: 1
-    two: 2    
-    <_: !switch $.props.env
-    _t: !case test
+services: != concatAll($next)
+_services: !-
+  - - 1
+    - 2
+  - != switch($.props.env = 'test' => $next())
+  - - 3
+    - 4
+
+fields: != _merge() 
+_: !-
+  - one: 1
+    two: 2
+  - != _if($.props.env = 'test')
+  - !-
     three: 3
-    _p: !case prod
-    four: 4
-    _>: !end
-    five: 5
+    four: 4  
+
+services: != _concat()
+_: !-
+  - - 1
+    - 2
+  - != _if($.props.env = 'test')
+  - !- 
+    - 3
+    - 4

@@ -1,16 +1,16 @@
 system: !- $import('test/system.yml')
 service: !()
-  name: !$ $.name
-  image: !$ $.name + ':' + $.version
-services: !$
+  name: != $.name
+  image: != $.name + ':' + $.version
+services: !=
   $.system
     .services
     .select($.service)
 properties: !-
   prod:
     auth: OAuth
-    truststore: !$ switch($.system.services.contains('auth-service') => $.withoutAuth)
+    truststore: != switch($.system.services.contains('auth-service') => $.withoutAuth)
     withoutAuth: 
       host: auth
       path: /trust-prod
-$: $.mergeWith($.properties[$.system.env])
+_: !$ $.mergeWith($.properties[$.system.env])
