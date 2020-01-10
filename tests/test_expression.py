@@ -26,7 +26,8 @@ def test_sequence_references():
     m['a'] = ExpressionNode('$.s[0] + 1')
     init(m)
     assert m['a'] == 4
-    assert m == { 's': [3, 2], 'a': 4 }
+    assert m == {'s': [3, 2], 'a': 4}
+
 
 def test_multiple_references():
     m = Mapping()
@@ -39,6 +40,7 @@ def test_multiple_references():
     init(m)
     assert m['b'] == 8
     assert m == {'s': [3, 2], 'b': 8, 'a': 4}
+
 
 def test_circular_reference():
     m = Mapping()

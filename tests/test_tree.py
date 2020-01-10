@@ -13,18 +13,26 @@ def test_constant():
 def test_sequence_accessors():
     s = Sequence()
     s.append(Scalar(1))
+    hidden = Scalar(3)
+    hidden.visible = False
+    s.append(hidden)
     s.append(Scalar(2))
     assert [i for i in s] == [1, 2]
     assert s == [1, 2]
     assert str(s) == '[1, 2]'
+    assert s[1] == 3
 
 def test_mapping_accessors():
     m = Mapping()
     m['a'] = Scalar(1)
+    hidden = Scalar(3)
+    hidden.visible = False
+    m['X'] = hidden
     m['b'] = Scalar(2)
     assert m.items() == [('a', 1), ('b', 2)]
     assert m == { 'a': 1, 'b': 2 }
     assert str(m) == "{'a': 1, 'b': 2}"
+    assert m['X'] == 3
 
 def test_content():
     class OneNode(Node):

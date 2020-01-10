@@ -8,13 +8,15 @@ engine = yaql.factory.YaqlFactory().create(options={
 scope = {}
 stack = []
 
+
 def init(new_scope):
     global scope
     global stack
     scope = new_scope
     stack = []
 
-class ExpressionNode(Node):    
+
+class ExpressionNode(Node):
     def __init__(self, expression):
         self.expression = expression
 
@@ -25,6 +27,7 @@ class ExpressionNode(Node):
         result = engine(self.expression).evaluate(data=scope)
         stack.pop()
         return result
+
 
 class CircularReferenceException(Exception):
     pass

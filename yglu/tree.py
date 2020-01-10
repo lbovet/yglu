@@ -6,7 +6,7 @@ from collections import OrderedDict
 
 
 class Node:
-    visible = True
+    listable = True
     memo = None
 
     def content(self):
@@ -31,7 +31,8 @@ class Mapping(Node, OrderedDict):
         return super().__getitem__(key).content()
 
     def items(self):
-        return [(k, v.content()) for (k, v) in super().items()]
+        items = filter(lambda kv: kv[1].visible, super().items())
+        return [(k, v.content()) for (k, v) in items]
 
     def __eq__(self, other):
         return dict(self.items()) == other
@@ -53,7 +54,9 @@ class Sequence(list, Node):
         iter = super().__iter__()
         try:
             while True:
-                yield iter.__next__().content()
+                next = iter.__next__()
+                if next.visible:
+                    yield next.content()
         except StopIteration:
             return
 
