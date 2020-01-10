@@ -13,4 +13,4 @@ properties: !-
     withoutAuth: 
       host: auth
       path: /trust-prod
-_: !$ $.mergeWith($.properties[$.system.env])
+_: !+ $.properties[$.system.env]

@@ -32,10 +32,10 @@ fields:
   five: 5
 
 fields: != $._fields.mergeWith(switch($.props.env = 'test' => $.cond1))
-_fields: !/
+_fields: !-
   one: 1
   two: 2
-cond1: !/
+cond1: !-
   three: 3
   four: 4
 

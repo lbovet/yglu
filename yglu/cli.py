@@ -1,15 +1,14 @@
 import pprint
 import sys
-print("hello")
-import oyaml as yaml
+import ruamel.yaml
 import yaql
 
-def load_yaml():
+def load_yaml(yaml):
     if len(sys.argv) > 1:
         with open(sys.argv[1]) as file:
-            return yaml.load(file, Loader=yaml.FullLoader)
+            return yaml.load(file)
     else:
-        return yaml.load(sys.stdin.read(), Loader=yaml.FullLoader)
+        return yaml.load(sys.stdin.read())
 
 class ExpressionNode:
     def __init__(self, loader, node):
@@ -20,7 +19,10 @@ class ExpressionNode:
 def expression_constructor(loader, node):
     return ExpressionNode(loader, node)
 
-yaml.add_constructor(u'!$', expression_constructor)
+
+yaml = ruamel.yaml.YAML()
+yaml.add_constructor(u'!=', expression_constructor)
+yaml.allow_duplicate_keys = True
 
 def eval_doc(doc):
     engine = yaql.factory.YaqlFactory().create()
@@ -41,4 +43,8 @@ def eval_doc(doc):
         return result
     return eval(doc)
 
-yaml.dump(eval_doc(load_yaml()), sys.stdout, default_flow_style=False)
+def main():
+    yaml.dump(load_yaml(yaml), sys.stdout)
+
+if __name__ == '__main__':
+    main()

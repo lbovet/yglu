@@ -1,3 +1,5 @@
-name: != $.world
+name: $.world
 message: != hello + ', ' + $.name
 world: world
+_: hey
+_s: ho
