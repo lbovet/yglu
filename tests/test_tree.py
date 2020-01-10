@@ -37,7 +37,6 @@ def test_mapping_accessors():
 def test_content():
     class OneNode(Node):
         version = 0
-
         def create_content(self):
             self.version += 1
             return self.version

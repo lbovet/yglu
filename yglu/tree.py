@@ -6,7 +6,7 @@ from collections import OrderedDict
 
 
 class Node:
-    listable = True
+    visible = True
     memo = None
 
     def content(self):
