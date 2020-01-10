@@ -30,12 +30,14 @@ class Mapping(Node, OrderedDict):
     def __getitem__(self, key):
         return super().__getitem__(key).content()
 
-    def __items__(self):
-        return self.content().__items__()
+    def items(self):
+        return [(k, v.content()) for (k, v) in super().items()]
 
-    def create_content(self):
-        return {k: self[k] for k in self.keys()}
+    def __eq__(self, other):
+        return dict(self.items()) == other
 
+    def __repr__(self):
+        return dict(self.items()).__repr__()
 
 class Sequence(list, Node):
     def get_node(self, index):
@@ -44,11 +46,16 @@ class Sequence(list, Node):
     def __getitem__(self, index):
         return super().__getitem__(index).content()
 
+    def __eq__(self, other):
+        return list(self) == other
+
     def __iter__(self):
-        return self.content().__iter__()
+        iter = super().__iter__()
+        try:
+            while True:
+                yield iter.__next__().content()
+        except StopIteration:
+            return
 
-    def __eq__(self, value):
-        return self.content.__eq__(value)
-
-    def create_content(self):
-        return [self[i] for i in range(len(self))]
+    def __repr__(self):
+        return list(self).__repr__()

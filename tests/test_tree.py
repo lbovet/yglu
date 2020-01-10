@@ -5,11 +5,26 @@ def test_constant():
     m = Mapping()
     m['a'] = Scalar(1)
     assert m['a'] == 1
-
     s = Sequence()
     s.append(Scalar('hello'))
     assert s[0] == 'hello'
 
+
+def test_sequence_accessors():
+    s = Sequence()
+    s.append(Scalar(1))
+    s.append(Scalar(2))
+    assert [i for i in s] == [1, 2]
+    assert s == [1, 2]
+    assert str(s) == '[1, 2]'
+
+def test_mapping_accessors():
+    m = Mapping()
+    m['a'] = Scalar(1)
+    m['b'] = Scalar(2)
+    assert m.items() == [('a', 1), ('b', 2)]
+    assert m == { 'a': 1, 'b': 2 }
+    assert str(m) == "{'a': 1, 'b': 2}"
 
 def test_content():
     class OneNode(Node):
@@ -34,5 +49,3 @@ def test_content():
     assert m['s'][1] == 1
     assert m['n'] == 1
     assert m['m2']['s'] == [1, 1]
-
-    assert m2.content() == {'s': [1, 1]}
