@@ -1,6 +1,6 @@
-#!/usr/bin/python3
 import pprint
 import sys
+print("hello")
 import oyaml as yaml
 import yaql
 
@@ -33,7 +33,7 @@ def eval_doc(doc):
         elif isinstance(data, list) or isinstance(data, tuple):
             result = list()
             for v in data:
-                result.add(eval(v))
+                result.append(eval(v))
         elif isinstance(data, ExpressionNode):
             result = data.eval(engine, root)
         else:
