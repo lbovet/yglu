@@ -33,7 +33,6 @@ def test_invisible():
             y: 5
         d: 6
         ''')
-    init_scope(data)
     assert data['a'] == 1
     assert data == {'d': 6}
 
@@ -46,6 +45,5 @@ def test_simple_expression():
         - !- $.b + 1
         - !? $.c[0] + 1
     ''')
-    init_scope(data)
 
     assert data == {'a': 1, 'b': 2, 'c': [4]}

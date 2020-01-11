@@ -1,23 +1,23 @@
 from yglu import loader
 from yglu.tree import (Scalar, Sequence, Mapping)
-from yglu.expression import Expression
+from yglu.expression import (Expression,  init_scope)
 from ruamel.yaml.nodes import (ScalarNode, SequenceNode, MappingNode)
 from ruamel.yaml.comments import TaggedScalar
 
 
 def build(source):
-    return convert(loader.load(source))
+    result = convert(loader.load(source))
+    init_scope(result)
+    return result
 
 
-def convert(node, expression=False):
+def convert(node):
     if isinstance(node, dict):
         return Mapping([(k, convert(v)) for (k, v) in node.items()])
     if isinstance(node, list):
         return Sequence([convert(v) for v in node])
     if isinstance(node, TaggedNode):
         return node.create()
-    if expression:
-        return Expression(node)
     return Scalar(node)
 
 
@@ -28,7 +28,10 @@ class TaggedNode:
 
 class InvisibleNode(TaggedNode):
     def create(self):
-        result = convert(self.value, expression=True)
+        if isinstance(self.value, str):
+            result = Expression(self.value)
+        else:
+            result = convert(self.value)
         result.visible = False
         return result
 
