@@ -24,7 +24,7 @@ Yglu input documents are pure YAML with tags for computed nodes.
 </td>
 </tr></table>
 
-See the [test samples](tree/master/tests/samples) for more examples.
+See the [test samples](../tree/master/tests/samples) for more examples.
 
 ## Install
 
