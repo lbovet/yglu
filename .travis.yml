@@ -1,8 +1,6 @@
 language: python
 python:
 - '3.6'
-- '3.7'
-- '3.8'
 install:
 - pip install .
 script:
@@ -12,3 +10,5 @@ deploy:
   user: __token__
   password:
     secure: VU4VJuG5IKU1X+pHUsh6hIM+5C+K1gh/acJ4hgmGWPruOK622o4BDvDzvVMDlwZrdWEImjuPcVHyxPf4GJ/hvLoNIu8/H+vVYV92PG+2jL4AyfpNzOkmhSikuNzPbdf0WYXZzPe5GApzK6uGRVabC305roKSxgS+llg33jMU8zYpMInC9JGjclLEm1sF9+hKPn2of843jLvj5ir9fw7YvZfv3M2VMNcBtANwrg+u48CKEsV+8vTlmYHkasQOnl91NQY/lEqRl0jrAqkgnJqtEOStetZketLr5i/mYiiwN0tDRcHQ3zDl01I/zHXUFHZoP3wIhp2ucra2xHcwaCu2Oyhry9exdxJCGeK2PoXoxfcwfXo0pfsY9W3bChkX9Q4PFJ9dHsd1wZ4/Krf/OJxYJsEIou0dn1S21OJCArDK48ZLxwspqgY2p1nzoaiu62AmxncBQ/pqvtCn3AMZnvLGQH9BH+NF0N7zc7O4Am0lM3EaKII8kKg+0ijWesHQmW+asbEveGSuK2zNTxSAcM8ar551fK+Bi+vdjw0jkR6rq1Mij/M/9hT5plQfgqTb6kwzx4goeTUtmSO8fpm2Ub7y48MLHEXTPLDQ094piN9kdcVzeT7ln5fjyhrdVc95fl6yI2RdkT7jyaW6DKPT4LjiMymscqUcFpk5rSsHopBBHRY=
+  on:
+    tags: true
