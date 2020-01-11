@@ -1,7 +1,5 @@
-'''
-Model for the internal document structure.
-Node content can be the result of a computation.
-'''
+''' Model for the internal document structure. '''
+
 from collections import OrderedDict
 
 

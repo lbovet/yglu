@@ -1,8 +1,11 @@
+''' Serialization into YAML text '''
+
 import ruamel.yaml
 from .loader import SimpleString
 from .tree import (Mapping, Sequence, Scalar)
 
 yaml = ruamel.yaml.YAML()
+
 
 def represent_mapping(representer, mapping):
     return representer.represent_mapping(u'tag:yaml.org,2002:map', mapping)

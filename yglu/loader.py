@@ -1,9 +1,12 @@
-''' Loads YAML with line/column '''
+''' Loads YAML structure from text input '''
+
 import sys
 import ruamel.yaml
 
+
 class String:
-    pass    
+    pass
+
 
 class SimpleString(ruamel.yaml.scalarstring.ScalarString, String):
     __slots__ = ('lc')
@@ -28,11 +31,10 @@ class SingleQuotedScalarString(ruamel.yaml.scalarstring.SingleQuotedScalarString
 
 class MyConstructor(ruamel.yaml.constructor.RoundTripConstructor):
     def construct_scalar(self, node):
-        # type: (Any) -> Any
         if not isinstance(node, ruamel.yaml.nodes.ScalarNode):
             raise ruamel.yaml.constructor.ConstructorError(
                 None, None,
-                "expected a scalar node, but found %s" % node.id,
+                'expected a scalar node, but found %s' % node.id,
                 node.start_mark)
 
         if node.style == '|' and isinstance(node.value, ruamel.yaml.compat.text_type):

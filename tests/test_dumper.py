@@ -1,6 +1,7 @@
 from yglu.dumper import dump
 from .test_utils import *
 
+
 def test_no_tags():
     input = '''
         key1: '{ '
@@ -14,12 +15,13 @@ def test_no_tags():
     output = process(input)
     assert_like(input, output)
 
+
 def test_expression():
     input = '''
         a: 2
         b: !? $.a + 1
         c: !? "'{' + hello"
-        '''    
+        '''
     expected = '''
         a: 2
         b: 3

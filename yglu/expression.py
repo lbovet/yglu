@@ -1,4 +1,5 @@
-''' Node containing a YAQL expression to evaluate as content'''
+''' Evaluation of YAQL expressions '''
+
 import yaql
 from .tree import Node
 

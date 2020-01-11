@@ -1,6 +1,8 @@
-from yglu import loader
-from yglu.tree import (Scalar, Sequence, Mapping)
-from yglu.expression import (Expression,  init_scope)
+''' Transforms the parsed YAML structure into a tree '''
+
+from . import loader
+from .tree import (Scalar, Sequence, Mapping)
+from .expression import (Expression,  init_scope)
 from ruamel.yaml.nodes import (ScalarNode, SequenceNode, MappingNode)
 from ruamel.yaml.comments import TaggedScalar
 
@@ -54,7 +56,7 @@ def invisible_constructor(self, node):
 def expression_constructor(self, node):
     if isinstance(node, ScalarNode):
         return ExpressionNode(self.construct_scalar(node))
-    assert False, "Expressions must be scalar"
+    assert False, 'Expressions must be scalar'
 
 
 loader.add_constructor('!?', expression_constructor)

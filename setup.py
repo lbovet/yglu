@@ -10,6 +10,6 @@ setup(
     entry_points={
         "console_scripts": ["yglu=yglu.cli:main"]},
     install_requires=[
-        "ruamel-yaml"
+        "ruamel.yaml"
     ],
 )
