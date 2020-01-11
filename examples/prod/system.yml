@@ -1,6 +1,0 @@
-env: prod
-services:
-  - name: coder
-  - name: scanner
-  - name: sorter    
-    version: "1.0"    

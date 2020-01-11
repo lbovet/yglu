@@ -19,8 +19,7 @@ services:
   - !-
     name: $.name
     version: $.version
-
----
+    
 
 props:
   env: test
@@ -39,45 +38,29 @@ cond1: !-
   three: 3
   four: 4
 
-fields: !? mergeAll($next())
-_fields: !-
-  - one: 1
-    two: 2
-  - != switch($.props.env = 'test' => $next())
-  - !-
-    three: 3
-    four: 4  
-
 fields:
   one: 1
   two: 2
-  _: != switch($.props.env = 'test' => mergeNext())
+  _: !? switch($.props.env = 'test' => mergeNext())
   _: !-
     three: 3
     four: 4  
 
-services: !? concatAll($next)
-_services: !-
-  - - 1
-    - 2
-  - != switch($.props.env = 'test' => $next())
-  - - 3
-    - 4
 
-fields: != _merge() 
+fields: !? _merge() 
 _: !-
   - one: 1
     two: 2
-  - != _if($.props.env = 'test')
+  - !? _if($.props.env = 'test')
   - !-
     three: 3
     four: 4  
 
-services: != _concat()
+services: !? _concat()
 _: !-
   - - 1
     - 2
-  - != _if($.props.env = 'test')
+  - !? _if($.props.env = 'test')
   - !- 
     - 3
     - 4

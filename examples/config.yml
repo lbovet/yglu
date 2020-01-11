@@ -1,15 +1,16 @@
-system: !- $import('test/system.yml')
+env: test
+system: !- $import('system-'+$.env+'.yml')
 service: !()
-  name: != $.name
-  image: != $.name + ':' + $.version
-services: !=
+  name: !? $.name
+  image: !? $.name + ':' + $.version
+services: !?
   $.system
     .services
     .select($.service)
 properties: !-
-  prod:
+  test:
     auth: OAuth
-    truststore: != switch($.system.services.contains('auth-service') => $.withoutAuth)
+    truststore: !? switch($.system.services.contains('auth-service') => $.withoutAuth)
     withoutAuth: 
       host: auth
       path: /trust-prod
