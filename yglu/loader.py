@@ -2,8 +2,10 @@
 import sys
 import ruamel.yaml
 
+class String:
+    pass    
 
-class Str(ruamel.yaml.scalarstring.ScalarString):
+class SimpleString(ruamel.yaml.scalarstring.ScalarString, String):
     __slots__ = ('lc')
 
     style = ""
@@ -12,15 +14,15 @@ class Str(ruamel.yaml.scalarstring.ScalarString):
         return ruamel.yaml.scalarstring.ScalarString.__new__(cls, value)
 
 
-class MyPreservedScalarString(ruamel.yaml.scalarstring.PreservedScalarString):
+class PreservedScalarString(ruamel.yaml.scalarstring.PreservedScalarString, String):
     __slots__ = ('lc')
 
 
-class MyDoubleQuotedScalarString(ruamel.yaml.scalarstring.DoubleQuotedScalarString):
+class DoubleQuotedScalarString(ruamel.yaml.scalarstring.DoubleQuotedScalarString, String):
     __slots__ = ('lc')
 
 
-class MySingleQuotedScalarString(ruamel.yaml.scalarstring.SingleQuotedScalarString):
+class SingleQuotedScalarString(ruamel.yaml.scalarstring.SingleQuotedScalarString, String):
     __slots__ = ('lc')
 
 
@@ -34,16 +36,16 @@ class MyConstructor(ruamel.yaml.constructor.RoundTripConstructor):
                 node.start_mark)
 
         if node.style == '|' and isinstance(node.value, ruamel.yaml.compat.text_type):
-            ret_val = MyPreservedScalarString(node.value)
+            ret_val = PreservedScalarString(node.value)
         elif bool(self._preserve_quotes) and isinstance(node.value, ruamel.yaml.compat.text_type):
             if node.style == "'":
-                ret_val = MySingleQuotedScalarString(node.value)
+                ret_val = SingleQuotedScalarString(node.value)
             elif node.style == '"':
-                ret_val = MyDoubleQuotedScalarString(node.value)
+                ret_val = DoubleQuotedScalarString(node.value)
             else:
-                ret_val = Str(node.value)
+                ret_val = SimpleString(node.value)
         else:
-            ret_val = Str(node.value)
+            ret_val = SimpleString(node.value)
         ret_val.lc = ruamel.yaml.comments.LineCol()
         ret_val.lc.line = node.start_mark.line
         ret_val.lc.col = node.start_mark.column
@@ -52,6 +54,7 @@ class MyConstructor(ruamel.yaml.constructor.RoundTripConstructor):
 
 yaml = ruamel.yaml.YAML()
 yaml.Constructor = MyConstructor
+yaml.allow_duplicate_keys = True
 
 
 def add_constructor(tag, constructor):
