@@ -1,5 +1,5 @@
 fields:
-  one: != $.props.env
+  one: !? $.props.env
   two: 2
   _: !+ if_($.props.env = 'test')
   _: !-
@@ -7,7 +7,7 @@ fields:
     four: 4
   five: 5  
 
-services: != $.versions.select($_)
+services: !? $.versions.select($_)
 _: !()
   name: $.name
   version: $.version
@@ -31,7 +31,7 @@ fields:
   four: 4
   five: 5
 
-fields: != $._fields.mergeWith(switch($.props.env = 'test' => $.cond1))
+fields: !? $._fields.mergeWith(switch($.props.env = 'test' => $.cond1))
 _fields: !-
   one: 1
   two: 2
@@ -39,7 +39,7 @@ cond1: !-
   three: 3
   four: 4
 
-fields: != mergeAll($next())
+fields: !? mergeAll($next())
 _fields: !-
   - one: 1
     two: 2
@@ -56,7 +56,7 @@ fields:
     three: 3
     four: 4  
 
-services: != concatAll($next)
+services: !? concatAll($next)
 _services: !-
   - - 1
     - 2

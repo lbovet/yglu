@@ -9,14 +9,14 @@ scope = {}
 stack = []
 
 
-def init(new_scope):
+def init_scope(new_scope):
     global scope
     global stack
     scope = new_scope
     stack = []
 
 
-class ExpressionNode(Node):
+class Expression(Node):
     def __init__(self, expression):
         self.expression = expression
 

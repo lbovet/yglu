@@ -10,6 +10,13 @@ def test_constant():
     assert s[0] == 'hello'
 
 
+def test_constructor():
+    m = Mapping({'a': Scalar(2)})
+    assert m['a'] == 2
+    s = Sequence([Scalar(1), Scalar(2)])
+    assert s[1] == 2
+
+
 def test_sequence_accessors():
     s = Sequence()
     s.append(Scalar(1))
@@ -19,8 +26,9 @@ def test_sequence_accessors():
     s.append(Scalar(2))
     assert [i for i in s] == [1, 2]
     assert s == [1, 2]
-    assert str(s) == '[1, 2]'
+    assert str(s) == 'y[1, 2]'
     assert s[1] == 3
+
 
 def test_mapping_accessors():
     m = Mapping()
@@ -30,13 +38,15 @@ def test_mapping_accessors():
     m['X'] = hidden
     m['b'] = Scalar(2)
     assert m.items() == [('a', 1), ('b', 2)]
-    assert m == { 'a': 1, 'b': 2 }
-    assert str(m) == "{'a': 1, 'b': 2}"
+    assert m == {'a': 1, 'b': 2}
+    assert str(m) == "y{'a': 1, 'b': 2}"
     assert m['X'] == 3
+
 
 def test_content():
     class OneNode(Node):
         version = 0
+
         def create_content(self):
             self.version += 1
             return self.version

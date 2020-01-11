@@ -38,7 +38,8 @@ class Mapping(Node, OrderedDict):
         return dict(self.items()) == other
 
     def __repr__(self):
-        return dict(self.items()).__repr__()
+        return 'y'+dict(self.items()).__repr__()
+
 
 class Sequence(list, Node):
     def get_node(self, index):
@@ -61,4 +62,4 @@ class Sequence(list, Node):
             return
 
     def __repr__(self):
-        return list(self).__repr__()
+        return 'y'+list(self).__repr__()
