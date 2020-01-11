@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='ylgu',
+    name='ylgu-lbovet',
     version='0.1',
     description='YAML Glue',
     author='Laurent Bovet',
