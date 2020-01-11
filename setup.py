@@ -7,7 +7,7 @@ with open("yglu/__init__.py", "r") as fh:
     exec(fh.read())
 
 setup(
-    name='ylgu-lbovet',
+    name='yglu',
     version=version,
     description='YAML glue for structural templating and processing',
     author='Laurent Bovet',
