@@ -1,9 +1,16 @@
 language: python
 python:
-  - "3.6"      # current default Python on Travis CI
-  - "3.7"
-  - "3.8"
+- '3.6'
+- '3.7'
+- '3.8'
 install:
-  - pip install .
+- pip install .
 script:
-  - pytest
+- pytest
+deploy:
+  provider: pypi
+  user: __token__
+  password:
+    secure: cotqgMNBJZBbF/P3xpKLNMNtnxDFiUO/YvipvhjC/zY04udK0nQe/mjCdFyiSadtgaw+5agp1DW4Ey5TS15CBe2y4AV8qjf941Z7PZXtguYeO/DM6/RDx6eE4Yg33nU2TIR8eHBbkwAIkcN9OSaSCIyzUiVE+oMW+YfWwFyCgybEDpBSmgyZXQQsVHd6xRkuFm110v8Ez3VNlS1VoX/Ai+pZLt5krFL9p+Z09ckq/r0oX7C21CrHHk1xOIryCRwB38zqpqCo7855DB5VJNvuYzCHiMRfnHF0G4/IsI/su1OhP1B7elvN/X87DptMCktxe4CO8rljmH/JYhWUSfGUfY9CtSR9CxeTU+lZ0OPGW8gAS4kSX9oP5rOMGiymOogoYGIOltFTDKdVt2tlbLhafOZZZdq7I40or4TZq96f/UpXd8qsKyswUd6iQJ2xjWNr38M51xqyGm4q2C0k/Sm12BOAeayhzk1tJfDN4dTjLUaj6ieF0MaNgsbXy0Dv9xSbNfEkc4/L8WvH4LOYQKBr5obexugKLoPCfH+ZmEvbfl6+Tf5SD9/F4i9OK4eco2COF5bSkbZmUI0LPsVK8haKdrS9XbwH1JkVH4BE54ZxB/PY6qe9m3NzUNHi0Oqzxf8OJDAcgK8vdSrLT/n2CbGaKRTPV4g/nnmK8iqy5UQ01/E=
+  on:
+    tags: true
