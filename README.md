@@ -2,7 +2,7 @@
 [![PyPI version](https://badge.fury.io/py/yglu.svg)](https://badge.fury.io/py/yglu)
 # Yglu ᕄ
 
-[YAML](https://yaml.org/) enriched with an advanced expression language. Unlike usual text templating, Yglu relies on the YAML structure and leverage its typing features combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language. 
+Yglu [YAML](https://yaml.org/) enriched with an advanced expression language. Unlike usual text templating, Yglu relies on the YAML structure and leverage its typing features combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language. 
 
 This association enables templating and functional processing a bit like if YAML nodes where spreadsheet cells.
 
