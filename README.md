@@ -45,6 +45,20 @@ Options:
 
 Tags specify an alteration of the structure of the document.
 
+| **Tag**&nbsp;&nbsp;&nbsp;| **Description** |
+|-----------|-----------------|
+| `!?`     | Replace the node value with the result of an expression |
+| `!-`      | Hide the node in the output but keep it accessible from expressions. If the node value is a string, it is replaced with the result of the expression. |
+| `!()`  | Make the node reusable in expressions as a function. It is also hidden. *Will be available in version 1.1* |
+
 ## Expressions
 
 Expressions are written in [YAQL](https://yaql.readthedocs.io/en/latest/).
+
+They receive a context with predefined variables.
+
+| **Variable**| **Description** |
+|-----------|-----------------|
+| `$`     | Refers to the document root, or implicit argument in function blocks. |
+| `$_`      | Always refers to the document root. So that the root is accessible from functions. *Will be available in version 1.1* |
+
