@@ -43,12 +43,12 @@ Options:
 
 ## Tags
 
-Tags specify an alteration of the structure of the document.
+Tags specify an alteration of the document structure.
 
 | **Tag**&nbsp;&nbsp;&nbsp;| **Description** |
 |-----------|-----------------|
-| `!?`     | Replace the node value with the result of an expression |
-| `!-`      | Hide the node in the output but keep it accessible from expressions. If the node value is a string, it is replaced with the result of the expression. |
+| `!?`     | Evaluate an expression. The result can be a scalar, mapping or sequence. |
+| `!-`      | Hide the node in the output but keep it accessible from expressions. When used with a scalar, it evaluates it as an expression. |
 | `!()`  | Make the node reusable in expressions as a function. It is also hidden. |
 
 ## Expressions
@@ -63,3 +63,7 @@ They are evaluated in a context with the following predefined variables:
 | `$_`      | Always refers to the document root. So that the root is accessible from functions. |
 | `$env`    | Gives access to environment variables if $YGLU_ENABLE_ENV environment variable is set. |
 
+## Future Features
+
+- Use expressions in mapping keys
+- Tag for easy merge of mappings
