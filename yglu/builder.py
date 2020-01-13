@@ -2,24 +2,27 @@
 
 from . import loader
 from .tree import (Scalar, Sequence, Mapping)
-from .expression import (Expression, Function, FunctionBlock, init_scope)
+from .expression import (Expression, Function, FunctionBlock)
 from ruamel.yaml.nodes import (ScalarNode, SequenceNode, MappingNode)
 from ruamel.yaml.comments import TaggedScalar
 
+class Document:
+    root = None
 
 def build(source):
-    result = convert(loader.load(source))
-    init_scope(result)
+    doc = Document()
+    result = convert(loader.load(source), doc)
+    doc.root = result
     return result
 
 
-def convert(node):
+def convert(node, doc):
     if isinstance(node, dict):
-        return Mapping([(k, convert(v)) for (k, v) in node.items()])
+        return Mapping([(k, convert(v, doc)) for (k, v) in node.items()])
     if isinstance(node, list):
-        return Sequence([convert(v) for v in node])
+        return Sequence([convert(v, doc) for v in node])
     if isinstance(node, TaggedNode):
-        return node.create()
+        return node.create(doc)
     return Scalar(node)
 
 
@@ -38,11 +41,11 @@ class TaggedNode:
 
 
 class InvisibleNode(TaggedNode):
-    def create(self):
+    def create(self, doc):
         if isinstance(self.value, str):
-            result = Expression(self.value)
+            result = Expression(self.value, doc)
         else:
-            result = convert(self.value)
+            result = convert(self.value, doc)
         result.visible = False
         return result
 
@@ -55,8 +58,8 @@ loader.add_constructor('!-', invisible_constructor)
 
 
 class ExpressionNode(TaggedNode):
-    def create(self):
-        result = Expression(self.value)
+    def create(self, doc):
+        result = Expression(self.value, doc)
         return result
 
 
@@ -70,8 +73,8 @@ loader.add_constructor('!?', expression_constructor)
 
 
 class FunctionNode(TaggedNode):
-    def create(self):
-        result = Function(self.value)
+    def create(self, doc):
+        result = Function(self.value, doc)
         return result
 
 
@@ -79,8 +82,8 @@ class FunctionBlockNode(TaggedNode):
     def __init__(self, value, constructor):
         self.value = value
         self.constructor = constructor
-    def create(self):
-        result = FunctionBlock(self, lambda node: convert(construct_node(self.constructor, node)))
+    def create(self, doc):
+        result = FunctionBlock(self, lambda node: convert(construct_node(self.constructor, node), doc))
         return result
 
 

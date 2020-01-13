@@ -3,7 +3,7 @@ a: !() $ + 1
 b: !? ($.a)(2)
 c: !() 
   d: !? $.name.toUpper()
-  e: !? $.age + 2
+  e: !? $.age + $_.b
 f:
   !? ($.c)({name => foo, age => 30})
 g: !-
@@ -18,11 +18,11 @@ i: !? $.g.select(($_.c)($))
 b: 3
 f:
   d: FOO
-  e: 32
+  e: 33
 h: 4
 i:
   - d: FOO
-    e: 12
+    e: 13
   - d: BAR
-    e: 22
+    e: 23
 

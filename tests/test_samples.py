@@ -11,6 +11,7 @@ filenames = [f for f in glob.glob(path + "/samples/**/*.yml", recursive=True)]
 def test_samples():
     os.environ['YGLU_ENABLE_ENV'] = 'true'
     for filename in filenames:
+        print("Sample: "+filename)
         with open(filename) as file:
             docs = file.read().split("---\n")
             input = process(docs[0])

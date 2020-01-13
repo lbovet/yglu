@@ -13,13 +13,6 @@ stack = []
 contexts = {}
 
 
-def init_scope(scope):
-    global scopes
-    global stack
-    scopes.append(scope)
-    stack = []
-
-
 def get_context(node):
     key = id(node)
     if key in contexts:
@@ -28,7 +21,8 @@ def get_context(node):
         context = yaql.create_context(delegates=True)
         if 'YGLU_ENABLE_ENV' in os.environ:
             context['$env'] = os.environ
-        context['$_'] = scopes[-1]
+        context['$_'] = node
+        context['$'] = node
         contexts[key] = context
     return context
 
@@ -52,26 +46,30 @@ def pop_scope():
 
 
 class Expression(Node):
-    def __init__(self, expression):
+    def __init__(self, expression, doc):
         self.expression = expression
-        self.context = get_context('x')
+        self.doc = doc
 
     def create_content(self):
         push_stack(self)
-        result = engine(self.expression).evaluate(
-            data=scopes[-1], context=self.context)
+        context = get_context(self.doc.root).create_child_context()
+        if len(scopes) > 0:
+            context['$'] = scopes[-1]
+        result = engine(self.expression).evaluate(context=context)
         pop_stack()
         return result
 
 
 class Function(Node):
-    def __init__(self, expression):
+    def __init__(self, expression, doc):
         self.expression = expression
+        self.doc = doc
         self.visible = False
 
     def eval(self, scope):
-        result = engine(self.expression).evaluate(
-            data=scope, context=get_context('x'))
+        context = get_context(self.doc.root).create_child_context()
+        context['$'] = scope
+        result = engine(self.expression).evaluate(context=context)
         return result
 
     def create_content(self):
