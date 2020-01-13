@@ -55,10 +55,11 @@ Tags specify an alteration of the structure of the document.
 
 Expressions are written in [YAQL](https://yaql.readthedocs.io/en/latest/).
 
-They receive a context with predefined variables.
+They are evaluated in a context with the following predefined variables:
 
 | **Variable**| **Description** |
 |-----------|-----------------|
 | `$`     | Refers to the document root, or implicit argument in function blocks. |
 | `$_`      | Always refers to the document root. So that the root is accessible from functions. |
+| `$env`    | Gives access to environment variables if $YGLU_ENABLE_ENV environment variable is set. |
 

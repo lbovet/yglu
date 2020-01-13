@@ -1,5 +1,6 @@
 ''' Evaluation of YAQL expressions '''
 
+import os
 import yaql
 from .tree import Node
 from ruamel.yaml.nodes import (MappingNode, SequenceNode)
@@ -17,6 +18,8 @@ def enter_scope(scope):
     global stack
     scopes.append(scope)
     context = yaql.create_context(delegates=True)
+    if 'YGLU_ENABLE_ENV' in os.environ:
+        context['$env'] = os.environ
     context['$_'] = scope
     contexts.append(context)
     stack = []

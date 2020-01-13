@@ -1,0 +1,6 @@
+# input
+a: !? $env.keys().contains(PATH)
+b: !? $env.keys().contains(INEXISTING_ENV_VAR)
+---
+a: true
+b: false
