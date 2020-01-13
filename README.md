@@ -60,5 +60,5 @@ They receive a context with predefined variables.
 | **Variable**| **Description** |
 |-----------|-----------------|
 | `$`     | Refers to the document root, or implicit argument in function blocks. |
-| `$_`      | Always refers to the document root. So that the root is accessible from functions. *Will be available in version 0.3* |
+| `$_`      | Always refers to the document root. So that the root is accessible from functions. |
 

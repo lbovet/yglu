@@ -1,6 +1,6 @@
 import pytest
 from yglu.builder import build
-from yglu.expression import init_scope
+from yglu.expression import enter_scope
 import ruamel.yaml
 
 

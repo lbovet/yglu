@@ -1,18 +1,26 @@
 a: !() $ + 1
 b: !? ($.a)(2)
 c: !() 
-  d: !? $.name
-  e: !? $.age
+  d: !? $.name.toUpper()
+  e: !? $.age + 2
 f:
   !? ($.c)({name => foo, age => 30})
-#g: !-
-#  - name: foo
-#    age: 10
-#  - name: bar
-#    age: 20
-#h: !? let(r => $.c) -> $.select($r)
+g: !-
+  - name: foo
+    age: 10
+  - name: bar
+    age: 20
+h: !? ($_.a)(3)
+i: !? $.g.select(($_.c)($))
 ---
 b: 3
 f:
-  d: foo
-  e: 30
+  d: FOO
+  e: 32
+h: 4
+i:
+  - d: FOO
+    e: 12
+  - d: BAR
+    e: 22
+

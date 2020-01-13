@@ -9,15 +9,21 @@ engine = yaql.factory.YaqlFactory(allow_delegates=True).create(options={
 })
 scopes = []
 stack = []
-context = yaql.create_context(delegates=True)
+contexts = []
 
 
-def init_scope(scope):
+def enter_scope(scope):
     global scopes
     global stack
-    scopes = [scope]
+    scopes.append(scope)
+    context = yaql.create_context(delegates=True)
+    context['$_'] = scope
+    contexts.append(context)
     stack = []
 
+def leave_scope():
+    scopes.pop()
+    contexts.pop()
 
 def push_stack(node):
     if node in stack:
@@ -43,7 +49,7 @@ class Expression(Node):
 
     def create_content(self):
         push_stack(self)
-        result = engine(self.expression).evaluate(data=scopes[-1], context=context)
+        result = engine(self.expression).evaluate(data=scopes[-1], context=contexts[-1])
         pop_stack()
         return result
 
@@ -54,7 +60,7 @@ class Function(Node):
         self.visible = False
 
     def eval(self, scope):
-        result = engine(self.expression).evaluate(data=scope, context=context)
+        result = engine(self.expression).evaluate(data=scope, context=contexts[-1])
         return result
 
     def create_content(self):
