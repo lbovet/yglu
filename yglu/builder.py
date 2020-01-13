@@ -2,14 +2,14 @@
 
 from . import loader
 from .tree import (Scalar, Sequence, Mapping)
-from .expression import (Expression, Function, FunctionBlock, enter_scope)
+from .expression import (Expression, Function, FunctionBlock, init_scope)
 from ruamel.yaml.nodes import (ScalarNode, SequenceNode, MappingNode)
 from ruamel.yaml.comments import TaggedScalar
 
 
 def build(source):
     result = convert(loader.load(source))
-    enter_scope(result)
+    init_scope(result)
     return result
 
 
