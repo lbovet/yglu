@@ -43,7 +43,7 @@ Options:
 
 ## Tags
 
-Tags specify an alteration of the document structure.
+Tags specify an  alteration of the document structure.
 
 | **Tag**&nbsp;&nbsp;&nbsp;| **Description** |
 |-----------|-----------------|
@@ -65,11 +65,13 @@ They are evaluated in a context with the following predefined variables:
 
 ## Built-in Functions
 
+In addition to [standard YAQL operators](https://yaql.readthedocs.io/en/latest/standard_library.html#), Yglu defines the following functions:
+
 | **Function**| **Description** |
 |-----------|-----------------|
 | `$import(filename)`  | Imports another document in the current node. |
 
-## Future Features
+## Planned Features
 
-- Use expressions in mapping keys
-- Tag for merging mappings easily
+- Use expressions in mapping keys.
+- Tag for merging mappings easily.
