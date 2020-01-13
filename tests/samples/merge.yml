@@ -1,0 +1,15 @@
+# input
+a: !-
+  b: 1
+  c: 2
+d: !-
+  e: 3
+  f: 4
+g: !? $.a.mergeWith($.d)
+---
+# output
+g:
+  b: 1
+  c: 2
+  e: 3
+  f: 4

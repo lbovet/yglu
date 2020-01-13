@@ -13,7 +13,7 @@ Yglu input documents are pure YAML using tags for computed nodes.
 input
 <pre lang="yaml">
 a: 1
-b: ?! $.a + 1  </pre>
+b: !? $.a + 1  </pre>
 </td>
 <td width="440">
 output
@@ -66,4 +66,4 @@ They are evaluated in a context with the following predefined variables:
 ## Future Features
 
 - Use expressions in mapping keys
-- Tag for easy merge of mappings
+- Tag for merging mappings easily
