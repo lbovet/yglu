@@ -3,9 +3,15 @@
 from collections import OrderedDict
 
 
+class Document:
+    filepath = None
+    root = None
+
+
 class Node:
     visible = True
     memo = None
+    doc = None
 
     def content(self):
         if(self.memo is None):
@@ -17,11 +23,17 @@ class Node:
 
 
 class Scalar(Node):
-    def __init__(self, value):
+    def __init__(self, value, doc=None):
         self.memo = value
+        self.doc = doc
 
 
-class Mapping(Node, OrderedDict):
+class Mapping(OrderedDict, Node):
+    def __init__(self, value=None, doc=None):
+        if value:
+            super().__init__(value)
+        self.doc = doc
+
     def get_node(self, key):
         return super().__getitem__(key)
 
@@ -40,6 +52,11 @@ class Mapping(Node, OrderedDict):
 
 
 class Sequence(list, Node):
+    def __init__(self, value=None, doc=None):
+        if value:
+            super().__init__(value)
+        self.doc = doc
+
     def get_node(self, index):
         return super().__getitem__(self, index)
 

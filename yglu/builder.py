@@ -1,29 +1,28 @@
 ''' Transforms the parsed YAML structure into a tree '''
 
 from . import loader
-from .tree import (Scalar, Sequence, Mapping)
+from .tree import (Document, Scalar, Sequence, Mapping)
 from .expression import (Expression, Function, FunctionBlock)
 from ruamel.yaml.nodes import (ScalarNode, SequenceNode, MappingNode)
 from ruamel.yaml.comments import TaggedScalar
 
-class Document:
-    root = None
 
-def build(source):
+def build(source, filepath=None):
     doc = Document()
     result = convert(loader.load(source), doc)
+    doc.filepath = filepath
     doc.root = result
     return result
 
 
 def convert(node, doc):
     if isinstance(node, dict):
-        return Mapping([(k, convert(v, doc)) for (k, v) in node.items()])
+        return Mapping([(k, convert(v, doc)) for (k, v) in node.items()], doc)
     if isinstance(node, list):
-        return Sequence([convert(v, doc) for v in node])
+        return Sequence([convert(v, doc) for v in node], doc)
     if isinstance(node, TaggedNode):
         return node.create(doc)
-    return Scalar(node)
+    return Scalar(node, doc)
 
 
 def construct_node(self, node):
@@ -82,8 +81,10 @@ class FunctionBlockNode(TaggedNode):
     def __init__(self, value, constructor):
         self.value = value
         self.constructor = constructor
+
     def create(self, doc):
-        result = FunctionBlock(self, lambda node: convert(construct_node(self.constructor, node), doc))
+        result = FunctionBlock(self, lambda node: convert(
+            construct_node(self.constructor, node), doc))
         return result
 
 

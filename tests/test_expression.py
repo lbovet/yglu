@@ -2,10 +2,7 @@ import pytest
 from yglu.expression import *
 from yglu.tree import *
 
-class Doc:
-    root = None
-
-doc = Doc()
+doc = Document()
 
 def init_doc(root):
     doc.root = root

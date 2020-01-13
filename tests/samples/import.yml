@@ -1,0 +1,9 @@
+# input
+a: !? $import('imported.yaml')
+b: !? $.a.y
+---
+# output
+a:
+  x: 1
+  y: 2
+b: 2

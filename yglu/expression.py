@@ -2,8 +2,8 @@
 
 import os
 import yaql
-from .tree import Node
 from ruamel.yaml.nodes import (MappingNode, SequenceNode)
+from .tree import Node
 
 engine = yaql.factory.YaqlFactory(allow_delegates=True).create(options={
     'yaql.convertInputData': False,
@@ -11,18 +11,23 @@ engine = yaql.factory.YaqlFactory(allow_delegates=True).create(options={
 scopes = []
 stack = []
 contexts = {}
+context_processors = []
 
+def add_context_processor(processor):
+    context_processors.append(processor)
 
-def get_context(node):
-    key = id(node)
+def get_context(root):
+    key = id(root)
     if key in contexts:
         context = contexts[key]
     else:
         context = yaql.create_context(delegates=True)
         if 'YGLU_ENABLE_ENV' in os.environ:
             context['$env'] = os.environ
-        context['$_'] = node
-        context['$'] = node
+        context['$_'] = root
+        context['$'] = root
+        for process in context_processors:
+            process(context, root)
         contexts[key] = context
     return context
 

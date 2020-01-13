@@ -63,6 +63,12 @@ They are evaluated in a context with the following predefined variables:
 | `$_`      | Always refers to the document root. So that the root is accessible from functions. |
 | `$env`    | Gives access to environment variables if $YGLU_ENABLE_ENV environment variable is set. |
 
+## Built-in Functions
+
+| **Function**| **Description** |
+|-----------|-----------------|
+| `$import(filename)`  | Imports another document in the current node. |
+
 ## Future Features
 
 - Use expressions in mapping keys

@@ -2,12 +2,7 @@
 
 import sys
 from . import version
-from .builder import build
-from .dumper import dump
-
-
-def process(input):
-    dump(build(input), sys.stdout)
+from .main import process
 
 
 def main():
@@ -23,10 +18,11 @@ def main():
             print('  -h - -help             Print help and exit.')
             sys.exit(0)
         try:
-            with open(sys.argv[1]) as file:
-                process(file)
+            filename = sys.argv[1]
+            with open(filename) as file:
+                process(file, sys.stdout, filename)
         except FileNotFoundError:
             sys.stderr.write('File not found: '+sys.argv[1]+'\n')
             sys.exit(1)
     else:
-        process(sys.stdin.read())
+        process(sys.stdin.read(), sys.stdout)

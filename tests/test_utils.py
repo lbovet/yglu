@@ -1,11 +1,15 @@
 from yglu.dumper import dump
 from yglu.builder import build
+from yglu.expression import add_context_processor
+from yglu.functions import definitions
 import io
 
+for definition in definitions:
+    add_context_processor(definition)
 
-def process(input):
+def process(input, filepath=None):
     stream = io.StringIO()
-    dump(build(input), stream)
+    dump(build(input, filepath), stream)
     return stream.getvalue()
 
 
