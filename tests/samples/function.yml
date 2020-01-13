@@ -1,0 +1,18 @@
+a: !() $ + 1
+b: !? ($.a)(2)
+c: !() 
+  d: !? $.name
+  e: !? $.age
+f:
+  !? ($.c)({name => foo, age => 30})
+#g: !-
+#  - name: foo
+#    age: 10
+#  - name: bar
+#    age: 20
+#h: !? let(r => $.c) -> $.select($r)
+---
+b: 3
+f:
+  d: foo
+  e: 30

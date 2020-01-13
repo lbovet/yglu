@@ -2,19 +2,39 @@
 
 import yaql
 from .tree import Node
+from ruamel.yaml.nodes import (MappingNode, SequenceNode)
 
-engine = yaql.factory.YaqlFactory().create(options={
-    'yaql.convertInputData': False
+engine = yaql.factory.YaqlFactory(allow_delegates=True).create(options={
+    'yaql.convertInputData': False,
 })
-scope = {}
+scopes = []
 stack = []
+context = yaql.create_context(delegates=True)
 
 
-def init_scope(new_scope):
-    global scope
+def init_scope(scope):
+    global scopes
     global stack
-    scope = new_scope
+    scopes = [scope]
     stack = []
+
+
+def push_stack(node):
+    if node in stack:
+        raise CircularReferenceException()
+    stack.append(node)
+
+
+def pop_stack():
+    stack.pop()
+
+
+def push_scope(scope):
+    scopes.append(scope)
+
+
+def pop_scope():
+    scopes.pop()
 
 
 class Expression(Node):
@@ -22,12 +42,39 @@ class Expression(Node):
         self.expression = expression
 
     def create_content(self):
-        if self in stack:
-            raise CircularReferenceException()
-        stack.append(self)
-        result = engine(self.expression).evaluate(data=scope)
-        stack.pop()
+        push_stack(self)
+        result = engine(self.expression).evaluate(data=scopes[-1], context=context)
+        pop_stack()
         return result
+
+
+class Function(Node):
+    def __init__(self, expression):
+        self.expression = expression
+        self.visible = False
+
+    def eval(self, scope):
+        result = engine(self.expression).evaluate(data=scope, context=context)
+        return result
+
+    def create_content(self):
+        return self.eval
+
+
+class FunctionBlock(Node):
+    def __init__(self, node, constructor):
+        self.node = node.value
+        self.visible = False
+        self.constructor = constructor
+
+    def eval(self, scope):
+        push_scope(scope)
+        result = dict(self.constructor(self.node).items())
+        pop_scope()
+        return result
+
+    def create_content(self):
+        return self.eval
 
 
 class CircularReferenceException(Exception):

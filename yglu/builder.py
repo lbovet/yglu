@@ -2,7 +2,7 @@
 
 from . import loader
 from .tree import (Scalar, Sequence, Mapping)
-from .expression import (Expression,  init_scope)
+from .expression import (Expression, Function, FunctionBlock, init_scope)
 from ruamel.yaml.nodes import (ScalarNode, SequenceNode, MappingNode)
 from ruamel.yaml.comments import TaggedScalar
 
@@ -23,6 +23,15 @@ def convert(node):
     return Scalar(node)
 
 
+def construct_node(self, node):
+    if isinstance(node, ScalarNode):
+        return self.construct_scalar(node)
+    if isinstance(node, MappingNode):
+        return [c for c in self.construct_yaml_map(node)][0]
+    if isinstance(node, SequenceNode):
+        return self.construct_sequence(node)
+
+
 class TaggedNode:
     def __init__(self, value):
         self.value = value
@@ -38,26 +47,48 @@ class InvisibleNode(TaggedNode):
         return result
 
 
+def invisible_constructor(self, node):
+    return InvisibleNode(construct_node(self, node))
+
+
+loader.add_constructor('!-', invisible_constructor)
+
+
 class ExpressionNode(TaggedNode):
     def create(self):
         result = Expression(self.value)
         return result
 
 
-def invisible_constructor(self, node):
-    if isinstance(node, ScalarNode):
-        return InvisibleNode(self.construct_scalar(node))
-    if isinstance(node, MappingNode):
-        return InvisibleNode(self.construct_yaml_map(node))
-    if isinstance(node, SequenceNode):
-        return InvisibleNode(self.construct_sequence(node))
-
-
 def expression_constructor(self, node):
     if isinstance(node, ScalarNode):
         return ExpressionNode(self.construct_scalar(node))
-    assert False, 'Expressions must be scalar'
+    assert False, 'Expression nodes must be scalar'
 
 
 loader.add_constructor('!?', expression_constructor)
-loader.add_constructor('!-', invisible_constructor)
+
+
+class FunctionNode(TaggedNode):
+    def create(self):
+        result = Function(self.value)
+        return result
+
+
+class FunctionBlockNode(TaggedNode):
+    def __init__(self, value, constructor):
+        self.value = value
+        self.constructor = constructor
+    def create(self):
+        result = FunctionBlock(self, lambda node: convert(construct_node(self.constructor, node)))
+        return result
+
+
+def function_constructor(self, node):
+    if isinstance(node, ScalarNode):
+        return FunctionNode(self.construct_scalar(node))
+    else:
+        return FunctionBlockNode(node, self)
+
+
+loader.add_constructor('!()', function_constructor)
