@@ -1,0 +1,37 @@
+# See for comparison: https://developer.ibm.com/depmodels/cloud/blogs/yaml-templating-tool-to-simplify-complex-configuration-management/
+
+fullname: !()
+  let(clean_name = lambda($.substring(0,63).trimRight('-')) ->
+    switch(
+      $.keys().contains(fullnameOverride) => 
+        clean_name($.vars.fullNameOverride),
+      $.keys().contains(nameOverride) => 
+        clean_name("{}-{}".format($.Chart.name, $.nameOverride))
+    )  
+
+labels: !()
+  app.kubernetes.io/name: !? ($_.fullname)($)
+  helm.sh/chart: !? "'{0}-{1}'.format($.Chart.Name, $.Chart.Version).replace('+', '_')"
+  app.kubernetes.io/instance: !? $.Release.Name
+  app.kubernetes.io/managed-b: !? $.Release.Service
+
+values: !- $import('values.yml')
+
+? !if '$_.values.ingress.enabled'
+: apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    name: !? ($_.fullname)($_.values)
+    labels: !? ($_.labels)($_.values)    
+    annotations: !? .values.ingress.get(annotations)
+  spec:
+    tls: !? .values.ingress.get(tls)
+    rules:
+    ? !for '$_.values.ingress.hosts'
+    : - host: !? $
+        http:
+          paths:
+            - path: /
+              backend:
+                serviceName: !? ($_.fullname)($_.values)
+                servicePort: !? .values.service.externalPort

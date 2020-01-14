@@ -14,4 +14,4 @@ properties: !-
     withoutAuth: !()
       host: auth
       path: /trust-prod
-!+ true : !? $_.properties[$.system.env]
+!if true : !? $_.properties[$.system.env]
