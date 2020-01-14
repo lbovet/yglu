@@ -59,7 +59,7 @@ They are evaluated in a context with the following predefined variables:
 
 | **Variable**| **Description** |
 |-----------|-----------------|
-| `$_`      | Refers to the current document root. Can be ommitted at the beginning of the expression if it starts with a dot. |
+| `$_`      | Refers to the current document root. Can be omitted at the beginning of the expression if it starts with a dot. |
 | `$`       | Implicit argument of functions. |
 | `$env`    | Gives access to environment variables. Disabled by default. Set the `$YGLU_ENABLE_ENV` environment variable to enable. |
 
