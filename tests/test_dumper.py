@@ -12,8 +12,7 @@ def test_no_tags():
             - 1
             - hello
         '''
-    output = process(input)
-    assert_like(input, output)
+    assert_like(process(input)[0], input)
 
 
 def test_expression():
@@ -27,4 +26,4 @@ def test_expression():
         b: 3
         c: '{hello'
         '''
-    assert_like(process(input), expected)
+    assert_like(process(input)[0], expected)

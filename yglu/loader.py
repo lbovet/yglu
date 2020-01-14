@@ -64,4 +64,4 @@ def add_constructor(tag, constructor):
 
 
 def load(source):
-    return yaml.load(source)
+    return yaml.load_all(source)

@@ -8,10 +8,12 @@ for definition in definitions:
     add_context_processor(definition)
 
 def process(input, filepath=None):
-    stream = io.StringIO()
-    dump(build(input, filepath), stream)
-    return stream.getvalue()
-
+    result = []
+    for doc in build(input, filepath):
+        stream = io.StringIO()
+        dump(doc, stream)
+        result.append(stream.getvalue())
+    return result
 
 def assert_like(d1, d2):
     assert outdent(d1) == outdent(d2)

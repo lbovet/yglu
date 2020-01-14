@@ -12,6 +12,11 @@ for definition in definitions:
 
 def process(input, output, filename=None):
     if filename:
-        filename = os.path.abspath(filename)
-    dump(build(input, filename), output)
-
+        filename = os.path.abspath(filename)    
+    docs = build(input, filename)
+    i = 0
+    for doc in docs:
+        dump(doc, output)
+        i+=1
+        if i < len(docs):
+            output.write("---\n")
