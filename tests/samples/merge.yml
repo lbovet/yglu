@@ -5,7 +5,7 @@ a: !-
 d: !-
   e: 3
   f: 4
-g: !? $.a.mergeWith($.d)
+g: !? .a.mergeWith($_.d)
 ---
 # output
 g:

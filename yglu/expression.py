@@ -16,6 +16,8 @@ context_processors = []
 def add_context_processor(processor):
     context_processors.append(processor)
 
+
+
 def get_context(root):
     key = id(root)
     if key in contexts:
@@ -25,7 +27,6 @@ def get_context(root):
         if 'YGLU_ENABLE_ENV' in os.environ:
             context['$env'] = os.environ
         context['$_'] = root
-        context['$'] = root
         for process in context_processors:
             process(context, root)
         contexts[key] = context
@@ -51,15 +52,18 @@ def pop_scope():
 
 
 class Expression(Node):
-    def __init__(self, expression, doc):
-        self.expression = expression
+    def __init__(self, expression, doc):        
+        if expression.startswith('.'):
+            self.expression = '$_'+expression
+        else:
+            self.expression = expression
         self.doc = doc
 
     def create_content(self):
         push_stack(self)
         context = get_context(self.doc.root).create_child_context()
         if len(scopes) > 0:
-            context['$'] = scopes[-1]
+            context['$'] = scopes[-1]        
         result = engine(self.expression).evaluate(context=context)
         pop_stack()
         return result

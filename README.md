@@ -13,7 +13,7 @@ Yglu input documents are pure YAML using tags for computed nodes.
 input
 <pre lang="yaml">
 a: 1
-b: !? $.a + 1  </pre>
+b: !? .a + 1  </pre>
 </td>
 <td width="440">
 output
@@ -43,7 +43,7 @@ Options:
 
 ## Tags
 
-Tags specify an  alteration of the document structure.
+Tags specify an alteration of the document structure.
 
 | **Tag**&nbsp;&nbsp;&nbsp;| **Description** |
 |-----------|-----------------|
@@ -59,8 +59,8 @@ They are evaluated in a context with the following predefined variables:
 
 | **Variable**| **Description** |
 |-----------|-----------------|
-| `$`     | Refers to the document root, or implicit argument in function blocks. |
-| `$_`      | Always refers to the document root. So that the root is accessible from functions. |
+| `$_`     | Refers to the current document root. Can be ommitted at the beginning of the expression if it starts with a dot. |
+| `$`      | Implicit arguments of functions. |
 | `$env`    | Gives access to environment variables if $YGLU_ENABLE_ENV environment variable is set. |
 
 ## Built-in Functions

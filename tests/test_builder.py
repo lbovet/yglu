@@ -39,10 +39,10 @@ def test_invisible():
 def test_simple_expression():
     data = build('''
     a: 1
-    b: !? $.a + 1 
+    b: !? $_.a + 1 
     c:
-        - !- $.b + 1
-        - !? $.c[0] + 1
+        - !- $_.b + 1
+        - !? $_.c[0] + 1
     ''')[0]
 
     assert data == {'a': 1, 'b': 2, 'c': [4]}

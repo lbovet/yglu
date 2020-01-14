@@ -6,6 +6,7 @@ from collections import OrderedDict
 class Document:
     filepath = None
     root = None
+    currentPath = []
 
 
 class Node:

@@ -18,7 +18,7 @@ def test_no_tags():
 def test_expression():
     input = '''
         a: 2
-        b: !? $.a + 1
+        b: !? $_.a + 1
         c: !? "'{' + hello"
         '''
     expected = '''

@@ -1,0 +1,12 @@
+# input
+a: !? ($_.b)({argb => 1})
+b: !() 
+  c: !? $.argb + $_.d.f
+d: !- ($_.e)({arge => 1})
+e: !() 
+  f: !? $.arge + $_.g
+g: !- 2
+---
+# output
+a:
+  c: 4

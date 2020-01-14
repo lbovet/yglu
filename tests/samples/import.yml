@@ -1,6 +1,6 @@
 # input
 a: !? $import('imported.yaml')
-b: !? $.a.y
+b: !? .a.y
 ---
 # output
 a:

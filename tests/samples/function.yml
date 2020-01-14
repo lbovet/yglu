@@ -1,18 +1,18 @@
 # input
 a: !() $ + 1
-b: !? ($.a)(2)
+b: !? ($_.a)(2)
 c: !() 
   d: !? $.name.toUpper()
   e: !? $.age + $_.b
 f:
-  !? ($.c)({name => foo, age => 30})
+  !? ($_.c)({name => foo, age => 30})
 g: !-
   - name: foo
     age: 10
   - name: bar
     age: 20
 h: !? ($_.a)(3)
-i: !? $.g.select(($_.c)($))
+i: !? .g.select(($_.c)($))
 ---
 # output
 b: 3
