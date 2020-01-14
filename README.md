@@ -2,7 +2,7 @@
 [![PyPI version](https://badge.fury.io/py/yglu.svg)](https://badge.fury.io/py/yglu)
 # Yglu ᕄ
 
-Yglu is [YAML](https://yaml.org/) enriched with an advanced expression language. Unlike usual text templating, Yglu relies on the YAML structure and leverage its typing features combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language. 
+Yglu is [YAML](https://yaml.org/) enriched with an advanced expression language. Unlike usual text templating, Yglu relies on the YAML structure and leverages its typing features combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language. 
 
 This association enables templating and functional processing a bit like if YAML nodes where spreadsheet cells.
 
@@ -47,9 +47,9 @@ Tags specify an alteration of the document structure.
 
 | **Tag**&nbsp;&nbsp;&nbsp;| **Description** |
 |-----------|-----------------|
-| `!?`     | Evaluate an expression. The result can be a scalar, mapping or sequence. |
+| `!?`      | Evaluate an expression. The result can be a scalar, mapping or sequence. |
 | `!-`      | Hide the node in the output but keep it accessible from expressions. When used with a scalar, it evaluates it as an expression. |
-| `!()`  | Make the node reusable in expressions as a function. It is also hidden. |
+| `!()`     | Make the node reusable in expressions as a function. It is also hidden. |
 
 ## Expressions
 
@@ -59,8 +59,8 @@ They are evaluated in a context with the following predefined variables:
 
 | **Variable**| **Description** |
 |-----------|-----------------|
-| `$_`     | Refers to the current document root. Can be ommitted at the beginning of the expression if it starts with a dot. |
-| `$`      | Implicit arguments of functions. |
+| `$_`      | Refers to the current document root. Can be ommitted at the beginning of the expression if it starts with a dot. |
+| `$`       | Implicit arguments of functions. |
 | `$env`    | Gives access to environment variables if $YGLU_ENABLE_ENV environment variable is set. |
 
 ## Built-in Functions
