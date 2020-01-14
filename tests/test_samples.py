@@ -1,7 +1,7 @@
 import os
 import glob
 from yglu.dumper import dump
-from .test_utils import *
+from .utils import *
 
 
 path = os.path.dirname(os.path.realpath(__file__))

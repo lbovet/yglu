@@ -1,5 +1,5 @@
 from yglu.dumper import dump
-from .test_utils import *
+from .utils import *
 
 
 def test_no_tags():
