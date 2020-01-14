@@ -75,7 +75,7 @@ class Function(Node):
         self.doc = doc
         self.visible = False
 
-    def eval(self, scope):
+    def eval(self, scope=None):
         context = get_context(self.doc.root).create_child_context()
         context['$'] = scope
         result = engine(self.expression).evaluate(context=context)

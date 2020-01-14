@@ -1,17 +1,17 @@
 fields:
-  one: !? $.props.env
+  one: !? .props.env
   two: 2
-  !+ $.props.env = 'test':
+  !+ '$_.props.env = test':
     three: 3
     four: 4
   five: 5  
 
 fields:
-  one: !? $.props.env
+  one: !? .props.env
   two: 2
   !+ $.services : !()
     ? !? $.name 
     : version: $.version
-      env: $root.props.env
+      env: $_.props.env
   five: 5
 

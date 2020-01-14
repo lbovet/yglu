@@ -13,6 +13,8 @@ g: !-
     age: 20
 h: !? ($_.a)(3)
 i: !? .g.select(($_.c)($))
+j: !() hello
+k: !? ($_.j)()
 ---
 # output
 b: 3
@@ -25,4 +27,4 @@ i:
     e: 13
   - d: BAR
     e: 23
-
+k: hello

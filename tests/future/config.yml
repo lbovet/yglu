@@ -4,14 +4,14 @@ service: !()
   name: !? $.name
   image: !? $.name + ':' + $.version
 services: !?
-  $.system
+    .system
     .services
     .select($.service)
 properties: !-
   test:
     auth: OAuth
-    truststore: !? switch($.system.services.contains('auth-service') => $.withoutAuth)
-    withoutAuth: 
+    truststore: !? switch($.system.services.contains('auth-service') => $.withoutAuth())
+    withoutAuth: !()
       host: auth
       path: /trust-prod
 !+ true : !? $.properties[$.system.env]
