@@ -60,8 +60,8 @@ They are evaluated in a context with the following predefined variables:
 | **Variable**| **Description** |
 |-----------|-----------------|
 | `$_`      | Refers to the current document root. Can be ommitted at the beginning of the expression if it starts with a dot. |
-| `$`       | Implicit arguments of functions. |
-| `$env`    | Gives access to environment variables if $YGLU_ENABLE_ENV environment variable is set. |
+| `$`       | Implicit argument of functions. |
+| `$env`    | Gives access to environment variables. Disabled by default. Set the `$YGLU_ENABLE_ENV` environment variable to enable. |
 
 ## Built-in Functions
 
@@ -74,4 +74,4 @@ In addition to [standard YAQL operators](https://yaql.readthedocs.io/en/latest/s
 ## Planned Features
 
 - Use expressions in mapping keys.
-- Tag for merging mappings easily.
+- Tag for merging mappings easily (e.g. conditionally)
