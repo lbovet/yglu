@@ -6,12 +6,12 @@ service: !()
 services: !?
     .system
     .services
-    .select($.service)
+    .select($_.service)
 properties: !-
   test:
     auth: OAuth
-    truststore: !? switch($.system.services.contains('auth-service') => $.withoutAuth())
+    truststore: !? switch($_.system.services.contains('auth-service') => $parent.withoutAuth())
     withoutAuth: !()
       host: auth
       path: /trust-prod
-!+ true : !? $.properties[$.system.env]
+!+ true : !? $_.properties[$.system.env]
