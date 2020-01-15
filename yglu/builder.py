@@ -8,14 +8,22 @@ from ruamel.yaml.comments import TaggedScalar
 
 
 def build(source, filepath=None):
-    result = []
-    for yamlDoc in loader.load(source):
-        doc = Document()
-        tree = convert(yamlDoc, doc)
-        doc.filepath = filepath
-        doc.root = tree
-        result.append(tree)
-    return result
+    yaml_doc = loader.load(source)
+    return create_tree(yaml_doc, filepath)
+
+
+def build_all(source, filepath=None):
+    for yaml_doc in loader.load_all(source):
+        yield create_tree(yaml_doc, filepath)
+
+
+def create_tree(yaml_doc, filepath):
+    doc = Document()
+    tree = convert(yaml_doc, doc)
+    doc.filepath = filepath
+    doc.root = tree
+    return tree
+
 
 def convert(node, doc):
     if isinstance(node, dict):

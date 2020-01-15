@@ -1,6 +1,7 @@
 ''' Loads YAML structure from text input '''
 
 import sys
+import io
 import ruamel.yaml
 
 
@@ -53,15 +54,31 @@ class MyConstructor(ruamel.yaml.constructor.RoundTripConstructor):
         ret_val.lc.col = node.start_mark.column
         return ret_val
 
-
-yaml = ruamel.yaml.YAML()
-yaml.Constructor = MyConstructor
-yaml.allow_duplicate_keys = True
+def create_loader():
+    yaml = ruamel.yaml.YAML()
+    yaml.Constructor = MyConstructor
+    yaml.allow_duplicate_keys = True
+    return yaml
 
 
 def add_constructor(tag, constructor):
     MyConstructor.add_constructor(tag, constructor)
 
 
+def load_all(source):
+    if source == sys.stdin:
+        buffer = io.StringIO()
+        for line in source:
+            if line.replace(' ','').startswith('---'):
+                yield create_loader().load(buffer.getvalue())
+                buffer = io.StringIO()
+            else:
+                buffer.writelines(line)
+        
+        yield create_loader().load(buffer.getvalue())
+    else:
+        for doc in create_loader().load_all(source):
+            yield doc 
+
 def load(source):
-    return yaml.load_all(source)
+    return create_loader().load(source)

@@ -13,7 +13,5 @@ def test_samples():
     for filename in filenames:
         print("Sample: "+filename)
         with open(filename) as file:
-            docs = process(file.read(), filename)
-            input = docs[0]
-            output = docs[1]
+            (input, output) = process(file, filename)
             assert_like(input, output)

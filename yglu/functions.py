@@ -15,7 +15,7 @@ def import_definition(context, root):
         else:
             filepath = os.path.join(dir, filename)
         with open(filepath) as file:
-            result = build(file, filename)[0]
+            result = build(file, filename)
             return result
 
     context['$import'] = import_function

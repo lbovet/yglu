@@ -25,4 +25,4 @@ def main():
             sys.stderr.write('File not found: '+sys.argv[1]+'\n')
             sys.exit(1)
     else:
-        process(sys.stdin.read(), sys.stdout)
+        process(sys.stdin, sys.stdout)
