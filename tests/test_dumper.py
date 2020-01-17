@@ -27,3 +27,17 @@ def test_expression():
         c: '{hello'
         '''
     assert_like(next(process(input)), expected)
+
+def test_empty_doc():
+    assert list(process('')) == []
+
+
+def test_doc_separator():
+    input = outdent('''
+        ---
+        ---
+        a: 1
+        ---
+        ---
+        ''')
+    assert list(process(input)) == [ '','a: 1\n', '','' ]

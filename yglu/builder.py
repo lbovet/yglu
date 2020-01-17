@@ -18,6 +18,8 @@ def build_all(source, filepath=None):
 
 
 def create_tree(yaml_doc, filepath):
+    if yaml_doc is None:
+        return None
     doc = Document()
     tree = convert(yaml_doc, doc)
     doc.filepath = filepath

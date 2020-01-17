@@ -46,3 +46,11 @@ def test_simple_expression():
     ''')
     assert data == {'a': 1, 'b': 2, 'c': [4]}
     
+def test_single_value_doc():
+    data = build('1').content()
+    assert data == 1
+
+
+def test_empty_string():
+    data = build('')
+    assert data == None

@@ -25,4 +25,5 @@ yaml.representer.add_representer(SimpleString, represent_string)
 
 
 def dump(tree, output):
-    yaml.dump(tree, output)
+    if tree is not None:
+        yaml.dump(tree, output)
