@@ -21,5 +21,5 @@ def process(input, output, filename=None, errors=None):
             output.write("---\n")
         else:
             first = False
-            dump(doc, output, errors)
+        dump(doc, output, errors)
 

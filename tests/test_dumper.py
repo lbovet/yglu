@@ -39,6 +39,7 @@ def test_doc_separator():
         ---
         a: 1
         ---
+        b: 2
         ---
         ''')
-    assert list(process(input)) == ['', 'a: 1\n', '', '']
+    assert list(process(input)) == ['', 'a: 1\n', 'b: 2\n', '']
