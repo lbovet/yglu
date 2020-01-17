@@ -7,11 +7,15 @@ import io
 for definition in definitions:
     add_context_processor(definition)
 
+class ErrorHandler:
+    def append(self, error):
+        raise error
 
 def process(input, filepath=None):
-    for doc in build_all(input, filepath):
+    error_handler = ErrorHandler()
+    for doc in build_all(input, filepath, error_handler):
         stream = io.StringIO()
-        dump(doc, stream)
+        dump(doc, stream, error_handler)
         yield stream.getvalue()
 
 

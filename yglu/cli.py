@@ -7,7 +7,9 @@ from .main import process
 class ErrorList(list):
     def append(self, error):
         super().append(error)
+        sys.stderr.write("---\n")
         sys.stderr.write(str(error)+"\n")
+        sys.stderr.flush()
 
 def main():
     errors = ErrorList()

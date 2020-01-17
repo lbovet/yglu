@@ -43,3 +43,14 @@ def test_doc_separator():
         ---
         ''')
     assert list(process(input)) == ['', 'a: 1\n', 'b: 2\n', '']
+
+
+def test_null():
+    input = '''
+        a: 1
+        b: null
+        '''
+    expected = '''
+        a: 2
+        '''
+    assert_like(next(process(input)), expected)
