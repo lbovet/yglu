@@ -51,6 +51,6 @@ def test_null():
         b: null
         '''
     expected = '''
-        a: 2
+        a: 1
         '''
     assert_like(next(process(input)), expected)

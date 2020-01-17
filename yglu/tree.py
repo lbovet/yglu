@@ -28,6 +28,11 @@ class Scalar(Node):
         self.memo = value
         self.doc = doc
 
+    def content(self):
+        return self.memo
+
+    def __repr__(self):
+        return str(self.memo)
 
 class Mapping(OrderedDict, Node):
     def __init__(self, value=None, doc=None):
@@ -42,7 +47,8 @@ class Mapping(OrderedDict, Node):
         return super().__getitem__(key).content()
 
     def items(self):
-        items = filter(lambda kv: kv[1].visible, super().items())
+        items = filter(lambda kv: kv[1].visible and kv[1].content() is not None, 
+            super().items())
         return [(k, v.content()) for (k, v) in items]
 
     def __eq__(self, other):
