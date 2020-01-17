@@ -24,6 +24,10 @@ yaml.representer.add_representer(Sequence, represent_sequence)
 yaml.representer.add_representer(SimpleString, represent_string)
 
 
-def dump(tree, output):
+def dump(tree, output, errors=[]):    
+    print(tree)
     if tree is not None:
-        yaml.dump(tree, output)
+        try:
+            yaml.dump(tree, output)
+        except Exception as error:
+            errors.append(error)

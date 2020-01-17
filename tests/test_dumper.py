@@ -28,6 +28,7 @@ def test_expression():
         '''
     assert_like(next(process(input)), expected)
 
+
 def test_empty_doc():
     assert list(process('')) == []
 
@@ -40,4 +41,4 @@ def test_doc_separator():
         ---
         ---
         ''')
-    assert list(process(input)) == [ '','a: 1\n', '','' ]
+    assert list(process(input)) == ['', 'a: 1\n', '', '']

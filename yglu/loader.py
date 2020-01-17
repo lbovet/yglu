@@ -65,7 +65,7 @@ def add_constructor(tag, constructor):
     MyConstructor.add_constructor(tag, constructor)
 
 
-def load_all(source):
+def load_all(source, errors=[]):
     if source == sys.stdin:
         buffer = io.StringIO()
         for line in source:
@@ -75,10 +75,16 @@ def load_all(source):
             else:
                 buffer.writelines(line)
         
-        yield create_loader().load(buffer.getvalue())
+        try:
+            yield create_loader().load(buffer.getvalue())
+        except Exception as error:
+            errors.append(error)
     else:
-        for doc in create_loader().load_all(source):
-            yield doc 
+        try:
+            for doc in create_loader().load_all(source):
+                yield doc
+        except Exception as error:
+            errors.append(error)
 
 def load(source):
     return create_loader().load(source)
