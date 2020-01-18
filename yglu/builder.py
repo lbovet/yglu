@@ -29,7 +29,7 @@ def create_tree(yaml_doc, filepath):
 
 def convert(node, doc):
     if isinstance(node, dict):
-        return Mapping([(k, convert(v, doc)) for (k, v) in node.items()], doc)
+        return Mapping([(convert(k, doc), convert(v, doc)) for (k, v) in node.items()], doc)
     if isinstance(node, list):
         return Sequence([convert(v, doc) for v in node], doc)
     if isinstance(node, TaggedNode):

@@ -54,3 +54,15 @@ def test_null():
         a: 1
         '''
     assert_like(next(process(input)), expected)
+
+
+def test_expression_in_key():
+    input = '''
+        a: b
+        !? .a: 1
+        '''
+    expected = '''
+        a: b
+        b: 1
+        '''
+    assert_like(next(process(input)), expected)

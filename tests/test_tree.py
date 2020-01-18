@@ -11,7 +11,7 @@ def test_constant():
 
 
 def test_constructor():
-    m = Mapping({'a': Scalar(2)})
+    m = Mapping({Scalar('a'): Scalar(2)})
     assert m['a'] == 2
     s = Sequence([Scalar(1), Scalar(2)])
     assert s[1] == 2
