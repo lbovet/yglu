@@ -52,7 +52,8 @@ def pop_scope():
 
 
 class Expression(Node):
-    def __init__(self, expression, doc):        
+    def __init__(self, expression, doc):             
+        Node.__init__(self, doc)
         if expression.startswith('.'):
             self.expression = '$_'+expression
         else:
@@ -71,8 +72,8 @@ class Expression(Node):
 
 class Function(Node):
     def __init__(self, expression, doc):
+        Node.__init__(self, doc)
         self.expression = expression
-        self.doc = doc
         self.visible = False
 
     def eval(self, scope=None):
@@ -87,6 +88,7 @@ class Function(Node):
 
 class FunctionBlock(Node):
     def __init__(self, node, constructor):
+        Node.__init__(self, None)
         self.node = node.value
         self.visible = False
         self.constructor = constructor

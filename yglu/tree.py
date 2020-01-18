@@ -4,15 +4,17 @@ from collections import OrderedDict
 
 
 class Document:
-    filepath = None
-    root = None
-    currentPath = []
+    def __init__(self):
+        self.filepath = None
+        self.root = None
+        self.currentPath = []
 
 
 class Node:
-    visible = True
-    memo = None
-    doc = None
+    def __init__(self, doc):
+        self.visible = True
+        self.memo = None
+        self.doc = doc
 
     def content(self):
         if(self.memo is None):
@@ -25,8 +27,8 @@ class Node:
 
 class Scalar(Node):
     def __init__(self, value, doc=None):
+        Node.__init__(self, doc)
         self.memo = value
-        self.doc = doc
 
     def content(self):
         return self.memo
@@ -36,13 +38,16 @@ class Scalar(Node):
 
 
 class Mapping(OrderedDict, Node):
+    def __init__(self):
+        Node.__init__(self, None)
+
     def __init__(self, source=None, doc=None):
+        Node.__init__(self, doc)
         self.special_entries = []
         if source:
             if isinstance(source, dict):
                 source = source.items()
-            super().__init__(self.handle_keys(source))
-        self.doc = doc
+            OrderedDict.__init__(self, self.handle_keys(source))
 
     def __getitem__(self, key):
         if(self.__contains__(key)):
@@ -79,9 +84,9 @@ class Mapping(OrderedDict, Node):
 
 class Sequence(list, Node):
     def __init__(self, value=None, doc=None):
+        Node.__init__(self, doc)
         if value:
-            super().__init__(value)
-        self.doc = doc
+            list.__init__(self, value)
 
     def __getitem__(self, index):
         return super().__getitem__(index).content()

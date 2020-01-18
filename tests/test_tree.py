@@ -45,6 +45,9 @@ def test_mapping_accessors():
 
 def test_content():
     class OneNode(Node):
+        def __init__(self):
+            Node.__init__(self, None)
+            
         version = 0
 
         def create_content(self):
