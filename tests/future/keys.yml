@@ -1,7 +1,0 @@
-# input
-a: !? b
-!? .a: 2
----
-# output
-a: b
-b: 2

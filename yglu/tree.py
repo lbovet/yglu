@@ -72,12 +72,16 @@ class Mapping(OrderedDict, Node):
             if isinstance(k, Scalar):
                 yield (k.content(), v)
             else:
-                self.special_entries.append((k, v))
+                self.special_entries.insert(0, (k, v))
 
     def resolve_special(self, key=None):
-        for (k, v) in self.special_entries:
+        while len(self.special_entries) > 0:
+            (k, v) = self.special_entries.pop()
             computed_key = k.content()
-            self[computed_key] = v
+            if computed_key is not None:
+                self[computed_key] = v
+            else:
+                raise Exception("mapping key is null")
         self.special_entries = []
         return self.get(key)
 
