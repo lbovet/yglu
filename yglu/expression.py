@@ -96,6 +96,7 @@ class FunctionBlock(Node):
     def eval(self, scope):
         push_scope(scope)
         result = dict(self.constructor(self.node).items())
+        str(result) # force content creation
         pop_scope()
         return result
 

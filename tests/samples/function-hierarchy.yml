@@ -1,0 +1,17 @@
+# input
+f: !() 
+  a: !? $.foo
+  b:
+    c: !? $.foo
+x: !? ($_.f)({ foo => 'bar' })
+y: !? ($_.f)({ foo => 'baz' })
+---
+# output
+x:
+  a: bar
+  b:
+    c: bar
+y:
+  a: baz
+  b:
+    c: baz    
