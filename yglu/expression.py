@@ -102,4 +102,5 @@ class FunctionBlock(Node):
 
 
 class CircularReferenceException(Exception):
-    pass
+    def __init__(self):
+        super().__init__("circular reference in expression")
