@@ -47,7 +47,7 @@ Tags specify an alteration of the document structure.
 
 | **Tag**&nbsp;&nbsp;&nbsp;| **Description** |
 |-----------|-----------------|
-| `!?`      | Evaluate an expression. The result can be a scalar, mapping or sequence. |
+| `!?`      | Evaluate an expression. The result can be a scalar, mapping or sequence. Can also be used in mapping keys. |
 | `!-`      | Hide the node in the output but keep it accessible from expressions. When used with a scalar, it evaluates it as an expression. |
 | `!()`     | Make the node reusable in expressions as a function. It is also hidden. |
 
@@ -73,5 +73,4 @@ In addition to [standard YAQL operators](https://yaql.readthedocs.io/en/latest/s
 
 ## Planned Features
 
-- Use expressions in mapping keys.
 - Tag for merging mappings easily (e.g. conditionally)
