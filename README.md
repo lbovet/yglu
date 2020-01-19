@@ -23,6 +23,41 @@ b: 2  </pre>
 </td>
 </tr></table>
 
+<table><tr>
+<td width="440">
+input
+<pre lang="yaml">
+tags: !-
+  - 'nginx:1.16'
+  - 'node:13.6'
+  - 'couchbase:9.3'
+image: !()
+  !? $.split(':')[0]: 
+    version: !? $.split(':')[1]
+images: !? 
+  $_.tags
+    .select(($_.image)($))
+    .aggregate($1.mergeWith($2), {})</pre>
+</td>
+<td width="440">
+output
+<pre lang="yaml">
+images:
+  nginx: 
+    version: '1.16'
+  node: 
+    version: '13.6'
+  couchbase: 
+    version: '9.3'
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;  </pre>
+</td>
+</tr></table>
+
+In the example above, the `tags` sequence is hidden, `image` is a function (like a template block) and `images` is an expression which iterates through all tags, apply the image function to them and aggregate the individual results by merging them together as a mapping.
+
 See the [test samples](https://github.com/lbovet/yglu/tree/master/tests/samples) for more examples.
 
 ## Install
