@@ -11,7 +11,7 @@ for definition in definitions:
     add_context_processor(definition)
 
 
-def process(input, output, filename=None, errors=None):
+def process(input, output, filename=None, errors=[]):
     if filename:
         filename = os.path.abspath(filename)    
     first = True

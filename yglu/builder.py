@@ -12,7 +12,7 @@ def build(source, filepath=None):
     return create_tree(yaml_doc, filepath)
 
 
-def build_all(source, filepath=None, errors=None):
+def build_all(source, filepath=None, errors=[]):
     for yaml_doc in loader.load_all(source, errors):
         yield create_tree(yaml_doc, filepath)
 

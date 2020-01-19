@@ -34,5 +34,5 @@ def main():
     else:
         process(sys.stdin, sys.stdout, None, errors)
     if len(errors) > 0:
-        sys.stderr.write("There were errors.\n")
+        sys.stderr.write("Finished with errors.\n")
         sys.exit(1)
