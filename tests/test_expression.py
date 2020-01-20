@@ -59,3 +59,17 @@ def test_circular_reference():
     except CircularReferenceException:
         return
     assert False
+
+
+def test_unresolved_key():
+    m = Mapping()    
+    m['a'] = Expression('.b', doc)
+    init_doc(m)
+    err = None    
+    try:
+        str(m)        
+    except Exception as e:
+        err = e
+    assert type(err) is KeyError
+    
+

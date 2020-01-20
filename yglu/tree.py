@@ -101,7 +101,8 @@ class Mapping(OrderedDict, Node):
                 else:
                     raise Exception("mapping key is null")
         self.special_entries = []
-        return self.get(key)
+        if key is not None:
+            return super().__getitem__(key)
 
 
 class Sequence(list, Node):
