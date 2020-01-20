@@ -60,7 +60,7 @@ images:
 </td>
 </tr></table>
 
-In the example above, the `names` sequence is hidden, `image` is a function (like a template block) and `images` is an expression which iterates through all names, apply the image function to them and aggregate the individual results by merging them together as a mapping.
+In the example above, the `names` sequence is hidden, `image` is a function (like a template block) and `images` is an expression which iterates through all names, applies the image function to each one and aggregates the individual results by merging them together as a mapping.
 
 As such an operation is often needed, Yglu provides a `!for` tag for merging a sequence iterated over a function:
 
@@ -119,19 +119,19 @@ Tags specify an alteration of the document structure.
 | `!-`      | Hide the node in the output but keep it accessible from expressions. Can be an expression. |
 | `!()`     | Make the node reusable in expressions as a function. |
 | `!if`     | Conditional merge. See [if.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/if.yml). |
-| `!for`     | Merge result of a function applied to all items of a sequence . See [for.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/for.yml). |
+| `!for`    | Merge the results of a function applied to all items of a sequence . See [for.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/for.yml). |
 
 ## Expressions
 
 Expressions are written in [YAQL](https://yaql.readthedocs.io/en/latest/).
 
-They are evaluated in a context with the following predefined variables:
+They are evaluated in a context with the following variables defined:
 
 | **Variable**| **Description** |
 |-----------|-----------------|
 | `$_`      | Refers to the current document root. Can be omitted at the beginning of the expression if it starts with a dot. |
 | `$`       | Implicit argument of functions. |
-| `$env`    | Gives access to environment variables. Disabled by default. Set the `$YGLU_ENABLE_ENV` environment variable to enable. |
+| `$env`    | Gives access to environment variables. Disabled by default. Set the `$YGLU_ENABLE_ENV` environment variable to enable this feature. |
 
 ## Built-in Functions
 
@@ -141,6 +141,3 @@ In addition to [standard YAQL operators](https://yaql.readthedocs.io/en/latest/s
 |-----------|-----------------|
 | `$import(filename)`  | Imports another document in the current node. |
 
-## Planned Features
-
-- Tag for merging mappings easily (e.g. conditionally)
