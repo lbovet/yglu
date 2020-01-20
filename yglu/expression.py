@@ -94,8 +94,12 @@ class FunctionBlock(Node):
         self.constructor = constructor
 
     def eval(self, scope):
-        push_scope(scope)
-        result = dict(self.constructor(self.node).items())
+        push_scope(scope)        
+        node = self.constructor(self.node)
+        if isinstance(node, dict):
+            result = dict(node.items())
+        else:
+            result = list(node)
         str(result) # force content creation
         pop_scope()
         return result

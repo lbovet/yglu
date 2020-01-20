@@ -8,6 +8,12 @@ images:
   : !()
     ? !? $.split(':')[0]
     : version: !? $.split(':')[1]
+
+names:
+  - ? !for .tags
+    : !() 
+      - !? $.split(':')[0]
+
 ---
 # output
 images:
@@ -17,3 +23,8 @@ images:
     version: '13.6'
   couchbase: 
     version: '9.3'
+
+names:
+  - nginx
+  - node 
+  - couchbase

@@ -111,6 +111,10 @@ loader.add_constructor('!()', function_constructor)
 
 
 class IfNode(TaggedNode, MergeKey):
+    def __init__(self, doc):
+        TaggedNode.__init__(self, doc)
+        MergeKey.__init__(self)
+
     def create(self, doc):
         self.expression = Expression(self.value, doc)
         return self
@@ -130,6 +134,10 @@ loader.add_constructor('!if', if_constructor)
 
 
 class ForNode(TaggedNode, MergeKey):
+    def __init__(self, doc):
+        TaggedNode.__init__(self, doc)
+        MergeKey.__init__(self)
+
     def create(self, doc):
         self.expression = Expression(self.value, doc)
         return self

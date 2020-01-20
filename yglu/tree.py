@@ -26,16 +26,20 @@ class Node:
 
 
 class MergeKey:
-    def merge(self, parent, source):
-        if isinstance(source, OrderedDict):
-            parent.update(OrderedDict.items(source))
-        elif isinstance(source, dict):
-            parent.update(source)
-        elif isinstance(source, list):
-            parent.update(list.items(source))
-        if isinstance(source, Mapping):
-            parent.special_entries.extend(source.special_entries)
+    def __init__(self):
+        self.visited = False
 
+    def merge(self, parent, source):
+        self.visited = True
+        if isinstance(parent, Mapping):
+            if isinstance(source, OrderedDict):
+                parent.update(OrderedDict.items(source))
+            elif isinstance(source, dict):
+                parent.update(source)               
+            if isinstance(source, Mapping):
+                parent.special_entries.extend(source.special_entries)
+        else:
+            parent.extend(source)
 
 class Scalar(Node):
     def __init__(self, value, doc=None):
@@ -121,9 +125,16 @@ class Sequence(list, Node):
         iter = super().__iter__()
         try:
             while True:
-                next = iter.__next__()
-                if next.visible:
-                    yield next.content()
+                node = iter.__next__()
+                if isinstance(node, Mapping) and len(node) == 0 and len(node.special_entries) == 1:
+                    (k,v) = node.special_entries[0]
+                    if not k.visited:
+                        k.merge(self, v)
+                elif isinstance(node, Node):
+                    if node.visible:
+                        yield node.content()
+                else:
+                    yield node
         except StopIteration:
             return
 

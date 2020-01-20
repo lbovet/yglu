@@ -8,9 +8,17 @@ b: 2
 !if false:
   e: 5
   f: 6
+!if true:  
+  g: 
+    - ? !if true
+      : - 7
+
+
 ---
 # output
 a: 1
 b: 2
 c: 3
 d: 4
+g: 
+  - 7
