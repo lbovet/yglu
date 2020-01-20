@@ -33,6 +33,8 @@ class MergeKey:
             parent.update(source)
         elif isinstance(source, list):
             parent.update(list.items(source))
+        if isinstance(source, Mapping):
+            parent.special_entries.extend(source.special_entries)
 
 
 class Scalar(Node):
@@ -60,6 +62,7 @@ class Mapping(OrderedDict, Node):
             elif isinstance(source, dict):
                 source = dict.items(source)
             OrderedDict.__init__(self, self.handle_keys(source))
+
 
     def __getitem__(self, key):
         if(self.__contains__(key)):

@@ -8,12 +8,13 @@ x2: !-
 x: !? $_.x1.mergeWith($_.x2)
 
 y:
-  a: 1
+  a: !? $_.y.b - 1
   b: 2
   !if $_.y.a = 1:
     c: 3
-    d: 4
-  !if $_.y.b = 3:
+    !if $_.y.c = 3:
+      d: 4
+  !if false:
     e: 5
     f: 6
 
