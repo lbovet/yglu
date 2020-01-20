@@ -85,6 +85,7 @@ Tags specify an alteration of the document structure.
 | `!?`      | Evaluate an expression. The result can be a scalar, mapping or sequence. Can also be used in mapping keys. |
 | `!-`      | Hide the node in the output but keep it accessible from expressions. When used with a scalar, it evaluates it as an expression. |
 | `!()`     | Make the node reusable in expressions as a function. It is also hidden. |
+| `!if`     | Shortcut for conditional merge of mappings. See [merge.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/merge.yml). |
 
 ## Expressions
 

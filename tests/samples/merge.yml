@@ -1,15 +1,32 @@
 # input
-a: !-
-  b: 1
-  c: 2
-d: !-
-  e: 3
-  f: 4
-g: !? .a.mergeWith($_.d)
+x1: !-
+  a: 1
+  b: 2
+x2: !-
+  c: 3
+  d: 4
+x: !? $_.x1.mergeWith($_.x2)
+
+y:
+  a: 1
+  b: 2
+  !if $_.y.a = 1:
+    c: 3
+    d: 4
+  !if $_.y.b = 3:
+    e: 5
+    f: 6
+
 ---
 # output
-g:
-  b: 1
-  c: 2
-  e: 3
-  f: 4
+x:
+  a: 1
+  b: 2
+  c: 3
+  d: 4
+
+y:
+  a: 1
+  b: 2
+  c: 3
+  d: 4

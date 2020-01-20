@@ -25,7 +25,7 @@ class Node:
         return self
 
 
-class MergeKey(Node):
+class MergeKey:
     def merge(self, parent, source):
         if isinstance(source, OrderedDict):
             parent.update(OrderedDict.items(source))

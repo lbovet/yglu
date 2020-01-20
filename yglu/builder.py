@@ -1,7 +1,7 @@
 ''' Transforms the parsed YAML structure into a tree '''
 
 from . import loader
-from .tree import (Document, Scalar, Sequence, Mapping)
+from .tree import (Document, Scalar, Sequence, Mapping, MergeKey)
 from .expression import (Expression, Function, FunctionBlock)
 from ruamel.yaml.nodes import (ScalarNode, SequenceNode, MappingNode)
 from ruamel.yaml.comments import TaggedScalar
@@ -77,7 +77,7 @@ class ExpressionNode(TaggedNode):
 def expression_constructor(self, node):
     if isinstance(node, ScalarNode):
         return ExpressionNode(self.construct_scalar(node))
-    assert False, 'Expression nodes must be scalar'
+    assert False, 'expression nodes must be scalar'
 
 
 loader.add_constructor('!?', expression_constructor)
@@ -108,3 +108,22 @@ def function_constructor(self, node):
 
 
 loader.add_constructor('!()', function_constructor)
+
+
+class IfNode(TaggedNode, MergeKey):
+    def create(self, doc):
+        self.expression = Expression(self.value, doc)
+        return self
+
+    def merge(self, parent, source):
+        if self.expression.content():
+            MergeKey.merge(self, parent, source)
+
+
+def if_constructor(self, node):
+    if isinstance(node, ScalarNode):
+        return IfNode(self.construct_scalar(node))
+    assert False, 'expression nodes must be scalar'
+
+
+loader.add_constructor('!if', if_constructor)
