@@ -25,6 +25,16 @@ class Node:
         return self
 
 
+class MergeKey(Node):
+    def merge(self, parent, source):
+        if isinstance(source, OrderedDict):
+            parent.update(OrderedDict.items(source))
+        elif isinstance(source, dict):
+            parent.update(source)
+        elif isinstance(source, list):
+            parent.update(list.items(source))
+
+
 class Scalar(Node):
     def __init__(self, value, doc=None):
         Node.__init__(self, doc)
@@ -45,8 +55,10 @@ class Mapping(OrderedDict, Node):
         Node.__init__(self, doc)
         self.special_entries = []
         if source:
-            if isinstance(source, dict):
-                source = source.items()
+            if isinstance(source, OrderedDict):
+                source = OrderedDict.items(source)
+            elif isinstance(source, dict):
+                source = dict.items(source)
             OrderedDict.__init__(self, self.handle_keys(source))
 
     def __getitem__(self, key):
@@ -77,11 +89,14 @@ class Mapping(OrderedDict, Node):
     def resolve_special(self, key=None):
         while len(self.special_entries) > 0:
             (k, v) = self.special_entries.pop()
-            computed_key = k.content()
-            if computed_key is not None:
-                self[computed_key] = v
+            if isinstance(k, MergeKey):
+                k.merge(self, v)
             else:
-                raise Exception("mapping key is null")
+                computed_key = k.content()
+                if computed_key is not None:
+                    self[computed_key] = v
+                else:
+                    raise Exception("mapping key is null")
         self.special_entries = []
         return self.get(key)
 

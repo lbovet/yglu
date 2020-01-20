@@ -47,7 +47,7 @@ def test_content():
     class OneNode(Node):
         def __init__(self):
             Node.__init__(self, None)
-            
+
         version = 0
 
         def create_content(self):
@@ -69,3 +69,34 @@ def test_content():
     assert m['s'][1] == 1
     assert m['n'] == 1
     assert m['m2']['s'] == [1, 1]
+
+
+def test_merge_mapping():
+    class TestNode(MergeKey):
+        def __init__(self):
+            Node.__init__(self, None)
+
+        def entries(self, value):
+            return value
+
+    sub = Mapping()
+    sub['b'] = Scalar(2)
+    sub['c'] = Scalar(3)
+    m = Mapping({Scalar('a'):  Scalar(1), TestNode(): sub})
+
+    assert m == {'a': 1, 'b': 2, 'c': 3}
+
+
+def test_merge_sequence():
+    class TestNode(MergeKey):
+        def __init__(self):
+            Node.__init__(self, None)
+
+        def entries(self, value):
+            return value
+
+    sub = Sequence([Scalar(1), Scalar(2)])
+    s = Sequence([Scalar(0), Mapping({TestNode(): sub}), Scalar(3)])
+
+    # TODO: implement later
+    #assert s == [ 0, 1, 2, 3]
