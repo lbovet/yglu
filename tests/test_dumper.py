@@ -66,3 +66,53 @@ def test_expression_in_key():
         b: 1
         '''
     assert_like(next(process(input)), expected)
+
+
+def test_mapping_in_sequence():
+    input = '''
+        a: !-
+          - b: 1
+            c: 2
+        d: !? ($_.a)         
+        '''
+    expected = '''
+        d: 
+          - b: 1
+            c: 2
+        '''
+    assert_like(next(process(input)), expected)
+
+def test_sequence_in_function():
+    input = '''
+        a: !()
+          - b: 1
+            c: 2
+        d: !? ($_.a)(1)          
+        '''
+    expected = '''
+        d: 
+          - b: 1
+            c: 2
+        '''
+    assert_like(next(process(input)), expected)
+
+
+def test_sequence_loop():
+    input = '''
+        a: !-
+          - 1
+          - 3
+        b:
+          - ? !for .a
+            : !()
+              - x: !? $
+                y: !? $ + 1
+        '''
+    expected = '''
+        b: 
+           - x: 1
+             y: 2
+           - x: 3
+             y: 4
+        '''
+    assert_like(next(process(input)), expected)

@@ -87,15 +87,14 @@ class Function(Node):
 
 
 class FunctionBlock(Node):
-    def __init__(self, node, constructor):
+    def __init__(self, constructor):
         Node.__init__(self, None)
-        self.node = node.value
         self.visible = False
         self.constructor = constructor
 
     def eval(self, scope):
         push_scope(scope)        
-        node = self.constructor(self.node)
+        node = self.constructor()
         if isinstance(node, dict):
             result = dict(node.items())
         else:

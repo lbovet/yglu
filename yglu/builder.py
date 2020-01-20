@@ -43,7 +43,8 @@ def construct_node(self, node):
     if isinstance(node, MappingNode):
         return [c for c in self.construct_yaml_map(node)][0]
     if isinstance(node, SequenceNode):
-        return self.construct_sequence(node)
+        result = [c for c in self.construct_yaml_seq(node)][0]
+        return result
 
 
 class TaggedNode:
@@ -93,10 +94,10 @@ class FunctionBlockNode(TaggedNode):
     def __init__(self, value, constructor):
         self.value = value
         self.constructor = constructor
+        self.node = construct_node(self.constructor, self.value)
 
     def create(self, doc):
-        result = FunctionBlock(self, lambda node: convert(
-            construct_node(self.constructor, node), doc))
+        result = FunctionBlock(lambda: convert(self.node, doc))
         return result
 
 

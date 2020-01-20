@@ -1,0 +1,65 @@
+# See for comparison: https://developer.ibm.com/depmodels/cloud/blogs/yaml-templating-tool-to-simplify-complex-configuration-management/
+
+fullname: !()
+  let(clean_name => lambda($.substring(0,63).trimRight('-'))) ->
+    switch(
+      $.containsKey(nameOverride) => $clean_name($.vars.nameOverride),
+      true =>  $clean_name("{}-{}".format($.Release.Name, $.Chart.Name))
+    )  
+
+labels: !()
+  app.kubernetes.io/name: !? ($_.fullname)($)
+  helm.sh/chart: !? "'{0}-{1}'.format($.Chart.Name, $.Chart.Version).replace('+', '_')"
+  app.kubernetes.io/instance: !? $.Release.Name
+  app.kubernetes.io/managed-b: !? $.Release.Service
+
+values: !- $import('values.yaml')
+
+? !if .values.ingress.enabled
+: apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    name: !? ($_.fullname)($_.values)
+    labels: !? ($_.labels)($_.values)    
+    annotations: !? .values.ingress.get(annotations)
+  spec:
+    tls: !? .values.ingress.get(tls)
+    rules:
+    - ? !for .values.ingress.hosts
+      : !()
+        - host: !? $
+          http:
+            paths:
+              - path: /
+                backend:
+                  serviceName: !? ($_.fullname)($_.values)
+                  servicePort: !? .values.service.externalPort
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: release-name-chart-name
+  labels:
+    app.kubernetes.io/name: release-name-chart-name
+    helm.sh/chart: chart-name-chart-ver
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-b: release-sv
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: 'true'
+spec:
+  rules:
+  - host: chart-example.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: release-name-chart-name
+          servicePort: 80
+  - host: chart-example2.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: release-name-chart-name
+          servicePort: 80
