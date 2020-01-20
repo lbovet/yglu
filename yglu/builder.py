@@ -129,3 +129,20 @@ def if_constructor(self, node):
 loader.add_constructor('!if', if_constructor)
 
 
+class ForNode(TaggedNode, MergeKey):
+    def create(self, doc):
+        self.expression = Expression(self.value, doc)
+        return self
+
+    def merge(self, parent, source):
+        for item in self.expression.content():
+            MergeKey.merge(self, parent, source.content()(item))
+
+
+def for_constructor(self, node):
+    if isinstance(node, ScalarNode):
+        return ForNode(self.construct_scalar(node))
+    assert False, 'expression nodes must be scalar'
+
+
+loader.add_constructor('!for', for_constructor)

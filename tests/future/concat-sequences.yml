@@ -11,3 +11,9 @@ images:
     : 
       - item1
       - item2    
+
+images:
+  - ingress
+  - ? !for services
+    : !()
+      - $.name

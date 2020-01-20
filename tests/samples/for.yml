@@ -3,13 +3,11 @@ tags: !-
   - 'nginx:1.16'
   - 'node:13.6'
   - 'couchbase:9.3'
-image: !()
-  ? !? $.split(':')[0]
-  : version: !? $.split(':')[1]
-images: !? 
-  $_.tags
-    .select(($_.image)($))
-    .aggregate($1.mergeWith($2), {})
+images: 
+  ? !for .tags
+  : !()
+    ? !? $.split(':')[0]
+    : version: !? $.split(':')[1]
 ---
 # output
 images:

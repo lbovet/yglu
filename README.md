@@ -13,13 +13,17 @@ Yglu input documents are pure YAML using tags for computed nodes.
 input
 <pre lang="yaml">
 a: 1
-b: !? .a + 1  </pre>
+b: !? .a + 1
+!if .b = 2:
+  c: 3  </pre>
 </td>
 <td width="440">
 output
 <pre lang="yaml">
 a: 1
-b: 2  </pre>
+b: 2 
+c: 3
+ </pre>
 </td>
 </tr></table>
 
@@ -58,12 +62,41 @@ images:
 
 In the example above, the `tags` sequence is hidden, `image` is a function (like a template block) and `images` is an expression which iterates through all tags, apply the image function to them and aggregate the individual results by merging them together as a mapping.
 
+As such an operation is often needed, there is a `!for` tag to merge a sequence iterated over a function:
+
+<table><tr>
+<td width="440">
+input
+<pre lang="yaml">
+tags: !-
+  - 'nginx:1.16'
+  - 'node:13.6'
+  - 'couchbase:9.3'
+images: 
+  !for .tags: !()
+    !? $.split(':')[0]:
+      version: !? $.split(':')[1]</pre>
+</td>
+<td width="440">
+output
+<pre lang="yaml">
+images:
+  nginx: 
+    version: '1.16'
+  node: 
+    version: '13.6'
+  couchbase: 
+    version: '9.3'
+    &nbsp;</pre>
+</td>
+</tr></table>
+
 See the [test samples](https://github.com/lbovet/yglu/tree/master/tests/samples) for more examples.
 
 ## Install
 
 ```
-pip install yglu
+pip3 install yglu
 ```
 
 ## Run
@@ -83,9 +116,10 @@ Tags specify an alteration of the document structure.
 | **Tag**&nbsp;&nbsp;&nbsp;| **Description** |
 |-----------|-----------------|
 | `!?`      | Evaluate an expression. The result can be a scalar, mapping or sequence. Can also be used in mapping keys. |
-| `!-`      | Hide the node in the output but keep it accessible from expressions. When used with a scalar, it evaluates it as an expression. |
-| `!()`     | Make the node reusable in expressions as a function. It is also hidden. |
-| `!if`     | Shortcut for conditional merge of mappings. See [merge.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/merge.yml). |
+| `!-`      | Hide the node in the output but keep it accessible from expressions. Can be an expression. |
+| `!()`     | Make the node reusable in expressions as a function. |
+| `!if`     | Conditional merge. See [if.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/if.yml). |
+| `!for`     | Merge result of a function applied to all items of a sequence . See [for.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/for.yml). |
 
 ## Expressions
 
