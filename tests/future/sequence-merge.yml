@@ -1,10 +1,3 @@
-images: !concat
-  _ :
-    - item 0
-  !if condition:
-    - item1
-    - item2
-
 images:
   - item 0
   - ? !if condition

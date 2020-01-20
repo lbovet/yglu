@@ -27,11 +27,11 @@ values: !- $import('values.yml')
   spec:
     tls: !? .values.ingress.get(tls)
     rules:
-    ? !for '$_.values.ingress.hosts'
-    : - host: !? $
-        http:
-          paths:
-            - path: /
-              backend:
-                serviceName: !? ($_.fullname)($_.values)
-                servicePort: !? .values.service.externalPort
+    - ? !for '$_.values.ingress.hosts'
+      : - host: !? $
+          http:
+            paths:
+              - path: /
+                backend:
+                  serviceName: !? ($_.fullname)($_.values)
+                  servicePort: !? .values.service.externalPort

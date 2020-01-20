@@ -1,0 +1,7 @@
+config:
+  image: !? $.name + ':' + $.version
+  tag: !? ('v' + $.version)
+
+? !apply '.config'
+: name: coder
+  version: '1.0'  
