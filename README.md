@@ -31,7 +31,7 @@ c: 3
 <td width="440">
 input
 <pre lang="yaml">
-tags: !-
+names: !-
   - 'nginx:1.16'
   - 'node:13.6'
   - 'couchbase:9.3'
@@ -39,7 +39,7 @@ image: !()
   !? $.split(':')[0]: 
     version: !? $.split(':')[1]
 images: !? 
-  $_.tags
+  $_.names
     .select(($_.image)($))
     .aggregate($1.mergeWith($2), {})</pre>
 </td>
@@ -60,20 +60,20 @@ images:
 </td>
 </tr></table>
 
-In the example above, the `tags` sequence is hidden, `image` is a function (like a template block) and `images` is an expression which iterates through all tags, apply the image function to them and aggregate the individual results by merging them together as a mapping.
+In the example above, the `names` sequence is hidden, `image` is a function (like a template block) and `images` is an expression which iterates through all names, apply the image function to them and aggregate the individual results by merging them together as a mapping.
 
-As such an operation is often needed, there is a `!for` tag to merge a sequence iterated over a function:
+As such an operation is often needed, Yglu provides a `!for` tag for merging a sequence iterated over a function:
 
 <table><tr>
 <td width="440">
 input
 <pre lang="yaml">
-tags: !-
+names: !-
   - 'nginx:1.16'
   - 'node:13.6'
   - 'couchbase:9.3'
 images: 
-  !for .tags: !()
+  !for .names: !()
     !? $.split(':')[0]:
       version: !? $.split(':')[1]</pre>
 </td>
