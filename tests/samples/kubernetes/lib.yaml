@@ -1,0 +1,6 @@
+fullname: !()
+  let(clean_name => lambda($.substring(0,63).trimRight('-'))) ->
+    switch(
+      $.containsKey(nameOverride) => $clean_name($.nameOverride),
+      true =>  $clean_name("{}-{}".format($.Release.Name, $.Chart.Name))
+    )  

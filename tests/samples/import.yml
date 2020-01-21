@@ -1,9 +1,15 @@
 # input
 a: !? $import('imported.yaml')
 b: !? .a.y
+c: !? ($_.a.z)(1)
+d: !? .a.y + 2
+e: !? ($_.a.z)(3)
 ---
 # output
 a:
   x: 1
   y: 2
 b: 2
+c: 3
+d: 4
+e: 5

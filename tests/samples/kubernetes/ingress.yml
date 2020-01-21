@@ -1,14 +1,11 @@
+# input
+
 # See for comparison: https://developer.ibm.com/depmodels/cloud/blogs/yaml-templating-tool-to-simplify-complex-configuration-management/
 
-fullname: !()
-  let(clean_name => lambda($.substring(0,63).trimRight('-'))) ->
-    switch(
-      $.containsKey(nameOverride) => $clean_name($.vars.nameOverride),
-      true =>  $clean_name("{}-{}".format($.Release.Name, $.Chart.Name))
-    )  
+lib: !- $import('lib.yaml')
 
 labels: !()
-  app.kubernetes.io/name: !? ($_.fullname)($)
+  app.kubernetes.io/name: !? ($_.lib.fullname)($_.values)
   helm.sh/chart: !? "'{0}-{1}'.format($.Chart.Name, $.Chart.Version).replace('+', '_')"
   app.kubernetes.io/instance: !? $.Release.Name
   app.kubernetes.io/managed-b: !? $.Release.Service
@@ -19,7 +16,7 @@ values: !- $import('values.yaml')
 : apiVersion: extensions/v1beta1
   kind: Ingress
   metadata:
-    name: !? ($_.fullname)($_.values)
+    name: !? ($_.lib.fullname)($_.values)
     labels: !? ($_.labels)($_.values)    
     annotations: !? .values.ingress.get(annotations)
   spec:
@@ -32,9 +29,11 @@ values: !- $import('values.yaml')
             paths:
               - path: /
                 backend:
-                  serviceName: !? ($_.fullname)($_.values)
+                  serviceName: !? ($_.lib.fullname)($_.values)
                   servicePort: !? .values.service.externalPort
 ---
+# output
+
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:

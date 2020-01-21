@@ -2,6 +2,7 @@
 
 import os
 from .builder import build
+from .expression import Holder
 
 def import_definition(context, root):
     if hasattr(root, 'doc') and  hasattr(root.doc, 'filepath') and root.doc.filepath:
@@ -16,7 +17,7 @@ def import_definition(context, root):
             filepath = os.path.join(dir, filename)
         with open(filepath) as file:
             result = build(file, filename)
-            return result
+            return Holder(result)
 
     context['$import'] = import_function
 

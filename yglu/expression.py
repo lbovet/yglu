@@ -50,6 +50,9 @@ def push_scope(scope):
 def pop_scope():
     scopes.pop()
 
+class Holder:
+    def __init__(self, value):
+        self.value = value
 
 class Expression(Node):
     def __init__(self, expression, doc):             
@@ -67,7 +70,10 @@ class Expression(Node):
             context['$'] = scopes[-1]        
         result = engine(self.expression).evaluate(context=context)
         pop_stack()
-        return result
+        if isinstance(result, Holder):
+            return result.value
+        else:
+            return result
 
 
 class Function(Node):
