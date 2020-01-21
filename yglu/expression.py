@@ -13,9 +13,9 @@ stack = []
 contexts = {}
 context_processors = []
 
+
 def add_context_processor(processor):
     context_processors.append(processor)
-
 
 
 def get_context(root):
@@ -50,12 +50,14 @@ def push_scope(scope):
 def pop_scope():
     scopes.pop()
 
+
 class Holder:
     def __init__(self, value):
         self.value = value
 
+
 class Expression(Node):
-    def __init__(self, expression, doc):             
+    def __init__(self, expression, doc):
         Node.__init__(self, doc)
         if expression.startswith('.'):
             self.expression = '$_'+expression
@@ -67,7 +69,7 @@ class Expression(Node):
         push_stack(self)
         context = get_context(self.doc.root).create_child_context()
         if len(scopes) > 0:
-            context['$'] = scopes[-1]        
+            context['$'] = scopes[-1]
         result = engine(self.expression).evaluate(context=context)
         pop_stack()
         if isinstance(result, Holder):
@@ -99,13 +101,13 @@ class FunctionBlock(Node):
         self.constructor = constructor
 
     def eval(self, scope):
-        push_scope(scope)        
+        push_scope(scope)
         node = self.constructor()
         if isinstance(node, dict):
             result = dict(node.items())
         else:
             result = list(node)
-        str(result) # force content creation
+        str(result)  # force content creation
         pop_scope()
         return result
 

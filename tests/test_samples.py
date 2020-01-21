@@ -18,5 +18,5 @@ os.environ['YGLU_ENABLE_ENV'] = 'true'
 @pytest.mark.parametrize("filename", files)
 def test_sample(filename):
     with open(filename) as file_handle:
-        (input, output) = process(file_handle, filename)
+        (input, output) = process_all(file_handle, filename)
         assert_like(input, output)

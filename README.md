@@ -139,5 +139,5 @@ In addition to [standard YAQL operators](https://yaql.readthedocs.io/en/latest/s
 
 | **Function**| **Description** |
 |-----------|-----------------|
-| `$import(filename)`  | Imports another document in the current node. |
+| `$import(filename)`  | Imports another document in the current node. By default, it is only permitted to import files from the same directory hierarchy as the input file. Set `$YGLU_IMPORT_ALLOW` to a list of permitted directories. |
 

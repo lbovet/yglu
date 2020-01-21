@@ -1,6 +1,7 @@
 from yglu.main import process
 from io import StringIO
 
+
 def test_process_ok():
     input = '''
         a: 1 
@@ -8,6 +9,7 @@ def test_process_ok():
     '''
     output = StringIO()
     process(input, output)
+    output.flush()
     assert output.getvalue() == 'a: 1\nb: 2\n'
 
 

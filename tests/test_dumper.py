@@ -12,7 +12,7 @@ def test_no_tags():
             - 1
             - hello
         '''
-    assert_like(next(process(input)), input)
+    assert_like(process(input), input)
 
 
 def test_expression():
@@ -26,11 +26,11 @@ def test_expression():
         b: 3
         c: '{hello'
         '''
-    assert_like(next(process(input)), expected)
+    assert_like(process(input), expected)
 
 
 def test_empty_doc():
-    assert list(process('')) == []
+    assert list(process_all('')) == []
 
 
 def test_doc_separator():
@@ -42,7 +42,7 @@ def test_doc_separator():
         b: 2
         ---
         ''')
-    assert list(process(input)) == ['', 'a: 1\n', 'b: 2\n', '']
+    assert list(process_all(input)) == ['', 'a: 1\n', 'b: 2\n', '']
 
 
 def test_null():
@@ -53,7 +53,7 @@ def test_null():
     expected = '''
         a: 1
         '''
-    assert_like(next(process(input)), expected)
+    assert_like(process(input), expected)
 
 
 def test_expression_in_key():
@@ -65,7 +65,7 @@ def test_expression_in_key():
         a: b
         b: 1
         '''
-    assert_like(next(process(input)), expected)
+    assert_like(process(input), expected)
 
 
 def test_mapping_in_sequence():
@@ -80,7 +80,7 @@ def test_mapping_in_sequence():
           - b: 1
             c: 2
         '''
-    assert_like(next(process(input)), expected)
+    assert_like(process(input), expected)
 
 def test_sequence_in_function():
     input = '''
@@ -94,7 +94,7 @@ def test_sequence_in_function():
           - b: 1
             c: 2
         '''
-    assert_like(next(process(input)), expected)
+    assert_like(process(input), expected)
 
 
 def test_sequence_loop():
@@ -115,4 +115,4 @@ def test_sequence_loop():
            - x: 3
              y: 4
         '''
-    assert_like(next(process(input)), expected)
+    assert_like(process(input), expected)
