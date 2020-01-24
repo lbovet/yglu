@@ -24,6 +24,8 @@ class Node:
     def create_content(self):
         return self
 
+    def receive(self, visitor):
+        visitor(self.content())
 
 class MergeKey:
     def __init__(self):
@@ -84,7 +86,14 @@ class Mapping(OrderedDict, Node):
         return dict(self.items()) == other
 
     def __repr__(self):
-        return 'y'+dict(self.items()).__repr__()
+        return '<mapping>'
+
+    def receive(self, visitor):
+        for (k, v) in self.items():
+            if isinstance(v, Node):
+                v.receive(visitor)
+            else:
+                visitor(v)
 
     def handle_keys(self, items):
         for (k, v) in items:
@@ -139,4 +148,11 @@ class Sequence(list, Node):
             return
 
     def __repr__(self):
-        return 'y'+list(self).__repr__()
+        return '<sequence>'
+
+    def receive(self, visitor):
+        for v in self:
+            if isinstance(v, Node):
+                v.receive(visitor)
+            else:
+                visitor(v)

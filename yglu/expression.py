@@ -103,11 +103,12 @@ class FunctionBlock(Node):
     def eval(self, scope):
         push_scope(scope)
         node = self.constructor()
+        if isinstance(node, Node):
+            node.receive(lambda x: x)  # force content creation
         if isinstance(node, dict):
             result = dict(node.items())
         else:
             result = list(node)
-        str(result)  # force content creation
         pop_scope()
         return result
 

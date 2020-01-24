@@ -1,4 +1,5 @@
 import pytest
+import yaql
 from yglu.expression import *
 from yglu.tree import *
 
@@ -67,9 +68,20 @@ def test_unresolved_key():
     init_doc(m)
     err = None    
     try:
-        str(m)        
+        m.receive(lambda x: x)     
     except Exception as e:
         err = e
     assert type(err) is KeyError
     
 
+def test_unknown_method():
+    m = Mapping()
+    m['a'] = Expression('.b()', doc)
+    init_doc(m)
+    err = None
+    try:
+        m.receive(lambda x: x)
+    except Exception as e:
+        err = e
+    assert type(err) is yaql.language.exceptions.NoMethodRegisteredException
+    

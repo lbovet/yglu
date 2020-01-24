@@ -26,7 +26,6 @@ def test_sequence_accessors():
     s.append(Scalar(2))
     assert [i for i in s] == [1, 2]
     assert s == [1, 2]
-    assert str(s) == 'y[1, 2]'
     assert s[1] == 3
 
 
@@ -39,7 +38,6 @@ def test_mapping_accessors():
     m['b'] = Scalar(2)
     assert m.items() == [('a', 1), ('b', 2)]
     assert m == {'a': 1, 'b': 2}
-    assert str(m) == "y{'a': 1, 'b': 2}"
     assert m['X'] == 3
 
 
