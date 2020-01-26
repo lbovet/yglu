@@ -48,14 +48,15 @@ def construct_node(self, node):
 
 
 class TaggedNode:
-    def __init__(self, value):
+    def __init__(self, value, source=None):
         self.value = value
+        self.source = source
 
 
 class InvisibleNode(TaggedNode):
     def create(self, doc):
         if isinstance(self.value, str):
-            result = Expression(self.value, doc)
+            result = Expression(self.value, doc, self.source)
         else:
             result = convert(self.value, doc)
         result.visible = False
@@ -71,13 +72,13 @@ loader.add_constructor('!-', invisible_constructor)
 
 class ExpressionNode(TaggedNode):
     def create(self, doc):
-        result = Expression(self.value, doc)
+        result = Expression(self.value, doc, self.source)
         return result
 
 
 def expression_constructor(self, node):
     if isinstance(node, ScalarNode):
-        return ExpressionNode(self.construct_scalar(node))
+        return ExpressionNode(self.construct_scalar(node), node)
     assert False, 'expression nodes must be scalar'
 
 
@@ -86,7 +87,7 @@ loader.add_constructor('!?', expression_constructor)
 
 class FunctionNode(TaggedNode):
     def create(self, doc):
-        result = Function(self.value, doc)
+        result = Function(self.value, doc, self.source)
         return result
 
 
@@ -117,7 +118,7 @@ class IfNode(TaggedNode, MergeKey):
         MergeKey.__init__(self)
 
     def create(self, doc):
-        self.expression = Expression(self.value, doc)
+        self.expression = Expression(self.value, doc, self.source)
         return self
 
     def merge(self, parent, source):
@@ -140,7 +141,7 @@ class ForNode(TaggedNode, MergeKey):
         MergeKey.__init__(self)
 
     def create(self, doc):
-        self.expression = Expression(self.value, doc)
+        self.expression = Expression(self.value, doc, self.source)
         return self
 
     def merge(self, parent, source):

@@ -11,10 +11,11 @@ class Document:
 
 
 class Node:
-    def __init__(self, doc):
+    def __init__(self, doc, source=None):
         self.visible = True
         self.memo = None
         self.doc = doc
+        self.source = source
 
     def content(self):
         if(self.memo is None):

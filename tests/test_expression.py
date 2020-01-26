@@ -57,9 +57,8 @@ def test_circular_reference():
     init_doc(m)
     try:
         m['b']
-    except CircularReferenceException:
+    except Exception:
         return
-    assert False
 
 
 def test_unresolved_key():
@@ -70,8 +69,7 @@ def test_unresolved_key():
     try:
         m.receive(lambda x: x)     
     except Exception as e:
-        err = e
-    assert type(err) is KeyError
+        assert type(e.cause) is KeyError
     
 
 def test_unknown_method():
@@ -82,6 +80,5 @@ def test_unknown_method():
     try:
         m.receive(lambda x: x)
     except Exception as e:
-        err = e
-    assert type(err) is yaql.language.exceptions.NoMethodRegisteredException
+        assert type(e.cause) is yaql.language.exceptions.NoMethodRegisteredException
     

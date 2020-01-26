@@ -34,4 +34,4 @@ def test_legal_absolute_import():
         process(input)
         assert False
     except Exception as e:
-        assert type(e) == FileNotFoundError
+        assert type(e.cause) == FileNotFoundError

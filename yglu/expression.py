@@ -50,6 +50,53 @@ def push_scope(scope):
 def pop_scope():
     scopes.pop()
 
+class Mark:
+    def __init__(self, line, column):
+        self.line = line
+        self.column = column
+
+class ExpressionException(Exception):
+    def __init__(self, node, cause):
+        self.node = node
+        self.cause = cause
+
+    def __str__(self):
+        filepath = self.node.doc.filepath
+        if filepath is None:
+            filepath = '<stdin>'
+        start_mark = self.start_mark()
+        line = start_mark.line
+        column = start_mark.column
+
+        if isinstance(self.cause, KeyError):
+            message = 'key not found: '+str(self.cause)
+        else:
+            message = str(self.cause)
+
+        result = message+'\n in "'+filepath + \
+            '", line ' + str(start_mark.line+1) + \
+            ', column ' + str(start_mark.column+1) + \
+            ':\n  '+str(self.node.expression)
+        return result
+
+    def start_mark(self):
+        column = self.node.source.end_mark.column - len(self.node.expression)
+        if hasattr(self.cause, 'position') and self.cause.position:
+            column += self.cause.position
+        return Mark(self.node.source.start_mark.line, column)
+
+    def end_mark(self):
+        return self.node.source.end_mark
+
+
+def evaluate(node, context):
+    try:
+        return engine(node.expression).evaluate(context=context)
+    except ExpressionException as e:
+        raise e
+    except Exception as e:
+        raise ExpressionException(node, e)
+
 
 class Holder:
     def __init__(self, value):
@@ -57,8 +104,8 @@ class Holder:
 
 
 class Expression(Node):
-    def __init__(self, expression, doc):
-        Node.__init__(self, doc)
+    def __init__(self, expression, doc, source=None):
+        Node.__init__(self, doc, source)
         if expression.startswith('.'):
             self.expression = '$_'+expression
         else:
@@ -70,7 +117,7 @@ class Expression(Node):
         context = get_context(self.doc.root).create_child_context()
         if len(scopes) > 0:
             context['$'] = scopes[-1]
-        result = engine(self.expression).evaluate(context=context)
+        result = evaluate(self, context)
         pop_stack()
         if isinstance(result, Holder):
             return result.value
@@ -79,15 +126,15 @@ class Expression(Node):
 
 
 class Function(Node):
-    def __init__(self, expression, doc):
-        Node.__init__(self, doc)
+    def __init__(self, expression, doc, source):
+        Node.__init__(self, doc, source)
         self.expression = expression
         self.visible = False
 
     def eval(self, scope=None):
         context = get_context(self.doc.root).create_child_context()
         context['$'] = scope
-        result = engine(self.expression).evaluate(context=context)
+        result = evaluate(self, context)
         return result
 
     def create_content(self):
