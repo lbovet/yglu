@@ -1,0 +1,30 @@
+left: !-
+  a:
+    b: !? 2
+  c: 1
+
+right: !-
+  a:
+    b: !? 3
+  d: 4
+
+merge: !() 
+  let(arg => $) ->
+  switch(
+    $.l = $.L.a => $.r + $.l + { b => $.r.b + $.l.b },
+    isDict($.r) => dict($.l.items() + $.r.items() + 
+      set($.r.keys()).intersect(set($.l.keys()))
+        .select([$, ($_.merge)({l => $arg.l[$], r => $arg.r[$], L => $arg.L, R => $arg.R})]) 
+    ),
+    true => $.l  
+  )
+
+actual: !? ($_.merge)({l => $_.left, r => $_.right, L => $_.left, R => $_.right, p => ''})
+
+---
+
+actual:
+  a:
+    b: 5
+  c: 1
+  d: 4
