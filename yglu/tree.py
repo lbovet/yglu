@@ -78,9 +78,12 @@ class Mapping(OrderedDict, Node):
 
     def items(self):
         self.resolve_special()
-        items = filter(lambda kv: kv[1].visible and kv[1].content() is not None,
-                       super().items())
-        return [(k, v.content()) for (k, v) in items]
+        for (k,v) in super().items():
+            if isinstance(v, Node):
+                if v.visible and v.content() is not None:
+                    yield (k, v.content())
+            elif v is not None:
+                yield (k, v)
 
     def __eq__(self, other):
         return dict(self.items()) == other

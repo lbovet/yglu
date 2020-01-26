@@ -36,7 +36,7 @@ def test_mapping_accessors():
     hidden.visible = False
     m['X'] = hidden
     m['b'] = Scalar(2)
-    assert m.items() == [('a', 1), ('b', 2)]
+    assert [i for i in m.items()] == [('a', 1), ('b', 2)]
     assert m == {'a': 1, 'b': 2}
     assert m['X'] == 3
 
