@@ -1,12 +1,12 @@
 [![Build Status](https://travis-ci.org/lbovet/yglu.svg?branch=master)](https://travis-ci.org/lbovet/yglu)
 [![PyPI version](https://badge.fury.io/py/yglu.svg)](https://badge.fury.io/py/yglu)
-# Yglu ᕄ !?
+# YGLU ᕄ !?
 
-Yglu is [YAML](https://yaml.org/) augmented with an advanced expression language. Unlike usual text templating, Yglu relies on the YAML structure and leverages its tag system combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language. 
+YGLU is [YAML](https://yaml.org/) augmented with an advanced expression language. Unlike usual text templating, YGLU relies on the YAML structure and leverages its tag system combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language. 
 
 This association enables templating and functional processing a bit like if YAML nodes where spreadsheet cells.
 
-Yglu input documents are pure and valid YAML using [tags](https://yaml.org/spec/1.2/spec.html#id2784064) for computed nodes.
+YGLU input documents are pure and valid YAML using [tags](https://yaml.org/spec/1.2/spec.html#id2784064) for computed nodes.
 
 <table><tr>
 <td width="440">
@@ -62,7 +62,7 @@ images:
 
 In the example above, the `names` sequence is hidden, `image` is a function (like a template block) and `images` is an expression which iterates through all names, applies the image function to each one and aggregates the individual results by merging them together as a mapping.
 
-As such an operation is often needed, Yglu provides a `!for` tag for merging a sequence iterated over a function:
+As such an operation is often needed, YGLU provides a `!for` tag for merging a sequence iterated over a function:
 
 <table><tr>
 <td width="440">
@@ -135,7 +135,7 @@ They are evaluated in a context with the following variables defined:
 
 ## Built-in Functions
 
-In addition to the [standard YAQL library](https://yaql.readthedocs.io/en/latest/standard_library.html#), Yglu defines the following functions:
+In addition to the [standard YAQL library](https://yaql.readthedocs.io/en/latest/standard_library.html#), YGLU defines the following functions:
 
 | **Function**         | **Description** |
 |----------------------|-----------------|
