@@ -2,7 +2,7 @@
 
 import ruamel.yaml
 from .loader import SimpleString
-from .tree import (Mapping, Sequence, Scalar)
+from .tree import (Mapping, Sequence, Scalar, NodeException)
 
 
 def dump(tree, output, errors=[]):
@@ -24,5 +24,7 @@ def dump(tree, output, errors=[]):
     if tree is not None:
         try:
             yaml.dump(tree, output)
+        except ruamel.yaml.representer.RepresenterError as error:
+            errors.append(NodeException(tree, "document is not a mapping nor a sequence"))
         except Exception as error:
             errors.append(error)

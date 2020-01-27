@@ -14,6 +14,8 @@ class ErrorHandler:
 
 
 def process(input, filepath=None):
+    if isinstance(input, str):
+        input = outdent(input)
     error_handler = ErrorHandler()
     stream = io.StringIO()
     dump(build(input, filepath), stream, error_handler)
@@ -45,7 +47,7 @@ def outdent(doc):
     for line in doc.splitlines():
         if len(line) >= offset:
             line = line[offset:]
-        line = line.strip()
+        line = line.rstrip()
         if len(line) > 0:
             result.append(line)
     return '\n'.join(result)

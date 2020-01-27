@@ -6,11 +6,11 @@ def test_no_tags():
     input = '''
         key1: '{ '
         key2:
-            key3: ho
-            key4: 3
+          key3: ho
+          key4: 3
         key5:
-            - 1
-            - hello
+        - 1
+        - hello
         '''
     assert_like(process(input), input)
 
@@ -77,8 +77,8 @@ def test_mapping_in_sequence():
         '''
     expected = '''
         d: 
-          - b: 1
-            c: 2
+        - b: 1
+          c: 2
         '''
     assert_like(process(input), expected)
 
@@ -91,8 +91,8 @@ def test_sequence_in_function():
         '''
     expected = '''
         d: 
-          - b: 1
-            c: 2
+        - b: 1
+          c: 2
         '''
     assert_like(process(input), expected)
 
@@ -109,10 +109,10 @@ def test_sequence_loop():
                 y: !? $ + 1
         '''
     expected = '''
-        b: 
-           - x: 1
-             y: 2
-           - x: 3
-             y: 4
+        b:
+        - x: 1
+          y: 2
+        - x: 3
+          y: 4
         '''
     assert_like(process(input), expected)

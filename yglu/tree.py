@@ -10,6 +10,56 @@ class Document:
         self.currentPath = []
 
 
+class Mark:
+    def __init__(self, line, column):
+        self.line = line
+        self.column = column
+
+
+class NodeException(Exception):
+    def __init__(self, node, cause):
+        self.node = node
+        self.cause = cause
+
+    def __str__(self):
+        filepath = self.node.doc.filepath
+        if filepath is None:
+            filepath = '<stdin>'
+        start_mark = self.start_mark()
+        line = start_mark.line
+        column = start_mark.column
+
+        if isinstance(self.cause, KeyError):
+            message = 'key not found: '+str(self.cause)
+        else:
+            message = str(self.cause)
+
+        result = message+'\n in "'+filepath + \
+            '", line ' + str(start_mark.line+1) + \
+            ', column ' + str(start_mark.column+1) + \
+            ':\n  '+str(self.value())
+        return result
+
+    def value(self):
+        if self.node.source is not None:
+            return self.node.source.value
+
+    def start_mark(self):
+        if self.node.source is None:
+            return Mark(0,0)
+        column = self.node.source.end_mark.column - len(self.node.expression)
+        if hasattr(self.cause, 'position') and self.cause.position:
+            column += self.cause.position
+        if self.node.source.value.startswith('.'):
+            column += 2
+        return Mark(self.node.source.start_mark.line, column)
+
+    def end_mark(self):
+        if self.node.source is None:
+            return Mark(0, 0)
+        return self.node.source.end_mark
+
+
 class Node:
     def __init__(self, doc, source=None):
         self.visible = True
@@ -28,6 +78,7 @@ class Node:
     def receive(self, visitor):
         visitor(self.content())
 
+
 class MergeKey:
     def __init__(self):
         self.visited = False
@@ -38,11 +89,12 @@ class MergeKey:
             if isinstance(source, OrderedDict):
                 parent.update(OrderedDict.items(source))
             elif isinstance(source, dict):
-                parent.update(source)               
+                parent.update(source)
             if isinstance(source, Mapping):
                 parent.special_entries.extend(source.special_entries)
         else:
             parent.extend(source)
+
 
 class Scalar(Node):
     def __init__(self, value, doc=None):
@@ -70,7 +122,6 @@ class Mapping(OrderedDict, Node):
                 source = dict.items(source)
             OrderedDict.__init__(self, self.handle_keys(source))
 
-
     def __getitem__(self, key):
         if(self.__contains__(key)):
             return super().__getitem__(key).content()
@@ -79,7 +130,7 @@ class Mapping(OrderedDict, Node):
 
     def items(self):
         self.resolve_special()
-        for (k,v) in super().items():
+        for (k, v) in super().items():
             if isinstance(v, Node):
                 if v.visible and v.content() is not None:
                     yield (k, v.content())
@@ -116,7 +167,7 @@ class Mapping(OrderedDict, Node):
                 if computed_key is not None:
                     self[computed_key] = v
                 else:
-                    raise Exception("mapping key is null")
+                    raise NodeException(k, "mapping key is null")
         self.special_entries = []
         if key is not None:
             return super().__getitem__(key)
@@ -140,7 +191,7 @@ class Sequence(list, Node):
             while True:
                 node = iter.__next__()
                 if isinstance(node, Mapping) and len(node) == 0 and len(node.special_entries) == 1:
-                    (k,v) = node.special_entries[0]
+                    (k, v) = node.special_entries[0]
                     if not k.visited:
                         k.merge(self, v)
                 elif isinstance(node, Node):

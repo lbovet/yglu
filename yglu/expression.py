@@ -3,7 +3,7 @@
 import os
 import yaql
 from ruamel.yaml.nodes import (MappingNode, SequenceNode)
-from .tree import Node
+from .tree import (Node, Mark, NodeException)
 
 engine = yaql.factory.YaqlFactory(allow_delegates=True).create(options={
     'yaql.convertInputData': False,
@@ -35,7 +35,7 @@ def get_context(root):
 
 def push_stack(node):
     if node in stack:
-        raise CircularReferenceException()
+        raise CircularReferenceException(node, stack)
     stack.append(node)
 
 
@@ -50,43 +50,17 @@ def push_scope(scope):
 def pop_scope():
     scopes.pop()
 
+
 class Mark:
     def __init__(self, line, column):
         self.line = line
         self.column = column
 
-class ExpressionException(Exception):
+
+class ExpressionException(NodeException):
     def __init__(self, node, cause):
         self.node = node
         self.cause = cause
-
-    def __str__(self):
-        filepath = self.node.doc.filepath
-        if filepath is None:
-            filepath = '<stdin>'
-        start_mark = self.start_mark()
-        line = start_mark.line
-        column = start_mark.column
-
-        if isinstance(self.cause, KeyError):
-            message = 'key not found: '+str(self.cause)
-        else:
-            message = str(self.cause)
-
-        result = message+'\n in "'+filepath + \
-            '", line ' + str(start_mark.line+1) + \
-            ', column ' + str(start_mark.column+1) + \
-            ':\n  '+str(self.node.expression)
-        return result
-
-    def start_mark(self):
-        column = self.node.source.end_mark.column - len(self.node.expression)
-        if hasattr(self.cause, 'position') and self.cause.position:
-            column += self.cause.position
-        return Mark(self.node.source.start_mark.line, column)
-
-    def end_mark(self):
-        return self.node.source.end_mark
 
 
 def evaluate(node, context):
@@ -163,6 +137,7 @@ class FunctionBlock(Node):
         return self.eval
 
 
-class CircularReferenceException(Exception):
-    def __init__(self):
-        super().__init__("circular reference in expression")
+class CircularReferenceException(ExpressionException):
+    def __init__(self, node, stack):
+        super().__init__(node, "circular reference in expression")
+        self.stack = stack

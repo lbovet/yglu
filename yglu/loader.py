@@ -30,7 +30,7 @@ class SingleQuotedScalarString(ruamel.yaml.scalarstring.SingleQuotedScalarString
     __slots__ = ('lc')
 
 
-class MyConstructor(ruamel.yaml.constructor.RoundTripConstructor):
+class PositionalContructor(ruamel.yaml.constructor.RoundTripConstructor):
     def construct_scalar(self, node):
         if not isinstance(node, ruamel.yaml.nodes.ScalarNode):
             raise ruamel.yaml.constructor.ConstructorError(
@@ -56,13 +56,13 @@ class MyConstructor(ruamel.yaml.constructor.RoundTripConstructor):
 
 def create_loader():
     yaml = ruamel.yaml.YAML()
-    yaml.Constructor = MyConstructor
+    yaml.Constructor = PositionalContructor
     yaml.allow_duplicate_keys = True
     return yaml
 
 
 def add_constructor(tag, constructor):
-    MyConstructor.add_constructor(tag, constructor)
+    PositionalContructor.add_constructor(tag, constructor)
 
 
 def load_all(source, errors=[]):
