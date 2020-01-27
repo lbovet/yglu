@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Yglu</title>
+        <link href="https://bootswatch.com/4/cosmo/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body, html {
+                height: 100%;
+                padding-top: 0px !important;
+                margin-bottom: 60px !important;
+            }
+            .bg {
+                background-image: url("img/yglu-banner.png");
+                height: 45%; 
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                margin-bottom: 30px;
+            }
+            .CodeMirror {
+                border-radius: 4px;
+                border-color: lightblue;
+                border-width: 1px;
+                border-style: solid;
+            }
+            .CodeMirror-gutter {
+                background-color: #ddf2fd;
+                
+            }
+            .CodeMirror-linenumber {
+                color: #2977b9 !important;
+            }
+            .cm-meta {
+                color: #2977b9 !important;
+            }
+            .cm-atom {
+                color: #555533 !important;
+            }
+            h1, h2 {                
+                color: #2977b9
+            }
+        </style>
+        <link rel="icon" type="image/png" href="img/yglu-logo.png">
+    </head>
+<body style="height:100%">
+<div class="bg"></div>
+<div class="navbar" style="display:none;"></div>
+<div class="container">
+<h1>Introduction</h1>
+
+<p>Yglu is <a href="https://yaml.org/" rel="nofollow">YAML</a> augmented with an advanced expression language. Unlike
+    usual text templating, Yglu relies on the YAML structure and leverages its tag system combined with the <a
+        href="https://yaql.readthedocs.io/en/latest/" rel="nofollow">YAQL</a> query language.</p>
+<p>This association enables templating and functional processing a bit like if YAML nodes where spreadsheet cells.</p>
+<p>Yglu input documents are pure and valid YAML using <a href="https://yaml.org/spec/1.2/spec.html#id2784064"
+        rel="nofollow">tags</a> for computed nodes.</p>
+
+<ul>
+<li> <a href="https://github.com/lbovet/yglu">GitHub</a></li>
+<li> <a href="https://github.com/lbovet/yglu/blob/master/README.md">Documentation</a></li>
+</ul>
+
+<h1>Playground</h1>
+
+<div class="row">
+<div class="editor col-6" id="exp1"></div>
+<div class="editor col-6" id="exp2"></div>
+</div>
+<div>
+<p>&nbsp</p>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/theme/idea.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/theme/neat.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/theme/eclipse.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/yaml/yaml.min.js"></script>
+<script>
+    CodeMirror(document.getElementById('exp1'), {
+        theme: 'eclipse',
+        lineNumbers: true,
+        value: "a:\n b: !? 1 + 2\n c:\n  - 'hello'"
+    });
+    CodeMirror(document.getElementById('exp2'), {
+        theme: 'eclipse',
+        lineNumbers: true,
+        readOnly: 'nocursor',
+        value: "a:\n b: 3\n c:\n  - 'hello'"
+    });
+</script>
+</body>
+</html>
