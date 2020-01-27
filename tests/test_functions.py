@@ -4,6 +4,7 @@ from .utils import *
 
 os.environ['YGLU_IMPORT_ALLOW'] = '/tmp/yglu1:/tmp/yglu2'
 
+
 def test_illegal_relative_import():
     input = '''
         key1: !? $import('../test.yml')

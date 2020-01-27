@@ -46,7 +46,7 @@ class NodeException(Exception):
 
     def start_mark(self):
         if self.node.source is None:
-            return Mark(0,0)
+            return Mark(0, 0)
         column = self.node.source.end_mark.column - len(self.node.expression)
         if hasattr(self.cause, 'position') and self.cause.position:
             column += self.cause.position

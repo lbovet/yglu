@@ -1,7 +1,8 @@
 ''' Transforms the parsed YAML structure into a tree '''
 
 from . import loader
-from .tree import (Document, Scalar, Sequence, Mapping, MergeKey, NodeException)
+from .tree import (Document, Scalar, Sequence,
+                   Mapping, MergeKey, NodeException)
 from .expression import (Expression, Function, FunctionBlock)
 from ruamel.yaml.constructor import ConstructorError
 from ruamel.yaml.nodes import (ScalarNode, SequenceNode, MappingNode)
@@ -155,6 +156,7 @@ class ForNode(TaggedNode, MergeKey):
                 MergeKey.merge(self, parent, source.content()(item))
         except Exception as e:
             raise NodeException(self.expression, e)
+
 
 def for_constructor(self, node):
     if isinstance(node, ScalarNode):

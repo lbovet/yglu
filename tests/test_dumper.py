@@ -82,6 +82,7 @@ def test_mapping_in_sequence():
         '''
     assert_like(process(input), expected)
 
+
 def test_sequence_in_function():
     input = '''
         a: !()

@@ -5,8 +5,10 @@ from yglu.tree import *
 
 doc = Document()
 
+
 def init_doc(root):
     doc.root = root
+
 
 def test_execution():
     doc.root = {'a': 1}
@@ -62,15 +64,15 @@ def test_circular_reference():
 
 
 def test_unresolved_key():
-    m = Mapping()    
+    m = Mapping()
     m['a'] = Expression('.b', doc)
     init_doc(m)
-    err = None    
+    err = None
     try:
-        m.receive(lambda x: x)     
+        m.receive(lambda x: x)
     except Exception as e:
         assert type(e.cause) is KeyError
-    
+
 
 def test_unknown_method():
     m = Mapping()
@@ -80,5 +82,5 @@ def test_unknown_method():
     try:
         m.receive(lambda x: x)
     except Exception as e:
-        assert type(e.cause) is yaql.language.exceptions.NoMethodRegisteredException
-    
+        assert type(
+            e.cause) is yaql.language.exceptions.NoMethodRegisteredException

@@ -20,11 +20,12 @@ def dump(tree, output, errors=[]):
     yaml.representer.add_representer(Mapping, represent_mapping)
     yaml.representer.add_representer(Sequence, represent_sequence)
     yaml.representer.add_representer(SimpleString, represent_string)
-   
+
     if tree is not None:
         try:
             yaml.dump(tree, output)
         except ruamel.yaml.representer.RepresenterError as error:
-            errors.append(NodeException(tree, "document is not a mapping nor a sequence"))
+            errors.append(NodeException(
+                tree, "document is not a mapping nor a sequence"))
         except Exception as error:
             errors.append(error)

@@ -54,6 +54,7 @@ class PositionalContructor(ruamel.yaml.constructor.RoundTripConstructor):
         ret_val.lc.col = node.start_mark.column
         return ret_val
 
+
 def create_loader():
     yaml = ruamel.yaml.YAML()
     yaml.Constructor = PositionalContructor
@@ -69,12 +70,12 @@ def load_all(source, errors=[]):
     if source == sys.stdin:
         buffer = io.StringIO()
         for line in source:
-            if line.replace(' ','').startswith('---'):
+            if line.replace(' ', '').startswith('---'):
                 yield create_loader().load(buffer.getvalue())
                 buffer = io.StringIO()
             else:
                 buffer.writelines(line)
-        
+
         try:
             yield create_loader().load(buffer.getvalue())
         except Exception as error:
@@ -85,6 +86,7 @@ def load_all(source, errors=[]):
                 yield doc
         except Exception as error:
             errors.append(error)
+
 
 def load(source):
     return create_loader().load(source)

@@ -45,7 +45,8 @@ def test_simple_expression():
         - !? $_.c[0] + 1
     ''')
     assert data == {'a': 1, 'b': 2, 'c': [4]}
-    
+
+
 def test_single_value_doc():
     data = build('1').content()
     assert data == 1

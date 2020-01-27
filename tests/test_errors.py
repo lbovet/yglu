@@ -24,7 +24,6 @@ def test_parse_error():
         assert('line 1, column 10' in message)
 
 
-
 def test_lexical_error():
     input = 'key1: !? $_^.bla\n'
     try:

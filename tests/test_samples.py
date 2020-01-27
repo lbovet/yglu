@@ -8,6 +8,7 @@ from .utils import *
 def simple_name(filename):
     return os.path.splitext(os.path.basename(filename))[0]
 
+
 path = os.path.dirname(os.path.realpath(__file__))
 files = [pytest.param(f, id=simple_name(f))
          for f in glob.glob(path + "/samples/**/*.yml", recursive=True)]

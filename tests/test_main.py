@@ -2,6 +2,7 @@ from yglu.main import process
 from io import StringIO
 from .utils import outdent
 
+
 def test_process_ok():
     input = '''
         a: 1 

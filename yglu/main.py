@@ -1,4 +1,3 @@
-
 import os
 import sys
 from .functions import definitions
@@ -13,7 +12,7 @@ for definition in definitions:
 
 def process(input, output, filename=None, errors=[]):
     if filename:
-        filename = os.path.abspath(filename)    
+        filename = os.path.abspath(filename)
     first = True
 
     for doc in build_all(input, filename, errors):
@@ -22,4 +21,3 @@ def process(input, output, filename=None, errors=[]):
         else:
             first = False
         dump(doc, output, errors)
-
