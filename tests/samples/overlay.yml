@@ -1,3 +1,4 @@
+#input
 left: !-
   a:
     b: !? 2
@@ -8,6 +9,8 @@ right: !-
     b: !? 3
   d: 4
 
+# Recursive mapping merge with customization implemented in YAQL.
+# Will probably be available in some way as a function in future versions of Yglu.
 merge: !() 
   let(arg => $) ->
   switch(
@@ -19,11 +22,11 @@ merge: !()
     true => $.l  
   )
 
-actual: !? ($_.merge)({l => $_.left, r => $_.right, L => $_.left, R => $_.right, p => ''})
+merged: !? ($_.merge)({l => $_.left, r => $_.right, L => $_.left, R => $_.right, p => ''})
 
 ---
-
-actual:
+# output
+merged:
   a:
     b: 5
   c: 1

@@ -6,6 +6,7 @@ tags: !-
 image: !()
   ? !? $.split(':')[0]
   : version: !? $.split(':')[1]
+# see a simpler way in for.yml
 images: !? 
   $_.tags
     .select(($_.image)($))

@@ -2,7 +2,7 @@
 [![PyPI version](https://badge.fury.io/py/yglu.svg)](https://badge.fury.io/py/yglu)
 # Yglu ᕄ
 
-Yglu is [YAML](https://yaml.org/) enriched with an advanced expression language. Unlike usual text templating, Yglu relies on the YAML structure and leverages its typing features combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language. 
+Yglu is [YAML](https://yaml.org/) augmented with an advanced expression language. Unlike usual text templating, Yglu relies on the YAML structure and leverages its tag system combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language. 
 
 This association enables templating and functional processing a bit like if YAML nodes where spreadsheet cells.
 
@@ -91,7 +91,7 @@ images:
 </td>
 </tr></table>
 
-See the [test samples](https://github.com/lbovet/yglu/tree/master/tests/samples) for more examples.
+See the test [samples](https://github.com/lbovet/yglu/tree/master/tests/samples) for more examples.
 
 ## Install
 
@@ -128,16 +128,15 @@ Expressions are written in [YAQL](https://yaql.readthedocs.io/en/latest/).
 They are evaluated in a context with the following variables defined:
 
 | **Variable**| **Description** |
-|-----------|-----------------|
-| `$_`      | Refers to the current document root. Can be omitted at the beginning of the expression if it starts with a dot. |
-| `$`       | Implicit argument of functions. |
-| `$env`    | Gives access to environment variables. Disabled by default. Set the `$YGLU_ENABLE_ENV` environment variable to enable this feature. |
+|-------------|-----------------|
+| `$_`        | Refers to the current document root. Can be omitted at the beginning of the expression if it starts with a dot. |
+| `$`         | Implicit argument of functions. |
+| `$env`      | Gives access to environment variables. Disabled by default. Set the `$YGLU_ENABLE_ENV` environment variable to enable this feature. |
 
 ## Built-in Functions
 
-In addition to [standard YAQL operators](https://yaql.readthedocs.io/en/latest/standard_library.html#), Yglu defines the following functions:
+In addition to the [standard YAQL library](https://yaql.readthedocs.io/en/latest/standard_library.html#), Yglu defines the following functions:
 
-| **Function**| **Description** |
-|-----------|-----------------|
-| `$import(filename)`  | Imports another document in the current node. By default, it is only permitted to import files from the same directory hierarchy as the input file. Set `$YGLU_IMPORT_ALLOW` to a list of permitted directories. |
-
+| **Function**         | **Description** |
+|----------------------|-----------------|
+| `$import(filename)`  | Imports another document in the current node. By default, it is only permitted to import files from within the directory hierarchy of the input file. Set `$YGLU_IMPORT_ALLOW` to a list of permitted directories. |

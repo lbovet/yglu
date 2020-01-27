@@ -12,8 +12,6 @@ b: 2
   g: 
     - ? !if true
       : - 7
-
-
 ---
 # output
 a: 1

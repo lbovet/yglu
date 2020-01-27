@@ -1,3 +1,5 @@
+# Idea for future feature:
+# Provide overlay for convenient merge customization
 left: !-
   a:
     b: !? 2
@@ -39,12 +41,3 @@ rules: !-
   : !() $merge([$1, $2], matchBy = lambda($.name))
   ? !() $.f
   : !() $2
-
----
-
-actual:
-  a:
-    b: 5
-    x: 3
-  c: 1
-  d: 4
