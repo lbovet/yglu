@@ -27,6 +27,9 @@
                 background-color: #ddf2fd;
                 
             }
+            .disabled {
+                background-color: #ddf2fd !important;
+            }
             .CodeMirror-linenumber {
                 color: #2977b9 !important;
             }
@@ -38,6 +41,12 @@
             }
             h1, h2 {                
                 color: #2977b9
+            }
+            #error {
+                color: darkred;
+            }
+            #error-container {
+                height: 14em;
             }
         </style>
         <link rel="icon" type="image/png" href="img/yglu-logo.png">
@@ -63,9 +72,10 @@
 <h1>Playground</h1>
 
 <div class="row">
-<div class="editor col-6" id="exp1"></div>
-<div class="editor col-6" id="exp2"></div>
+<div class="editor col-6" id="input"></div>
+<div class="editor col-6" id="output"></div>
 </div>
+<div id="error-container"><pre id="error"><pre></div>
 <div>
 <p>&nbsp</p>
 </div>
@@ -77,18 +87,45 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/theme/neat.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/theme/eclipse.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/yaml/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-    CodeMirror(document.getElementById('exp1'), {
+    var input = CodeMirror(document.getElementById('input'), {
         theme: 'eclipse',
         lineNumbers: true,
-        value: "a:\n b: !? 1 + 2\n c:\n  - 'hello'"
-    });
-    CodeMirror(document.getElementById('exp2'), {
+        value: "a:\n  b: !? 1 + 2\n  c:\n  - !? hello + ' ' + str($_.a.b)",
+
+    })
+    
+    var output = CodeMirror(document.getElementById('output'), {
         theme: 'eclipse',
         lineNumbers: true,
-        readOnly: 'nocursor',
-        value: "a:\n b: 3\n c:\n  - 'hello'"
-    });
+        readOnly: 'nocursor'
+    });    
+
+    var process = () => $.post({
+            url: 'https://lbovet.pythonanywhere.com/yglu/process',
+            data: JSON.stringify({ doc: input.getDoc().getValue() }),
+            contentType: 'application/json',
+            dataType: 'json'
+        }).then(res => {
+            if (res.doc) {
+                $('#output > .CodeMirror').removeClass('disabled')
+                output.getDoc().setValue(res.doc);
+                $('#error').text('');
+            } else {
+                $('#output > .CodeMirror').addClass('disabled')
+                $('#error').text(res.errors[0].message);
+            }
+        })
+
+    var timer = 0
+    var debounce = fn => {
+        clearTimeout(timer)        
+        timer = setTimeout(fn, 250)
+    }
+
+    input.on("changes", () => debounce(process));
+    process();
 </script>
 </body>
 </html>
