@@ -16,8 +16,9 @@ setup(
     long_description_content_type="text/markdown",
     url="https://yglu.io",
     project_urls={  
+        'Documentation': 'https://github.com/lbovet/yglu/blob/master/README.md',
         'Bug Reports': 'https://github.com/lbovet/yglu/issues',
-        'Source': 'https://github.com/lbovet/yglu',
+        'Source': 'https://github.com/lbovet/yglu'
     },    
     packages=["yglu"],
     entry_points={
