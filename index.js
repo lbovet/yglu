@@ -14,8 +14,23 @@ CodeMirror.defineMode("yglu", function (config, parserConfig) {
     return CodeMirror.overlayMode(CodeMirror.getMode(config, parserConfig.backdrop || "yaml"), ygluOverlay);
 });
 
+CodeMirror.registerHelper("lint", "yaml", function (text, options) {
+    return problems;
+});
+
+var problems = []
+var setErrors = (errors) =>
+    problems = errors.map(err => ({
+        from: CodeMirror.Pos(err.start.line, err.start.column),
+        to: CodeMirror.Pos(err.end.line, err.end.column),
+        message: err.message,
+        severity: "error"
+    }))
+
 var input = CodeMirror(document.getElementById('input'), {
     mode: 'yglu',
+    lint: true,
+    gutters: ["CodeMirror-lint-markers"],
     theme: 'eclipse',
     lineNumbers: true,
     tabSize: 2,
@@ -33,6 +48,7 @@ input.setOption("extraKeys", {
 var output = CodeMirror(document.getElementById('output'), {
     mode: 'text/x-yaml',
     theme: 'eclipse',
+    gutters: ["CodeMirror-lint-markers"],
     lineNumbers: true,
     readOnly: 'nocursor'
 });
@@ -47,9 +63,11 @@ var process = () => $.post({
         $('#output > .CodeMirror').removeClass('disabled')
         output.getDoc().setValue(res.doc);
         $('#error').text('');
+        setErrors([])
     } else {
         $('#output > .CodeMirror').addClass('disabled')
         $('#error').text(res.errors[0].message);
+        setErrors(res.errors);
     }
 })
 
