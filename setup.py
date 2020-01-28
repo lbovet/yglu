@@ -14,7 +14,11 @@ setup(
     author_email='laurent.bovet@windmaster.ch',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/lbovet/yglu",
+    url="https://yglu.io",
+    project_urls={  
+        'Bug Reports': 'https://github.com/lbovet/yglu/issues',
+        'Source': 'https://github.com/lbovet/yglu',
+    },    
     packages=["yglu"],
     entry_points={
         "console_scripts": ["yglu=yglu.cli:main"]
