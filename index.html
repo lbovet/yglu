@@ -1,160 +1,61 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-10449484-6"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
-            gtag('config', 'UA-10449484-6');
-        </script>
-        <title>Yglu &#5444 !?</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://bootswatch.com/4/cosmo/bootstrap.min.css" rel="stylesheet">
-        <style>
-            body, html {
-                height: 100%;
-                padding-top: 0px !important;
-                margin-bottom: 60px !important;
-            }            
-            .bg {
-                background-image: url("img/yglu-banner.png");
-                background-position: center;
-                background-repeat: no-repeat;
-                
-                margin-bottom: 30px;
-            }
-            @media only screen and (min-width: 1056px) {
-                .bg {
-                    height: 480px;                             
-                    background-size: cover;
-                }
-            }      
-            @media only screen and (max-width: 1056px) and (min-width: 680px){
-                .bg {
-                    height: 300px;         
-                    background-size: cover;
-                }
-            }          
-            @media only screen and (max-width: 680px) {
-                .bg {
-                    height: 160px;         
-                    background-size: cover;
-                }
-            }                 
-            .CodeMirror {
-                border-radius: 4px;
-                border-color: lightblue;
-                border-width: 1px;
-                border-style: solid;
-            }
-            .CodeMirror-gutter {
-                background-color: #ddf2fd;
-                
-            }
-            .disabled {
-                background-color: #ddf2fd !important;
-            }
-            .CodeMirror-linenumber {
-                color: #2977b9 !important;
-            }
-            .cm-meta {
-                color: #2977b9 !important;
-            }
-            .cm-atom {
-                color: #555533 !important;
-            }
-            h1, h2 {                
-                color: #2977b9
-            }
-            .editor {
-                margin-top: 6px;
-                margin-bottom: 6px;
-            }
-            #error {
-                color: darkred;
-            }
-            #error-container {
-                height: 14em;
-            }
-        </style>
-        <link rel="icon" type="image/png" href="img/yglu-logo.png">
-    </head>
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-10449484-6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-10449484-6');
+    </script>
+    <title>Yglu &#5444 !?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://bootswatch.com/4/cosmo/bootstrap.min.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="img/yglu-logo.png">
+</head>
+
 <body style="height:100%">
-<div class="bg"></div>
-<div class="navbar" style="display:none;"></div>
-<div class="container">
-<h1>Introduction</h1>
+    <div class="bg"></div>
+    <div class="navbar" style="display:none;"></div>
+    <div id="content" class="container">
+        <h1>Introduction</h1>
 
-<p>Yglu is <a href="https://yaml.org/" rel="nofollow">YAML</a> augmented with an advanced expression language. Unlike
-    usual text templating, Yglu relies on the YAML structure and leverages its tag system combined with the <a
-        href="https://yaql.readthedocs.io/en/latest/" rel="nofollow">YAQL</a> query language.</p>
-<p>This association enables templating and functional processing a bit like if YAML nodes where spreadsheet cells.</p>
-<p>Yglu input documents are pure and valid YAML using <a href="https://yaml.org/spec/1.2/spec.html#id2784064"
-        rel="nofollow">tags</a> for computed nodes.</p>
+        <p>Yglu is <a href="https://yaml.org/" rel="nofollow">YAML</a> augmented with an advanced expression language.
+            Unlike
+            usual text templating, Yglu relies on the YAML structure and leverages its tag system combined with the <a
+                href="https://yaql.readthedocs.io/en/latest/" rel="nofollow">YAQL</a> query language.</p>
+        <p>This association enables templating and functional processing a bit like if YAML nodes where spreadsheet
+            cells.</p>
+        <p>Yglu input documents are pure and valid YAML using <a href="https://yaml.org/spec/1.2/spec.html#id2784064"
+                rel="nofollow">tags</a> for computed nodes.</p>
 
-<ul>
-<li> <a href="https://github.com/lbovet/yglu">GitHub</a></li>
-<li> <a href="https://github.com/lbovet/yglu/blob/master/README.md">Documentation</a></li>
-</ul>
+        <ul>
+            <li> <a href="https://github.com/lbovet/yglu">GitHub</a></li>
+            <li> <a href="https://github.com/lbovet/yglu/blob/master/README.md">Documentation</a></li>
+        </ul>
 
-<h1>Playground</h1>
+        <h1>Playground</h1>
 
-<div class="row">
-<div class="editor col-lg-6 col-md-12" id="input"></div>
-<div class="editor col-lg-6 col-md-12" id="output"></div>
-</div>
-<div id="error-container"><pre id="error"><pre></div>
+        <div class="row">
+            <div class="editor col-lg-6 col-md-12" id="input"></div>
+            <div class="editor col-lg-6 col-md-12" id="output"></div>
+        </div>
+        <div id="error-container">
+            <pre id="error"><pre></div>
 <div>
-<p>&nbsp</p>
 </div>
+<div id="footer">Code hosted on <a href="http://pythonanywhere.com">pythonanywhere.com</a></div>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/theme/idea.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/theme/neat.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/theme/eclipse.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/yaml/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/addon/mode/overlay.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-    var input = CodeMirror(document.getElementById('input'), {
-        theme: 'eclipse',
-        lineNumbers: true,
-        value: "a:\n  b: !? 1 + 2\n  c:\n  - !? hello + ' ' + str($_.a.b)",
-
-    })
-    
-    var output = CodeMirror(document.getElementById('output'), {
-        theme: 'eclipse',
-        lineNumbers: true,
-        readOnly: 'nocursor'
-    });    
-
-    var process = () => $.post({
-            url: 'https://lbovet.pythonanywhere.com/yglu/process',
-            data: JSON.stringify({ doc: input.getDoc().getValue() }),
-            contentType: 'application/json',
-            dataType: 'json'
-        }).then(res => {
-            if (res.doc) {
-                $('#output > .CodeMirror').removeClass('disabled')
-                output.getDoc().setValue(res.doc);
-                $('#error').text('');
-            } else {
-                $('#output > .CodeMirror').addClass('disabled')
-                $('#error').text(res.errors[0].message);
-            }
-        })
-
-    var timer = 0
-    var debounce = fn => {
-        clearTimeout(timer)        
-        timer = setTimeout(fn, 250)
-    }
-
-    input.on("changes", () => debounce(process));
-    process();
-</script>
+<script src="index.js"></script>
 </body>
 </html>
