@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/lbovet/yglu.svg?branch=master)](https://travis-ci.org/lbovet/yglu)
 [![PyPI version](https://badge.fury.io/py/yglu.svg)](https://badge.fury.io/py/yglu)
 
-<p align="center"><b><u><a href="https://yglu.io/">* Try Yglu Online *</a></u></b></p>
+<p align="center"><b><a href="https://yglu.io/">* Try Yglu Online *</a></b></p>
 
 # Yglu ᕄ !?
 
@@ -96,7 +96,7 @@ images:
 
 See the test [samples](https://github.com/lbovet/yglu/tree/master/tests/samples) for more examples.
 
-<p align="center"><b><u><a href="https://yglu.io/">* Try Yglu Online *</a></u></b></p>
+<p align="center"><b><a href="https://yglu.io/">* Try Yglu Online *</a></b></p>
 
 ## Install
 
