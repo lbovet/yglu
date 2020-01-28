@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="61.531516"
-     inkscape:cy="739.36606"
+     inkscape:zoom="2.8"
+     inkscape:cx="340.82072"
+     inkscape:cy="835.98565"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -47,7 +47,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,22 +56,22 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="display:inline;opacity:1;fill:#ddf2fd;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.79112494;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="display:inline;opacity:1;fill:#ddf2fd;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.86481571;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect849"
-       width="15.509102"
+       width="18.532911"
        height="22.542868"
-       x="89.844872"
-       y="51.762039" />
+       x="91.180077"
+       y="51.6675" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:57.63004303px;line-height:120.00000477%;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#a7daf5;fill-opacity:1;stroke:none;stroke-width:3.08732343px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="64.529961"
-       y="74.144852"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:57.62977982px;line-height:120.00000477%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#93d9f3;fill-opacity:1;stroke:none;stroke-width:3.08732343px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="67.755043"
+       y="74.208992"
        id="text819"><tspan
          sodipodi:role="line"
          id="tspan817"
-         x="64.529961"
-         y="74.144852"
-         style="fill:#a7daf5;fill-opacity:1;stroke-width:3.08732343px">ᕄ</tspan></text>
+         x="67.755043"
+         y="74.208992"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:57.62977982px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#93d9f3;fill-opacity:1;stroke-width:3.08732343px">ᕄ</tspan></text>
   </g>
 </svg>

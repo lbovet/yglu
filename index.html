@@ -1,22 +1,40 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Yglu</title>
+        <title>Yglu &#5444 !?</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://bootswatch.com/4/cosmo/bootstrap.min.css" rel="stylesheet">
         <style>
             body, html {
                 height: 100%;
                 padding-top: 0px !important;
                 margin-bottom: 60px !important;
-            }
+            }            
             .bg {
                 background-image: url("img/yglu-banner.png");
-                height: 45%; 
                 background-position: center;
                 background-repeat: no-repeat;
-                background-size: cover;
+                
                 margin-bottom: 30px;
             }
+            @media only screen and (min-width: 1056px) {
+                .bg {
+                    height: 480px;                             
+                    background-size: cover;
+                }
+            }      
+            @media only screen and (max-width: 1056px) and (min-width: 680px){
+                .bg {
+                    height: 300px;         
+                    background-size: cover;
+                }
+            }          
+            @media only screen and (max-width: 680px) {
+                .bg {
+                    height: 160px;         
+                    background-size: cover;
+                }
+            }                 
             .CodeMirror {
                 border-radius: 4px;
                 border-color: lightblue;
@@ -41,6 +59,10 @@
             }
             h1, h2 {                
                 color: #2977b9
+            }
+            .editor {
+                margin-top: 6px;
+                margin-bottom: 6px;
             }
             #error {
                 color: darkred;
@@ -72,8 +94,8 @@
 <h1>Playground</h1>
 
 <div class="row">
-<div class="editor col-6" id="input"></div>
-<div class="editor col-6" id="output"></div>
+<div class="editor col-lg-6 col-md-12" id="input"></div>
+<div class="editor col-lg-6 col-md-12" id="output"></div>
 </div>
 <div id="error-container"><pre id="error"><pre></div>
 <div>
