@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.org/lbovet/yglu.svg?branch=master)](https://travis-ci.org/lbovet/yglu)
 [![PyPI version](https://badge.fury.io/py/yglu.svg)](https://badge.fury.io/py/yglu)
+
+<p align="center"><b><u><a href="http://yglu.io/">* Try Yglu Online *</a></u></b></p>
+
 # Yglu ᕄ !?
 
 Yglu is [YAML](https://yaml.org/) augmented with an advanced expression language. Unlike usual text templating, Yglu relies on the YAML structure and leverages its tag system combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language. 
@@ -92,6 +95,8 @@ images:
 </tr></table>
 
 See the test [samples](https://github.com/lbovet/yglu/tree/master/tests/samples) for more examples.
+
+<p align="center"><b><u><a href="http://yglu.io/">* Try Yglu Online *</a></u></b></p>
 
 ## Install
 
