@@ -1,3 +1,4 @@
+---
 --- 
 title: Simple Expressions
 
@@ -45,7 +46,7 @@ entry: !()
 simple: !? ($_.entry)(hello)
 
 # ...or to complex nodes
-input:
+input: !-
   hello: world
   foo: bar
 
@@ -69,4 +70,5 @@ title: Loops
 names: !-
   - foo
   - bar
+
 
