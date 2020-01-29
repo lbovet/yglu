@@ -1,4 +1,4 @@
---- #
+--- 
 title: Simple Expressions
 
 # Reference to another node 
@@ -15,7 +15,7 @@ e: !? $_.c.substring(0,1).toUpper() +
 # It is optional at the beginning of 
 # expressions starting with a dot
 ---
-title: Hidden Nodes-
+title: Hidden Nodes
 
 # !- hides nodes in the output
 a: !- Hello
@@ -33,3 +33,40 @@ e: !-
 h: !-
   - '!'
   - bar
+---
+title: Functions
+
+# A function is a reusable block
+entry: !()
+  content: !? $
+  length: !? len($)
+
+# It can be applied to values...
+simple: !? ($_.entry)(hello)
+
+# ...or to complex nodes
+input:
+  hello: world
+  foo: bar
+
+complex: !? ($_.entry)($_.input)
+---
+title: Conditions
+
+value: !- 2
+
+# Conditional expressions are used
+# in mapping keys
+a:
+  b: 1
+  !if $_.value = 1:
+    c: 1
+  !if $_.value = 2:
+    d: 2
+---
+title: Loops
+
+names: !-
+  - foo
+  - bar
+

@@ -23,15 +23,18 @@ CodeMirror.registerHelper("lint", "yaml", function (text, options) {
 });
 
 var problems = []
-var setErrors = (errors) =>
+var setErrors = (errors) => {
     problems = errors.map(err => ({
         from: CodeMirror.Pos(err.start.line, err.start.column),
-        to: CodeMirror.Pos(err.end.line, err.end.column),
+        to: CodeMirror.Pos(err.end.line, err.end.column +
+            (err.start.line == err.end.line &&
+            err.start.column == err.end.column ? 1 : 0)),
         message: err.message,
         severity: "error"
     }))
-if (report_errors) {
-    report_errors(problems);
+    if (report_errors) {
+        report_errors(problems);
+    }
 }
 
 var input = CodeMirror(document.getElementById('input'), {
@@ -74,7 +77,7 @@ var process = () => {
             $('#error').text('');
             setErrors([])
         } else {
-            if (res.errors && res.errors.length > 1)
+            if (res.errors && res.errors.length > 0)
                 $('#error').text(res.errors[0].message);
             setErrors(res.errors || []);
         }
