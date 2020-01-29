@@ -57,26 +57,29 @@ var output = CodeMirror(document.getElementById('output'), {
     theme: 'eclipse',
     gutters: ["CodeMirror-lint-markers"],
     lineNumbers: true,
-    readOnly: 'nocursor'
+    readOnly: true,
+    cursorBlinkRate: -1
 });
 
-var process = () => $.post({
-    url: 'https://lbovet.pythonanywhere.com/yglu/process',
-    data: JSON.stringify({ doc: input.getDoc().getValue() }),
-    contentType: 'application/json',
-    dataType: 'json'
-}).then(res => {
-    if (res.doc) {
-        $('#output > .CodeMirror').removeClass('disabled')
-        output.getDoc().setValue(res.doc);
-        $('#error').text('');
-        setErrors([])
-    } else {
-        $('#output > .CodeMirror').addClass('disabled')
-        $('#error').text(res.errors[0].message);
-        setErrors(res.errors);
-    }
-})
+var process = () => {
+  $('#output > .CodeMirror').addClass('disabled');
+  $.post({
+      url: 'https://lbovet.pythonanywhere.com/yglu/process',
+      data: JSON.stringify({ doc: input.getDoc().getValue() }),
+      contentType: 'application/json',
+      dataType: 'json'
+  }).then(res => {
+      if (res.doc) {
+          $('#output > .CodeMirror').removeClass('disabled')
+          output.getDoc().setValue(res.doc);
+          $('#error').text('');
+          setErrors([])
+      } else {        
+          $('#error').text(res.errors[0].message);
+          setErrors(res.errors);
+      }
+  })
+}
 
 var timer = 0
 var debounce = fn => {

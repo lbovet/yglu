@@ -1,4 +1,5 @@
 body, html {
+    font-size: 14pt;
     height: 100%;
     padding-top: 0px !important;
     margin-bottom: 60px !important;
@@ -29,11 +30,13 @@ body, html {
     }
 }                 
 .CodeMirror {
-    font-size: 85%;
+    font-size: 72%;
     border-radius: 4px;
     border-color: lightblue;
     border-width: 1px;
     border-style: solid;
+    transition: background 1s;
+    height: 360px !important;
 }
 .CodeMirror-gutter {
     background-color: #ddf2fd;                
@@ -42,7 +45,7 @@ body, html {
     border-right: 1px solid lightblue !important;
 }
 .disabled {
-    background-color: #ddf2fd !important;
+    background-color: #ddf2fd !important;    
 }
 .CodeMirror-linenumber {
     color: #0b9ab3 !important;

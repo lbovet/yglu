@@ -34,7 +34,7 @@
     <ul>
       <li> <a href="https://github.com/lbovet/yglu">GitHub</a></li>
       <li> <a href="https://github.com/lbovet/yglu/blob/master/README.md">Documentation</a></li>
-      <li> <a href="http://www.swisspush.org/tools/2020/01/29/painless-yaml-templating">Painless YAML Templating</a>, 
+      <li> <a href="http://www.swisspush.org/tools/2020/01/29/painless-yaml-templating">Painless YAML Templating</a>
         article on <a href="http://www.swisspush.org">swisspush.org</a></li>
     </ul>
 
@@ -55,7 +55,9 @@ d: world
 e: !? $_.c.substring(0,1).toUpper() + 
       $_.c.substring(1) + $_.d
 
-# Use $_ to reference the document root inside expressions
+# $_ references the document root
+# It is optional at the beginning of 
+# expressions starting with a dot
   </pre>
   </div>
 
@@ -64,18 +66,22 @@ e: !? $_.c.substring(0,1).toUpper() +
       Hidden Nodes
     </button>
     <pre class="sample-document">
-# Use !- to hide nodes in the output
+# !- hides nodes in the output
 a: !- Hello
 b: !? .a.toUpper()  # still, you can reference them
 
-# Hidden nodes can be expressions
+# Hidden nodes can be expressions...
 c: !- .a + ', '
-d: !? .c + foo
+d: !? $_.c + $_.e.f + $_.h[0]
 
-# Or complex nodes
+# ...or complex nodes
 e: !-
-  f: 1
-  g: 2
+  f: world
+  g: foo
+    
+h: !-
+  - '!'
+  - bar
     </pre>
   </div>
 
@@ -87,7 +93,7 @@ e: !-
     <pre id="error"><pre></div>
 <div>
 </div>
-<div id="footer">Code hosted on <a href="http://pythonanywhere.com">pythonanywhere.com</a></div>
+<div id="footer">Yglu &#5444; !?<br>-</br>Code hosted on <a href="http://pythonanywhere.com">pythonanywhere.com</a></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css" />
