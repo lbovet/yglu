@@ -89,14 +89,12 @@ h1, h2 {
     font-size: smaller;
     text-align: center;
 }
-.sample {
-  display: inline
-}
-.sample button {
+#sample button {
   padding: 4px;
   border-color: lightblue;
   border-radius: 4px;
   font-size: smaller;
+  margin-right: 6px;
 }
 .sample-document {
   display: none

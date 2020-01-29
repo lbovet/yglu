@@ -16,10 +16,10 @@ CodeMirror.defineMode("yglu", function (config, parserConfig) {
 
 var report_errors;
 CodeMirror.registerHelper("lint", "yaml", function (text, options) {
-  return new Promise((resolve, reject) => {
-    report_errors = resolve;
-    setTimeout(() => resolve(problems), 500);
-  })
+    return new Promise((resolve, reject) => {
+        report_errors = resolve;
+        setTimeout(() => resolve(problems), 500);
+    })
 });
 
 var problems = []
@@ -30,9 +30,9 @@ var setErrors = (errors) =>
         message: err.message,
         severity: "error"
     }))
-    if(report_errors) {
-      report_errors(problems);
-    }
+if (report_errors) {
+    report_errors(problems);
+}
 
 var input = CodeMirror(document.getElementById('input'), {
     mode: 'yglu',
@@ -41,8 +41,7 @@ var input = CodeMirror(document.getElementById('input'), {
     theme: 'eclipse',
     lineNumbers: true,
     tabSize: 2,
-    indentWithTabs: false,
-    value: "a:\n  b: !? 1 + 2\n  c:\n  - !? hello + ' ' + str($_.a.b)",
+    indentWithTabs: false
 })
 
 input.setOption("extraKeys", {
@@ -62,23 +61,24 @@ var output = CodeMirror(document.getElementById('output'), {
 });
 
 var process = () => {
-  $('#output > .CodeMirror').addClass('disabled');
-  $.post({
-      url: 'https://lbovet.pythonanywhere.com/yglu/process',
-      data: JSON.stringify({ doc: input.getDoc().getValue() }),
-      contentType: 'application/json',
-      dataType: 'json'
-  }).then(res => {
-      if (res.doc) {
-          $('#output > .CodeMirror').removeClass('disabled')
-          output.getDoc().setValue(res.doc);
-          $('#error').text('');
-          setErrors([])
-      } else {        
-          $('#error').text(res.errors[0].message);
-          setErrors(res.errors);
-      }
-  })
+    $('#output > .CodeMirror').addClass('disabled');
+    $.post({
+        url: 'https://lbovet.pythonanywhere.com/yglu/process',
+        data: JSON.stringify({ doc: input.getDoc().getValue() }),
+        contentType: 'application/json',
+        dataType: 'json'
+    }).then(res => {
+        if (res.doc) {
+            $('#output > .CodeMirror').removeClass('disabled')
+            output.getDoc().setValue(res.doc);
+            $('#error').text('');
+            setErrors([])
+        } else {
+            if (res.errors && res.errors.length > 1)
+                $('#error').text(res.errors[0].message);
+            setErrors(res.errors || []);
+        }
+    })
 }
 
 var timer = 0
@@ -87,12 +87,18 @@ var debounce = fn => {
     timer = setTimeout(fn, 250)
 }
 
-$('.sample button').click(function() {
-  doc = $(this).parent().children('.sample-document').text()
-  input.doc.setValue(doc);
-})
-
-input.doc.setValue($('.sample-document').first().text());
-
 input.on("changes", () => debounce(process));
-process();
+
+$.get('samples.yml').then(res => {
+    res.split('---')
+        .filter(doc => doc)
+        .map(doc => doc.split("\n"))
+        .map(doc => $("#sample")
+            .append($('<button>')
+                .addClass("btn btn-outline-primary")
+                .text(doc[1].split(":")[1].trim())
+                .click(() => input.doc.setValue(doc.slice(3).join("\n")))))
+}).then(() => {
+    $("#sample button").first().click();
+    setTimeout(process,0);
+});
