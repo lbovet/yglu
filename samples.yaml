@@ -17,7 +17,15 @@ e: !? $_.c.substring(0,1).toUpper() +
 # It is optional at the beginning of 
 # expressions starting with a dot
 ---
-title: Hidden Nodes.
+title: Expression Key
+
+# Expressions can also be used in mapping keys
+name: FOO
+
+!? .name.toLower(): bar
+
+---
+title: Hidden Nodes
 
 # !- hides nodes in the output
 a: !- Hello
@@ -38,7 +46,18 @@ h: !-
 ---
 title: Functions
 
-# A function is a reusable block
+# Functions are reusable expressions
+capitalize: !() $.substring(0,1).toUpper() + 
+                $.substring(1)
+
+names: 
+  - !? ($_.capitalize)(hello)
+  - !? ($_.capitalize)(world)
+
+---
+title: Functions Blocks
+
+# A function can be a block
 entry: !()
   content: !? $
   length: !? len($)
@@ -55,22 +74,40 @@ complex: !? ($_.entry)($_.input)
 ---
 title: Conditions
 
-value: !- 2
-
-# Conditional expressions are used
-# in mapping keys
+value: !- 2 # change me
 a:
   b: 1
   !if $_.value = 1:
-    c: 1
+    c: 2
   !if $_.value = 2:
-    d: 2
+    d: 3
+    e: 4
+e:
+  - 1
+  - !if $_.value = 1:
+      - 2
+  - !if $_.value = 2:
+      - 3
+      - 4 
 ---
 title: Loops
 
 names: !-
-  - foo
-  - bar
+  - hello
+  - world
+
+# Loops can generate mappings...
+sizes:
+  !for .names: !()
+    !? $: !? len($)
+
+# ...or sequences
+upper:
+  - !for .names: !()
+      - !? $.toUpper()
+
+
+
 
 
 
