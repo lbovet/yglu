@@ -14,8 +14,12 @@ CodeMirror.defineMode("yglu", function (config, parserConfig) {
     return CodeMirror.overlayMode(CodeMirror.getMode(config, parserConfig.backdrop || "yaml"), ygluOverlay);
 });
 
+var report_errors;
 CodeMirror.registerHelper("lint", "yaml", function (text, options) {
-    return problems;
+  return new Promise((resolve, reject) => {
+    report_errors = resolve;
+    setTimeout(() => resolve(problems), 500);
+  })
 });
 
 var problems = []
@@ -26,6 +30,9 @@ var setErrors = (errors) =>
         message: err.message,
         severity: "error"
     }))
+    if(report_errors) {
+      report_errors(problems);
+    }
 
 var input = CodeMirror(document.getElementById('input'), {
     mode: 'yglu',
@@ -76,6 +83,13 @@ var debounce = fn => {
     clearTimeout(timer)
     timer = setTimeout(fn, 250)
 }
+
+$('.sample button').click(function() {
+  doc = $(this).parent().children('.sample-document').text()
+  input.doc.setValue(doc);
+})
+
+input.doc.setValue($('.sample-document').first().text());
 
 input.on("changes", () => debounce(process));
 process();
