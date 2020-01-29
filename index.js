@@ -92,7 +92,7 @@ var debounce = fn => {
 
 input.on("changes", () => debounce(process));
 
-$.get('samples.yglu').then(res => {
+$.get('samples.yaml').then(res => {
     res.split('---')
         .filter(doc => doc.trim())
         .map(doc => doc.split("\n"))
