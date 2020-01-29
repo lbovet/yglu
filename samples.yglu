@@ -15,7 +15,7 @@ e: !? $_.c.substring(0,1).toUpper() +
 # It is optional at the beginning of 
 # expressions starting with a dot
 ---
-title: Hidden Nodes
+title: Hidden Nodes-
 
 # !- hides nodes in the output
 a: !- Hello
