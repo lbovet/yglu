@@ -94,7 +94,7 @@ input.on("changes", () => debounce(process));
 
 $.get('samples.yglu').then(res => {
     res.split('---')
-        .filter(doc => doc)
+        .filter(doc => doc.trim())
         .map(doc => doc.split("\n"))
         .map(doc => $("#sample")
             .append($('<button>')
