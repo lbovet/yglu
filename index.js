@@ -113,7 +113,8 @@ $.get('samples.yaml').then(res => {
                 .click(function() {
                     $("#sample button").removeClass('selected');
                     $(this).addClass('selected');
-                    input.doc.setValue(doc.slice(3).join("\n"));                    
+                    input.doc.setValue(doc.slice(3).join("\n")); 
+                    input.focus())
                     var category = (doc[0].trim() ? doc[0] : doc[1]).split(":")[1].trim();                    
                     if(current) {
                         gtag('event', 'select', {'event_category': category });
