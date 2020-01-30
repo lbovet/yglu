@@ -91,7 +91,7 @@ var debounce = fn => {
 }
 
 var virgin = true;
-var current = "<none>"
+var current = null;
 
 input.on("changes", () => debounce(() => {
     process();
@@ -113,11 +113,13 @@ $.get('samples.yaml').then(res => {
                 .click(function() {
                     $("#sample button").removeClass('selected');
                     $(this).addClass('selected');
-                    input.doc.setValue(doc.slice(3).join("\n"));
-                    current = (doc[0].trim() ? doc[0] : doc[1]).split(":")[1].trim();
+                    input.doc.setValue(doc.slice(3).join("\n"));                    
+                    var category = (doc[0].trim() ? doc[0] : doc[1]).split(":")[1].trim();                    
+                    if(current) {
+                        gtag('event', 'select', {'event_category': category });
+                    }
+                    current = category
                     virgin = true;
-                    ga('send', 'event', 'Samples', 'choose', current);
-                    gtag('event', 'select', {'event_category': current });
                 })))
 }).then(() => {
     $("#sample button").first().click();
