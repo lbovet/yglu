@@ -98,7 +98,7 @@ input.on("changes", () => debounce(() => {
     if(virgin) {
         virgin = false;
     } else {
-        gtag('event', 'change', {'event_category': 'Sample', 'event_label': current});       
+        gtag('event', 'change', {'event_category': current});       
     }
 }));
 
@@ -115,7 +115,7 @@ $.get('samples.yaml').then(res => {
                     current = (doc[0].trim() ? doc[0] : doc[1]).split(":")[1].trim();
                     virgin = true;
                     ga('send', 'event', 'Samples', 'choose', current);
-                    gtag('event', 'select', {'event_category': 'Sample', 'event_label': current});
+                    gtag('event', 'select', {'event_category': current });
                 })))
 }).then(() => {
     $("#sample button").first().click();
