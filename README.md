@@ -7,7 +7,7 @@
 
 Yglu is [YAML](https://yaml.org/) augmented with an advanced expression language. Unlike usual text templating, Yglu relies on the YAML structure and leverages its tag system combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language. 
 
-This association enables templating and functional processing a bit like if YAML nodes where spreadsheet cells.
+This association enables templating and functional processing a bit like if YAML nodes were spreadsheet cells.
 
 Yglu input documents are pure and valid YAML using [tags](https://yaml.org/spec/1.2/spec.html#id2784064) for computed nodes.
 
