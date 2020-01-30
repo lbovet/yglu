@@ -90,17 +90,17 @@ var debounce = fn => {
     timer = setTimeout(fn, 250)
 }
 
+var virgin = true;
+var current = "<none>"
+
 input.on("changes", () => debounce(() => {
     process();
     if(virgin) {
         virgin = false;
     } else {
-        ga('send', 'event', 'Samples', 'change', current)        
+        gtag('event', 'change', {'event_category': 'Sample', 'event_label': current});       
     }
 }));
-
-var virgin = true;
-var current = "<none>"
 
 $.get('samples.yaml').then(res => {
     res.split('---')
@@ -115,6 +115,7 @@ $.get('samples.yaml').then(res => {
                     current = (doc[0].trim() ? doc[0] : doc[1]).split(":")[1].trim();
                     virgin = true;
                     ga('send', 'event', 'Samples', 'choose', current);
+                    gtag('event', 'select', {'event_category': 'Sample', 'event_label': current});
                 })))
 }).then(() => {
     $("#sample button").first().click();
