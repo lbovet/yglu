@@ -110,7 +110,9 @@ $.get('samples.yaml').then(res => {
             .append($('<button>')
                 .addClass("btn btn-outline-primary")
                 .text((doc[0].trim() ? doc[0] : doc[1]).split(":")[1].trim())
-                .click(() => {
+                .click(function() {
+                    $("#sample button").removeClass('selected');
+                    $(this).addClass('selected');
                     input.doc.setValue(doc.slice(3).join("\n"));
                     current = (doc[0].trim() ? doc[0] : doc[1]).split(":")[1].trim();
                     virgin = true;
