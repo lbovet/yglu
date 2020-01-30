@@ -100,7 +100,10 @@ $.get('samples.yaml').then(res => {
             .append($('<button>')
                 .addClass("btn btn-outline-primary")
                 .text((doc[0].trim() ? doc[0] : doc[1]).split(":")[1].trim())
-                .click(() => input.doc.setValue(doc.slice(3).join("\n")))))
+                .click(() => {
+                    input.doc.setValue(doc.slice(3).join("\n"));
+                    ga('send', 'event', 'Samples', 'execute', (doc[0].trim() ? doc[0] : doc[1]).split(":")[1].trim());
+                })))
 }).then(() => {
     $("#sample button").first().click();
     setTimeout(process,0);
