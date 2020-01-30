@@ -92,10 +92,17 @@ h1, h2 {
 #sample {
     display: inline;
 }
+.hint {
+    font-size: smaller;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: sub;
+}
 #sample button {
   padding: 4px;
   border-color: lightblue;
   border-radius: 4px;
   font-size: smaller;
   margin-right: 6px;
+  margin-top: 6px;
 }
