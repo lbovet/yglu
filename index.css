@@ -106,3 +106,7 @@ h1, h2 {
   margin-right: 6px;
   margin-top: 6px;
 }
+.selected {
+  color: #fff;
+  background-color: #2780E3;
+}
