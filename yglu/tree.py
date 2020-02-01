@@ -34,11 +34,12 @@ class NodeException(Exception):
         else:
             message = str(self.cause)
 
-        result = message+'\n in "'+filepath + \
-            '", line ' + str(start_mark.line+1) + \
-            ', column ' + str(start_mark.column+1) + \
-            ':\n  '+str(self.value())
-        return result
+        if not isinstance(self.cause, NodeException):
+            message = message+'\n in "'+filepath + \
+                '", line ' + str(start_mark.line+1) + \
+                ', column ' + str(start_mark.column+1) + \
+                ':\n  '+str(self.value())
+        return message
 
     def value(self):
         if self.node.source is not None:
@@ -132,7 +133,7 @@ class Mapping(OrderedDict, Node):
         self.resolve_special()
         for (k, v) in super().items():
             if isinstance(v, Node):
-                if v.visible and v.content() is not None:
+                if v.content() is not None and v.visible:
                     yield (k, v.content())
             elif v is not None:
                 yield (k, v)
@@ -195,7 +196,7 @@ class Sequence(list, Node):
                     if not k.visited:
                         k.merge(self, v)
                 elif isinstance(node, Node):
-                    if node.visible:
+                    if node.content() is not None and node.visible:
                         yield node.content()
                 else:
                     yield node

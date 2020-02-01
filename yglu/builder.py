@@ -66,7 +66,7 @@ class InvisibleNode(TaggedNode):
 
 
 def invisible_constructor(self, node):
-    return InvisibleNode(construct_node(self, node))
+    return InvisibleNode(construct_node(self, node), node)
 
 
 loader.add_constructor('!-', invisible_constructor)
@@ -119,8 +119,8 @@ loader.add_constructor('!()', function_constructor)
 
 
 class IfNode(TaggedNode, MergeKey):
-    def __init__(self, doc):
-        TaggedNode.__init__(self, doc)
+    def __init__(self, doc, node):
+        TaggedNode.__init__(self, doc, node)
         MergeKey.__init__(self)
 
     def create(self, doc):
@@ -134,7 +134,7 @@ class IfNode(TaggedNode, MergeKey):
 
 def if_constructor(self, node):
     if isinstance(node, ScalarNode):
-        return IfNode(self.construct_scalar(node))
+        return IfNode(self.construct_scalar(node), node)
     assert False, 'expression nodes must be scalar'
 
 
@@ -142,8 +142,8 @@ loader.add_constructor('!if', if_constructor)
 
 
 class ForNode(TaggedNode, MergeKey):
-    def __init__(self, doc):
-        TaggedNode.__init__(self, doc)
+    def __init__(self, doc, node):
+        TaggedNode.__init__(self, doc, node)
         MergeKey.__init__(self)
 
     def create(self, doc):
@@ -160,7 +160,7 @@ class ForNode(TaggedNode, MergeKey):
 
 def for_constructor(self, node):
     if isinstance(node, ScalarNode):
-        return ForNode(self.construct_scalar(node))
+        return ForNode(self.construct_scalar(node), node)
     assert False, 'expression nodes must be scalar'
 
 

@@ -46,6 +46,17 @@ def test_key_error():
         assert('line 1, column 10' in message)
 
 
+def test_key_error_invisible():
+    input = 'key1: !- $_.b\n'
+    try:
+        process(input)
+        assert False
+    except Exception as e:
+        message = str(e)
+        assert('key not found' in message)
+        assert('line 1, column 10' in message)
+
+
 def test_key_error_shortcut():
     input = 'key1: !? .b\n'
     try:
@@ -77,6 +88,7 @@ def test_parser_error_trailing_shortcut():
         message = str(e)
         assert('Parse error' in message)
         assert('line 1, column 13' in message)
+
 
 def test_key_error_space():
     input = 'key1: !?   .b\n'
@@ -163,3 +175,33 @@ def test_non_scalar_expression():
         message = str(e)
         assert('expected a scalar node' in message)
         assert('line 1, column 4' in message)
+
+
+def test_if_key_error():
+    input = '''
+        !if .a:
+            a: 1
+        '''
+    try:
+        process(input)
+        assert False
+    except Exception as e:
+        message = str(e)
+        assert len(message.split('\n')) == 3
+        assert('key not found' in message)
+        assert('line 1, column 5' in message)
+
+
+def test_for_key_error():
+    input = '''
+        !for .a: !()
+            a: 1
+        '''
+    try:
+        process(input)
+        assert False
+    except Exception as e:
+        message = str(e)
+        assert len(message.split('\n')) == 3
+        assert('key not found' in message)
+        assert('line 1, column 6' in message)
