@@ -57,6 +57,27 @@ def test_key_error_shortcut():
         assert('line 1, column 10' in message)
 
 
+def test_parse_error_trailing():
+    input = 'key1: !? $_.b c\n'
+    try:
+        process(input)
+        assert False
+    except Exception as e:
+        message = str(e)
+        assert('Parse error' in message)
+        assert('line 1, column 15' in message)
+
+
+def test_parser_error_trailing_shortcut():
+    input = 'key1: !? .b c\n'
+    try:
+        process(input)
+        assert False
+    except Exception as e:
+        message = str(e)
+        assert('Parse error' in message)
+        assert('line 1, column 13' in message)
+
 def test_key_error_space():
     input = 'key1: !?   .b\n'
     try:

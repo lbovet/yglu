@@ -47,11 +47,11 @@ class NodeException(Exception):
     def start_mark(self):
         if self.node.source is None:
             return Mark(0, 0)
-        column = self.node.source.end_mark.column - len(self.node.expression)
+        column = self.node.source.end_mark.column - len(self.node.source.value)
         if hasattr(self.cause, 'position') and self.cause.position:
             column += self.cause.position
-        if self.node.source.value.startswith('.'):
-            column += 2
+            if self.node.source.value.startswith('.'):
+                column -= 2
         return Mark(self.node.source.start_mark.line, column)
 
     def end_mark(self):
