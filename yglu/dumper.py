@@ -9,7 +9,11 @@ def dump(tree, output, errors=[]):
     yaml = ruamel.yaml.YAML()
 
     def represent_mapping(representer, mapping):
-        return representer.represent_mapping(u'tag:yaml.org,2002:map', mapping)
+        filtered = []
+        for (k,v) in mapping.items():
+            if v is not None:
+                filtered.append((k,v))
+        return representer.represent_mapping(u'tag:yaml.org,2002:map', dict(filtered))
 
     def represent_sequence(representer, sequence):
         return representer.represent_sequence(u'tag:yaml.org,2002:seq', sequence)

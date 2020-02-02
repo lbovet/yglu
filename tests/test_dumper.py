@@ -47,8 +47,9 @@ def test_doc_separator():
 
 def test_null():
     input = '''
-        a: 1
+        a: 1        
         b: null
+        c: !? null
         '''
     expected = '''
         a: 1
@@ -115,5 +116,23 @@ def test_sequence_loop():
           y: 2
         - x: 3
           y: 4
+        '''
+    assert_like(process(input), expected)
+
+
+def test_if_override():
+    input = '''
+        t: !-
+            a: 1
+            b: 2
+        u: !-
+            a: !? null
+        v: 
+            !if true: !? .t
+            !if true: !? .u
+        '''
+    expected = '''
+        v:
+          b: 2
         '''
     assert_like(process(input), expected)

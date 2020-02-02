@@ -85,12 +85,14 @@ class MergeKey:
         self.visited = False
 
     def merge(self, parent, source):
-        self.visited = True
+        self.visited = True    
         if isinstance(parent, Mapping):
             if isinstance(source, OrderedDict):
                 parent.update(OrderedDict.items(source))
             elif isinstance(source, dict):
                 parent.update(source)
+            elif isinstance(source, Node):
+                self.merge(parent, source.content())
             if isinstance(source, Mapping):
                 parent.special_entries.extend(source.special_entries)
         else:
@@ -133,8 +135,9 @@ class Mapping(OrderedDict, Node):
         self.resolve_special()
         for (k, v) in super().items():
             if isinstance(v, Node):
-                if v.content() is not None and v.visible:
-                    yield (k, v.content())
+                result = (k, v.content())
+                if v.visible:
+                    yield result
             elif v is not None:
                 yield (k, v)
 
