@@ -7,15 +7,17 @@ from .tree import NodeException
 
 
 class ErrorList(list):
-    def __init__(self):        
+    def __init__(self):
         self.nodes = set()
-    def append(self, error):        
-        if not isinstance(error, NodeException) or error.node not in self.nodes:            
-            super().append(error)            
+
+    def append(self, error):
+        if not isinstance(error, NodeException) or error.node not in self.nodes:
+            super().append(error)
             sys.stderr.write(str(error)+"\n")
             sys.stderr.flush()
         if isinstance(error, NodeException):
             self.nodes.add(error.node)
+
 
 def main():
     errors = ErrorList()
