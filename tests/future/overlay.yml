@@ -24,6 +24,26 @@ right: !-
   f:
     b: 1
 
+merge: !()
+  !+ : !? $0
+  !+ :
+    a:
+      f: null # clear f to be replaced by right's version
+  !+ : !? $1
+  !+ :
+    a:
+      b: !? $0 + $1
+    e: 
+      - !for $match($0, $1, lambda($0.name = $1.name)): !? .m 
+
+m: !()
+  !+ : !? $0
+  !+ : !? $1
+
+actual: !apply .merge
+  - !? left
+  - !? right
+
 actual: !? $overlay($_.rules)
   ($_.left)
   ($_.right)
