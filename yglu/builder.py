@@ -119,6 +119,25 @@ def function_constructor(self, node):
 loader.add_constructor('!()', function_constructor)
 
 
+class MergeNode(TaggedNode, MergeKey):
+    def __init__(self, doc, node):
+        TaggedNode.__init__(self, doc, node)
+        MergeKey.__init__(self)
+
+    def create(self, doc):
+        return self
+
+    def merge(self, parent, source):
+        MergeKey.merge(self, parent, source)
+
+
+def merge_constructor(self, node):
+    if isinstance(node, ScalarNode):
+        return MergeNode(self.construct_scalar(node), node)
+
+
+loader.add_constructor('!+', merge_constructor)
+
 class IfNode(TaggedNode, MergeKey):
     def __init__(self, doc, node):
         TaggedNode.__init__(self, doc, node)
@@ -136,7 +155,6 @@ class IfNode(TaggedNode, MergeKey):
 def if_constructor(self, node):
     if isinstance(node, ScalarNode):
         return IfNode(self.construct_scalar(node), node)
-    assert False, 'expression nodes must be scalar'
 
 
 loader.add_constructor('!if', if_constructor)
