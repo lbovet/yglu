@@ -9,23 +9,24 @@ from ruamel.yaml.nodes import (ScalarNode, SequenceNode, MappingNode)
 from ruamel.yaml.comments import TaggedScalar
 
 
-def build(source, filepath=None):
+def build(source, filepath=None, errors=None):
     yaml_doc = loader.load(source)
-    return create_tree(yaml_doc, filepath)
+    return create_tree(yaml_doc, filepath, errors)
 
 
 def build_all(source, filepath=None, errors=[]):
     for yaml_doc in loader.load_all(source, errors):
-        yield create_tree(yaml_doc, filepath)
+        yield create_tree(yaml_doc, filepath, errors)
 
 
-def create_tree(yaml_doc, filepath):
+def create_tree(yaml_doc, filepath, errors=None):
     if yaml_doc is None:
         return None
     doc = Document()
     tree = convert(yaml_doc, doc)
     doc.filepath = filepath
     doc.root = tree
+    doc.errors = errors
     return tree
 
 

@@ -69,14 +69,14 @@ def add_constructor(tag, constructor):
 def load_all(source, errors=[]):
     if source == sys.stdin:
         buffer = io.StringIO()
-        for line in source:
-            if line.replace(' ', '').startswith('---'):
-                yield create_loader().load(buffer.getvalue())
-                buffer = io.StringIO()
-            else:
-                buffer.writelines(line)
-
         try:
+            for line in source:
+                if line.replace(' ', '').startswith('---'):
+                    yield create_loader().load(buffer.getvalue())
+                    buffer = io.StringIO()
+                else:
+                    buffer.writelines(line)
+
             yield create_loader().load(buffer.getvalue())
         except Exception as error:
             errors.append(error)

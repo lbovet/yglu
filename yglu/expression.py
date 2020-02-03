@@ -67,10 +67,16 @@ def evaluate(node, context):
     try:
         return engine(node.expression).evaluate(context=context)
     except ExpressionException as e:
-        raise e
+        if node.doc.errors is None:            
+            raise e
     except Exception as e:
-        raise ExpressionException(node, e)
-
+        error = ExpressionException(node, e)
+        if node.doc.errors is not None:
+            node.doc.errors.append(error)
+            if len(stack) > 1:
+                raise Exception("error in referenced node")
+        else:
+            raise error
 
 class Holder:
     def __init__(self, value):
@@ -91,8 +97,10 @@ class Expression(Node):
         context = get_context(self.doc.root).create_child_context()
         if len(scopes) > 0:
             context['$'] = scopes[-1]
-        result = evaluate(self, context)
-        pop_stack()
+        try:
+            result = evaluate(self, context)
+        finally:
+            pop_stack()
         if isinstance(result, Holder):
             return result.value
         else:

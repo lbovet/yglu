@@ -8,9 +8,9 @@ for definition in definitions:
     add_context_processor(definition)
 
 
-class ErrorHandler:
+class ErrorHandler(list):
     def append(self, error):
-        raise error
+        raise error    
 
 
 def process(input, filepath=None):
@@ -22,8 +22,7 @@ def process(input, filepath=None):
     return stream.getvalue()
 
 
-def process_all(input, filepath=None):
-    error_handler = ErrorHandler()
+def process_all(input, filepath=None, error_handler=[]):
     for doc in build_all(input, filepath, error_handler):
         stream = io.StringIO()
         dump(doc, stream, error_handler)

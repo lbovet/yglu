@@ -38,7 +38,11 @@ def import_definition(context, root):
                 'Import not allowed. Set $YGLU_IMPORT_ALLOW to allow import from other directories')
 
         with open(filepath) as file:
-            result = build(file, filename)
+            if hasattr(root, 'doc'):
+                errors = root.doc.errors
+            else:
+                errors = None
+            result = build(file, filename, errors)
             return Holder(result)
 
     context['$import'] = import_function

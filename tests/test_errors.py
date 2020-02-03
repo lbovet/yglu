@@ -1,6 +1,6 @@
 from yglu.dumper import dump
+from yglu.main import ErrorList
 from .utils import *
-
 
 def test_empty_expression():
     input = 'key1: !?'
@@ -205,3 +205,25 @@ def test_for_key_error():
         assert len(message.split('\n')) == 3
         assert('key not found' in message)
         assert('line 1, column 6' in message)
+
+
+def test_single_errors():
+    input = '''
+        a: !? .b
+        '''
+    errors = ErrorList()
+    result = next(process_all(input, None, errors))    
+    assert len(errors) == 1
+    assert "key not found" in str(errors[0])
+
+
+def test_muliple_errors():
+    input = '''
+        a: !? .b
+        b: !? .c
+        '''
+    errors = ErrorList()
+    result = next(process_all(input, None, errors))
+    assert len(errors) == 2
+    assert "key not found" in str(errors[0])
+    assert "error in referenced node" in str(errors[1])

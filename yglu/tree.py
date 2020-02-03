@@ -7,8 +7,8 @@ class Document:
     def __init__(self):
         self.filepath = None
         self.root = None
-        self.currentPath = []
-
+        self.errors = None
+        
 
 class Mark:
     def __init__(self, line, column):

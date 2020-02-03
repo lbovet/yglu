@@ -3,15 +3,19 @@
 import sys
 from . import version
 from .main import process
+from .tree import NodeException
 
 
 class ErrorList(list):
-    def append(self, error):
-        super().append(error)
-        sys.stderr.write("---\n")
-        sys.stderr.write(str(error)+"\n")
-        sys.stderr.flush()
-
+    def __init__(self):        
+        self.nodes = set()
+    def append(self, error):        
+        if not isinstance(error, NodeException) or error.node not in self.nodes:            
+            super().append(error)            
+            sys.stderr.write(str(error)+"\n")
+            sys.stderr.flush()
+        if isinstance(error, NodeException):
+            self.nodes.add(error.node)
 
 def main():
     errors = ErrorList()
