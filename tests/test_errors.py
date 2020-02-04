@@ -253,3 +253,18 @@ def test_line_format():
         assert(len(lines) == 3)
         assert('/dummy/file/path.yml:1:9:' in lines[0])
         assert('unexpected end of statement' in lines[1])
+
+def test_error_in_multiline_expression():
+    input = '''
+        key1: !? 111111111111111111111111
+            + 2 ssss
+                x bla
+            '''
+    try:
+        process(input)
+        assert False
+    except Exception as e:
+        assert(e.start_mark().line == 0)
+        assert(e.start_mark().column == 6)
+        assert(e.end_mark().line == 2)
+        assert(e.end_mark().column == 13)
