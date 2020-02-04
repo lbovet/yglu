@@ -150,3 +150,21 @@ def test_this():
           c: 4
         '''
     assert_like(process(input), expected)
+
+
+def test_apply():
+    input = '''
+        a: !()
+            b: !? $.x + 1
+            c: !? $.y + 2
+        d:
+            !apply .a:
+                x: 1
+                y: 2
+        '''
+    expected = '''
+        d: 
+          b: 2
+          c: 4
+        '''
+    assert_like(process(input), expected)

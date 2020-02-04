@@ -125,6 +125,8 @@ Tags specify an alteration of the document structure.
 | `!()`     | Make the node reusable in expressions as a function. |
 | `!if`     | Conditional merge. See [if.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/if.yml). |
 | `!for`    | Merge the results of a function applied to all items of a sequence . See [for.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/for.yml). |
+| `!apply`  | Apply a function or function block to a block. See [functions.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/functions.yml). |
+
 
 ## Expressions
 

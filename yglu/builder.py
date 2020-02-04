@@ -166,3 +166,25 @@ def for_constructor(self, node):
 
 
 loader.add_constructor('!for', for_constructor)
+
+
+class ApplyNode(TaggedNode, MergeKey):
+    def __init__(self, doc, node):
+        TaggedNode.__init__(self, doc, node)
+        MergeKey.__init__(self)
+
+    def create(self, doc):
+        self.expression = Expression(self.value, doc, self.source)
+        return self
+
+    def merge(self, parent, source):
+        MergeKey.merge(self, parent, self.expression.content()(source))
+
+
+def apply_constructor(self, node):
+    if isinstance(node, ScalarNode):
+        return ApplyNode(self.construct_scalar(node), node)
+    assert False, 'expression nodes must be scalar'
+
+
+loader.add_constructor('!apply', apply_constructor)

@@ -1,9 +1,0 @@
-# Idea for future feature:
-# !apply calls the referenced function with the current node as argument
-config: !()
-  image: !? $.name + ':' + $.version
-  tag: !? ('v' + $.version)
-
-? !apply .config
-: name: coder
-  version: '1.0'  
