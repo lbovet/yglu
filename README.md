@@ -125,7 +125,7 @@ Tags specify an alteration of the document structure.
 | `!()`     | Make the node reusable in expressions as a function. |
 | `!if`     | Conditional merge. See [if.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/if.yml). |
 | `!for`    | Merge the results of a function applied to all items of a sequence . See [for.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/for.yml). |
-| `!apply`  | Apply a function or function block to a block. See [functions.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/functions.yml). |
+| `!apply`  | Apply a function or function block to a block. See [function.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/function.yml). |
 
 
 ## Expressions
@@ -139,7 +139,7 @@ They are evaluated in a context with the following variables defined:
 | `$_`        | Refers to the current document root. Can be omitted at the beginning of the expression if it starts with a dot. |
 | `$`         | Implicit argument of functions. |
 | `$env`      | Gives access to environment variables. Disabled by default. Set the `$YGLU_ENABLE_ENV` environment variable to enable this feature. |
-| `$this`     | Refers to the current function block node in order to access its children nodes. See [functions.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/functions.yml) |
+| `$this`     | Refers to the current function block node in order to access its children nodes. See [function.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/function.yml) |
 
 ## Built-in Functions
 
