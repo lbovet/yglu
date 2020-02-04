@@ -227,3 +227,29 @@ def test_muliple_errors():
     assert len(errors) == 2
     assert "key not found" in str(errors[0])
     assert "error in referenced node" in str(errors[1])
+
+
+def test_no_line_format():
+    input = 'key1: !?'
+    try:
+        process(input)
+        assert False
+    except Exception as e:
+        message = str(e)
+        lines = message.splitlines()
+        assert(len(lines) == 3)
+        assert('unexpected end of statement' in lines[0])
+        assert('line 1, column 9' in lines[1])
+
+
+def test_line_format():
+    input = 'key1: !?'
+    try:
+        process(input, '/dummy/file/path.yml')
+        assert False
+    except Exception as e:
+        message = str(e)
+        lines = message.splitlines()
+        assert(len(lines) == 3)
+        assert('/dummy/file/path.yml:1:9:' in lines[0])
+        assert('unexpected end of statement' in lines[1])

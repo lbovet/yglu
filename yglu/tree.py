@@ -1,7 +1,7 @@
 ''' Model for the internal document structure. '''
 
 from collections import OrderedDict
-
+import os
 
 class Document:
     def __init__(self):
@@ -22,9 +22,11 @@ class NodeException(Exception):
         self.cause = cause
 
     def __str__(self):
-        filepath = self.node.doc.filepath
-        if filepath is None:
+        if self.node.doc.filepath is None:
             filepath = '<stdin>'
+        else:
+            filepath = os.path.relpath(self.node.doc.filepath, os.getcwd())
+
         start_mark = self.start_mark()
         line = start_mark.line
         column = start_mark.column
@@ -33,12 +35,19 @@ class NodeException(Exception):
             message = 'key not found: '+str(self.cause)
         else:
             message = str(self.cause)
-
+            
         if not isinstance(self.cause, NodeException):
-            message = message+'\n in "'+filepath + \
-                '", line ' + str(start_mark.line+1) + \
-                ', column ' + str(start_mark.column+1) + \
-                ':\n  '+str(self.value())
+            if self.node.doc.filepath is None:
+                message = message+'\n in '+filepath + \
+                    ', line ' + str(start_mark.line+1) + \
+                    ', column ' + str(start_mark.column+1) + \
+                    ':\n  '+str(self.value())
+            else:
+                message = filepath+':' + \
+                    str(start_mark.line+1)+':'+str(start_mark.column+1) + ':\n  ' + \
+                    message + ':\n   ' + \
+                    str(self.value())
+
         return message
 
     def value(self):

@@ -42,7 +42,7 @@ def import_definition(context, root):
                 errors = root.doc.errors
             else:
                 errors = None
-            result = build(file, filename, errors)
+            result = build(file, filepath, errors)
             return Holder(result)
 
     context['$import'] = import_function
