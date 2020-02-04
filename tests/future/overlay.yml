@@ -17,47 +17,24 @@ right: !-
   a:
     b: !? 3
     x: !? 3
+  c: null
   d: 4
   e: 
     - name: one
       value: 1
-  f:
+  f: !replace
     b: 1
 
-merge: !()
-  !+ : !? $0
+actual:
+  !+ : !? .left
   !+ :
     a:
-      f: null # clear f to be replaced by right's version
-  !+ : !? $1
+      f: null # clear f to be replaced by right's version  
   !+ :
     a:
       b: !? $0 + $1
     e: 
-      - !for $match($0, $1, lambda($0.name = $1.name)): !? .m 
-
-m: !()
-  !+ : !? $0
-  !+ : !? $1
-
-actual: !apply .merge
-  - !? left
-  - !? right
-
-actual: !? $overlay($_.rules)
-  ($_.left)
-  ($_.right)
-  ()
-
-rules: !() '{
-    $.a => $merge(with => lambda({ b => $1.b + $2.b })),
-    $.e => $merge(matcher => lambda($.name))
-    $.f => lambda($2)
-  }'
-rules: !- 
-  ? !() $.a
-  : !() $merge([$1, $2, { b => $1.b + $2.b }])
-  ? !() $.e
-  : !() $merge([$1, $2], matchBy = lambda($.name))
-  ? !() $.f
-  : !() $2
+      - !for $match($0.name = $1.name): !()
+        - !+: !? $0
+          !+: !? $1
+  !+ : !? .right
