@@ -137,6 +137,7 @@ They are evaluated in a context with the following variables defined:
 | `$_`        | Refers to the current document root. Can be omitted at the beginning of the expression if it starts with a dot. |
 | `$`         | Implicit argument of functions. |
 | `$env`      | Gives access to environment variables. Disabled by default. Set the `$YGLU_ENABLE_ENV` environment variable to enable this feature. |
+| `$this`     | Refers to the current function block node in order to access its children nodes. See [functions.yml](https://github.com/lbovet/yglu/tree/master/tests/samples/functions.yml) |
 
 ## Built-in Functions
 

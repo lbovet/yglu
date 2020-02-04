@@ -42,6 +42,10 @@ def push_stack(node):
 def pop_stack():
     stack.pop()
 
+class Scope:
+    def __init__(self, arg, this):
+        self.arg = arg
+        self.this = this
 
 def push_scope(scope):
     scopes.append(scope)
@@ -96,7 +100,8 @@ class Expression(Node):
         push_stack(self)
         context = get_context(self.doc.root).create_child_context()
         if len(scopes) > 0:
-            context['$'] = scopes[-1]
+            context['$'] = scopes[-1].arg
+            context['$this'] = scopes[-1].this
         try:
             result = evaluate(self, context)
         finally:
@@ -113,9 +118,9 @@ class Function(Node):
         self.expression = expression
         self.visible = False
 
-    def eval(self, scope=None):
+    def eval(self, arg=None):
         context = get_context(self.doc.root).create_child_context()
-        context['$'] = scope
+        context['$'] = arg
         result = evaluate(self, context)
         return result
 
@@ -129,9 +134,9 @@ class FunctionBlock(Node):
         self.visible = False
         self.constructor = constructor
 
-    def eval(self, scope):
-        push_scope(scope)
+    def eval(self, arg):
         node = self.constructor()
+        push_scope(Scope(arg, node))
         if isinstance(node, Node):
             node.receive(lambda x: x)  # force content creation
         if isinstance(node, dict):

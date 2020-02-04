@@ -136,3 +136,17 @@ def test_if_override():
           b: 2
         '''
     assert_like(process(input), expected)
+
+
+def test_this():
+    input = '''
+        a: !()
+            b: !- 2
+            c: !? $ + $this.b
+        d: !? ($_.a)(2)
+        '''
+    expected = '''
+        d: 
+          c: 4
+        '''
+    assert_like(process(input), expected)

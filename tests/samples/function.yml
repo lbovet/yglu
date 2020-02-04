@@ -3,7 +3,8 @@ a: !() $ + 1
 b: !? ($_.a)(2)
 c: !() 
   d: !? $.name.toUpper()
-  e: !? $.age + $_.b
+  e: !? $.age + $_.b + $this.i
+  i: !- 1
 f:
   !? ($_.c)({name => foo, age => 30})
 g: !-
@@ -20,11 +21,11 @@ k: !? ($_.j)()
 b: 3
 f:
   d: FOO
-  e: 33
+  e: 34
 h: 4
 i:
   - d: FOO
-    e: 13
+    e: 14
   - d: BAR
-    e: 23
+    e: 24
 k: hello
