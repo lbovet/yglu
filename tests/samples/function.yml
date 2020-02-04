@@ -17,7 +17,8 @@ i: !? .g.select(($_.c)($))
 j: !() hello
 k: !? ($_.j)()
 l:
-  !apply .c:
+  ? !apply .c
+  :
     name: fuu
     age: 30
 ---
