@@ -25,8 +25,8 @@ setup(
         "console_scripts": ["yglu=yglu.cli:main"]
     },
     install_requires=[
-        "ruamel.yaml==0.16.5",
-        "yaql==1.1.3"
+        "ruamel.yaml>=0.16.5",
+        "yaql>=1.1.3"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
