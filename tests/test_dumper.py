@@ -57,6 +57,16 @@ def test_null():
     assert_like(process(input), expected)
 
 
+def test_scalar():
+    input = '''
+        2
+        '''
+    expected = '''2
+...
+'''
+    assert_like(process(input), expected)
+
+
 def test_expression_in_key():
     input = '''
         a: b

@@ -138,17 +138,6 @@ def test_null_key():
         assert('line 1, column 4' in message)
 
 
-def test_undefined():
-    input = 'a'
-    try:
-        process(input)
-        assert False
-    except Exception as e:
-        message = str(e)
-        assert('document is not a mapping nor a sequence' in message)
-        assert('line 1, column 1' in message)
-
-
 def test_empty_for_loop():
     input = '''
         ? !for '[1,2,3]'
