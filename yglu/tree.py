@@ -108,7 +108,14 @@ class MergeKey:
             if isinstance(source, Mapping):
                 parent.special_entries.extend(source.special_entries)
         else:
-            parent.extend(source)
+            if isinstance(source, OrderedDict):
+                parent.append(OrderedDict.items(source))
+            elif isinstance(source, dict):
+                parent.append(source)
+            elif isinstance(source, Node):
+                self.merge(parent, source.content())
+            else:
+                parent.extend(source)
 
 
 class Scalar(Node):
