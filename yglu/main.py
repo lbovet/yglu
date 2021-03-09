@@ -30,3 +30,21 @@ def process(input, output, filename=None, errors=[]):
         else:
             first = False
         dump(doc, output, errors)
+
+def process_data(input, filename=None):
+    """
+    Transform data in-memory.
+
+    This implementation is pretty inefficient, not recommended for large data structures.
+    """
+    yaml = loader.create_loader()
+    in_str = io.StringIO()
+    yaml.dump(input, in_str)
+    in_str.seek(0)
+
+    out_str = io.StringIO()
+    errs= []
+    main.process(in_str, out_str, errors=errs)
+
+    out_str.seek(0)
+    return yaml.load(out_str), errs
