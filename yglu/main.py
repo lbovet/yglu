@@ -31,7 +31,7 @@ def process(input, output, filename=None, errors=[]):
             first = False
         dump(doc, output, errors)
 
-def process_data(input, filename=None)
+def process_data(input, filename=None):
     """
     Transform data in-memory.
 
