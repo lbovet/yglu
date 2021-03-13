@@ -29,6 +29,12 @@ def test_expression():
     assert_like(process(input), expected)
 
 
+
+def test_scalar_doc():
+    assert next(process('1')) == 1
+    assert next(process('a')) == 'a'
+
+
 def test_empty_doc():
     assert list(process_all('')) == []
 
@@ -42,6 +48,7 @@ def test_doc_separator():
         b: 2
         ---
         ''')
+<<<<<<< Updated upstream
     assert list(process_all(input)) == ['', 'a: 1\n', 'b: 2\n', '']
 
 
@@ -196,3 +203,6 @@ def test_apply_in_array():
           c: 4
         '''
     assert_like(process(input), expected)
+=======
+    assert list(process(input)) == ['', 'a: 1\n', '', '']
+>>>>>>> Stashed changes

@@ -40,7 +40,15 @@ def main():
             sys.stderr.write('File not found: '+sys.argv[1]+'\n')
             sys.exit(1)
     else:
+<<<<<<< Updated upstream
         process(sys.stdin, sys.stdout, None, errors)
     if len(errors) > 0:
         sys.stderr.write("Finished with errors.\n")
         sys.exit(1)
+=======
+        errors = []
+        process(sys.stdin, sys.stdout, sys.stderr, errors)
+        if len(errors) > 0:
+            sys.stderr.write("There were errors.")
+            sys.exit(1)
+>>>>>>> Stashed changes

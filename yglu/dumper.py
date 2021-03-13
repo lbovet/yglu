@@ -25,11 +25,29 @@ def dump(tree, output, errors=[]):
     def represent_scalar(representer, scalar):
         return representer.represent_data(scalar.content())
 
+<<<<<<< Updated upstream
     yaml.representer.add_representer(Mapping, represent_mapping)
     yaml.representer.add_representer(Sequence, represent_sequence)
     yaml.representer.add_representer(Scalar, represent_scalar)
     yaml.representer.add_representer(SimpleString, represent_string)
 
+=======
+def represent_scalar(representer, scalar):
+    return representer.represent(scalar)
+
+
+def represent_string(representer, string):
+    return representer.represent_scalar(u'tag:yaml.org,2002:str', string)
+
+
+yaml.representer.add_representer(Mapping, represent_mapping)
+yaml.representer.add_representer(Sequence, represent_sequence)
+#yaml.representer.add_representer(Scalar, represent_scalar)
+yaml.representer.add_representer(SimpleString, represent_string)
+
+
+def dump(tree, output):
+>>>>>>> Stashed changes
     if tree is not None:
         try:
             out = StringIO()

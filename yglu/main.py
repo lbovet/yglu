@@ -19,16 +19,26 @@ class ErrorList(list):
         if isinstance(error, NodeException):
             self.nodes.add(error.node)
 
+<<<<<<< Updated upstream
 def process(input, output, filename=None, errors=[]):
+=======
+def process(input, output, error_stream, errors, filename=None):
+>>>>>>> Stashed changes
     if filename:
         filename = os.path.abspath(filename)
     first = True
+<<<<<<< Updated upstream
 
     for doc in build_all(input, filename, errors):
+=======
+    success = True
+    for doc in build_all(input, filename):
+>>>>>>> Stashed changes
         if not first:
             output.write("---\n")
         else:
             first = False
+<<<<<<< Updated upstream
         dump(doc, output, errors)
 
 def process_data(input, filename=None):
@@ -48,3 +58,12 @@ def process_data(input, filename=None):
 
     out_str.seek(0)
     return yaml.load(out_str), errs
+=======
+        try:
+            dump(doc, output)
+        except Exception as e:
+            error_stream.write(str(e)+"\n")
+            errors.append(e)
+    if not success:
+        sys.stderr.write("There were errors.\n")
+>>>>>>> Stashed changes
