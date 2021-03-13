@@ -1,11 +1,16 @@
+---
+title: yglu ReadMe
+---
+
+# Yglu ᕄ !?
+
 [![Build Status](https://travis-ci.org/lbovet/yglu.svg?branch=master)](https://travis-ci.org/lbovet/yglu)
 [![PyPI version](https://badge.fury.io/py/yglu.svg)](https://badge.fury.io/py/yglu)
 
 <p align="center"><b><a href="https://yglu.io/">* Try Yglu Online *</a></b></p>
 
-# Yglu ᕄ !?
 
-Yglu is [YAML](https://yaml.org/) augmented with an advanced expression language. Unlike usual text templating, Yglu relies on the YAML structure and leverages its tag system combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language. 
+Yglu is [YAML](https://yaml.org/) augmented with an advanced expression language. Unlike usual text templating, Yglu relies on the YAML structure and leverages its tag system combined with the [YAQL](https://yaql.readthedocs.io/en/latest/) query language.
 
 This association enables templating and functional processing a bit like if YAML nodes were spreadsheet cells.
 
@@ -24,7 +29,7 @@ b: !? .a + 1
 output
 <pre lang="yaml">
 a: 1
-b: 2 
+b: 2
 c: 3
  </pre>
 </td>
@@ -39,9 +44,9 @@ names: !-
   - 'node:13.6'
   - 'couchbase:9.3'
 image: !()
-  !? $.split(':')[0]: 
+  !? $.split(':')[0]:
     version: !? $.split(':')[1]
-images: !? 
+images: !?
   $_.names
     .select(($_.image)($))
     .aggregate($1.mergeWith($2), {})</pre>
@@ -50,11 +55,11 @@ images: !?
 output
 <pre lang="yaml">
 images:
-  nginx: 
+  nginx:
     version: '1.16'
-  node: 
+  node:
     version: '13.6'
-  couchbase: 
+  couchbase:
     version: '9.3'
     &nbsp;
     &nbsp;
@@ -75,7 +80,7 @@ names: !-
   - 'nginx:1.16'
   - 'node:13.6'
   - 'couchbase:9.3'
-images: 
+images:
   !for .names: !()
     !? $.split(':')[0]:
       version: !? $.split(':')[1]</pre>
@@ -84,11 +89,11 @@ images:
 output
 <pre lang="yaml">
 images:
-  nginx: 
+  nginx:
     version: '1.16'
-  node: 
+  node:
     version: '13.6'
-  couchbase: 
+  couchbase:
     version: '9.3'
     &nbsp;</pre>
 </td>

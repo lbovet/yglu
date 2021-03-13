@@ -1,39 +1,26 @@
+"""
+    Setup file for yglu.
+    Use setup.cfg to configure your project.
+
+    This file was generated with PyScaffold 4.0.
+    PyScaffold helps you to put up the scaffold of your new Python project.
+    Learn more under: https://pyscaffold.org/
+"""
 from setuptools import setup
+import site
+import sys
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+# needed for "pip install -e .", see https://github.com/pypa/pip/issues/7953
+site.ENABLE_USER_SITE = "--user" in sys.argv[1:]
 
-with open("yglu/__init__.py", "r") as fh:
-    exec(fh.read())
-
-setup(
-    name='yglu',
-    version=version,
-    description='YAML glue for structural templating and processing',
-    author='Laurent Bovet',
-    author_email='laurent.bovet@windmaster.ch',
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="https://yglu.io",
-    project_urls={  
-        'Documentation': 'https://github.com/lbovet/yglu/blob/master/README.md',
-        'Bug Reports': 'https://github.com/lbovet/yglu/issues',
-        'Source': 'https://github.com/lbovet/yglu'
-    },    
-    packages=["yglu"],
-    entry_points={
-        "console_scripts": ["yglu=yglu.cli:main"]
-    },
-    install_requires=[
-        "ruamel.yaml>=0.16.5",
-        "yaql>=1.1.3"
-    ],
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
-        "Operating System :: OS Independent",
-    ],
-    python_requires='>=3.6',
-)
+if __name__ == "__main__":
+    try:
+        setup(use_scm_version={"version_scheme": "no-guess-dev"})
+    except:  # noqa
+        print(
+            "\n\nAn error occurred while building the project, "
+            "please ensure you have the most updated version of setuptools, "
+            "setuptools_scm and wheel with:\n"
+            "   pip install -U setuptools setuptools_scm wheel\n\n"
+        )
+        raise
