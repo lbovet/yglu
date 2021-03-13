@@ -1,8 +1,9 @@
-from yglu.dumper import dump
+import io
+
 from yglu.builder import build, build_all
+from yglu.dumper import dump
 from yglu.expression import add_context_processor
 from yglu.functions import definitions
-import io
 
 for definition in definitions:
     add_context_processor(definition)
@@ -10,7 +11,7 @@ for definition in definitions:
 
 class ErrorHandler(list):
     def append(self, error):
-        raise error    
+        raise error
 
 
 def process(input, filepath=None):
@@ -36,9 +37,9 @@ def assert_like(d1, d2):
 def outdent(doc):
     offset = 0
     for c in doc:
-        if c == ' ':
+        if c == " ":
             offset += 1
-        elif c == '\n':
+        elif c == "\n":
             offset = 0
         else:
             break
@@ -49,4 +50,4 @@ def outdent(doc):
         line = line.rstrip()
         if len(line) > 0:
             result.append(line)
-    return '\n'.join(result)
+    return "\n".join(result)

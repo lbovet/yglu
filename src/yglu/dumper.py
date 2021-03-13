@@ -1,9 +1,11 @@
-''' Serialization into YAML text '''
+""" Serialization into YAML text """
+
+from io import StringIO
 
 import ruamel.yaml
+
 from .loader import SimpleString
-from .tree import (Mapping, Sequence, Scalar, NodeException)
-from io import StringIO
+from .tree import Mapping, NodeException, Scalar, Sequence
 
 
 def dump(tree, output, errors=[]):
@@ -11,16 +13,16 @@ def dump(tree, output, errors=[]):
 
     def represent_mapping(representer, mapping):
         filtered = []
-        for (k,v) in mapping.items():
+        for (k, v) in mapping.items():
             if v is not None:
-                filtered.append((k,v))
-        return representer.represent_mapping(u'tag:yaml.org,2002:map', dict(filtered))
+                filtered.append((k, v))
+        return representer.represent_mapping(u"tag:yaml.org,2002:map", dict(filtered))
 
     def represent_sequence(representer, sequence):
-        return representer.represent_sequence(u'tag:yaml.org,2002:seq', sequence)
+        return representer.represent_sequence(u"tag:yaml.org,2002:seq", sequence)
 
     def represent_string(representer, string):
-        return representer.represent_scalar(u'tag:yaml.org,2002:str', string)
+        return representer.represent_scalar(u"tag:yaml.org,2002:str", string)
 
     def represent_scalar(representer, scalar):
         return representer.represent_data(scalar.content())
@@ -36,8 +38,9 @@ def dump(tree, output, errors=[]):
             yaml.dump(tree, out)
             if len(errors) == 0:
                 output.write(out.getvalue())
-        except ruamel.yaml.representer.RepresenterError as error:
-            errors.append(NodeException(
-                tree, "document is not a mapping nor a sequence"))
+        except ruamel.yaml.representer.RepresenterError:
+            errors.append(
+                NodeException(tree, "document is not a mapping nor a sequence")
+            )
         except Exception as error:
             errors.append(error)

@@ -1,14 +1,15 @@
-''' Model for the internal document structure. '''
+""" Model for the internal document structure. """
 
-from collections import OrderedDict
 import os
+from collections import OrderedDict
+
 
 class Document:
     def __init__(self):
         self.filepath = None
         self.root = None
         self.errors = None
-        
+
 
 class Mark:
     def __init__(self, line, column):
@@ -23,30 +24,42 @@ class NodeException(Exception):
 
     def __str__(self):
         if self.node.doc.filepath is None:
-            filepath = '<stdin>'
+            filepath = "<stdin>"
         else:
             filepath = os.path.relpath(self.node.doc.filepath, os.getcwd())
 
         start_mark = self.start_mark()
-        line = start_mark.line
-        column = start_mark.column
 
         if isinstance(self.cause, KeyError):
-            message = 'key not found: '+str(self.cause)
+            message = "key not found: " + str(self.cause)
         else:
             message = str(self.cause)
-            
+
         if not isinstance(self.cause, NodeException):
             if self.node.doc.filepath is None:
-                message = message+'\n in '+filepath + \
-                    ', line ' + str(start_mark.line+1) + \
-                    ', column ' + str(start_mark.column+1) + \
-                    ':\n  '+str(self.value())
+                message = (
+                    message
+                    + "\n in "
+                    + filepath
+                    + ", line "
+                    + str(start_mark.line + 1)
+                    + ", column "
+                    + str(start_mark.column + 1)
+                    + ":\n  "
+                    + str(self.value())
+                )
             else:
-                message = filepath+':' + \
-                    str(start_mark.line+1)+':'+str(start_mark.column+1) + ':\n  ' + \
-                    message + ':\n   ' + \
-                    str(self.value())
+                message = (
+                    filepath
+                    + ":"
+                    + str(start_mark.line + 1)
+                    + ":"
+                    + str(start_mark.column + 1)
+                    + ":\n  "
+                    + message
+                    + ":\n   "
+                    + str(self.value())
+                )
 
         return message
 
@@ -59,9 +72,9 @@ class NodeException(Exception):
             return Mark(0, 0)
         if self.node.source.start_mark.line == self.node.source.end_mark.line:
             column = self.node.source.end_mark.column - len(self.node.source.value)
-            if hasattr(self.cause, 'position') and self.cause.position:
+            if hasattr(self.cause, "position") and self.cause.position:
                 column += self.cause.position
-                if self.node.source.value.startswith('.'):
+                if self.node.source.value.startswith("."):
                     column -= 2
         else:
             column = self.node.source.start_mark.column
@@ -81,7 +94,7 @@ class Node:
         self.source = source
 
     def content(self):
-        if(self.memo is None):
+        if self.memo is None:
             self.memo = self.create_content()
         return self.memo
 
@@ -97,7 +110,7 @@ class MergeKey:
         self.visited = False
 
     def merge(self, parent, source):
-        self.visited = True    
+        self.visited = True
         if isinstance(parent, Mapping):
             if isinstance(source, OrderedDict):
                 parent.update(OrderedDict.items(source))
@@ -131,9 +144,6 @@ class Scalar(Node):
 
 
 class Mapping(OrderedDict, Node):
-    def __init__(self):
-        Node.__init__(self, None)
-
     def __init__(self, source=None, doc=None):
         Node.__init__(self, doc)
         self.special_entries = []
@@ -145,7 +155,7 @@ class Mapping(OrderedDict, Node):
             OrderedDict.__init__(self, self.handle_keys(source))
 
     def __getitem__(self, key):
-        if(self.__contains__(key)):
+        if self.__contains__(key):
             return super().__getitem__(key).content()
         else:
             return self.resolve_special(key)
@@ -164,7 +174,7 @@ class Mapping(OrderedDict, Node):
         return dict(self.items()) == other
 
     def __repr__(self):
-        return '<mapping>'
+        return "<mapping>"
 
     def receive(self, visitor):
         for (k, v) in self.items():
@@ -213,7 +223,11 @@ class Sequence(list, Node):
         try:
             while True:
                 node = iter.__next__()
-                if isinstance(node, Mapping) and len(node) == 0 and len(node.special_entries) == 1:
+                if (
+                    isinstance(node, Mapping)
+                    and len(node) == 0
+                    and len(node.special_entries) == 1
+                ):
                     (k, v) = node.special_entries[0]
                     if not k.visited:
                         k.merge(self, v)
@@ -226,7 +240,7 @@ class Sequence(list, Node):
             return
 
     def __repr__(self):
-        return '<sequence>'
+        return "<sequence>"
 
     def receive(self, visitor):
         for v in self:

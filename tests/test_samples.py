@@ -1,8 +1,9 @@
-import os
 import glob
+import os
+
 import pytest
-from yglu.dumper import dump
-from .utils import *
+
+from .utils import assert_like, process_all
 
 
 def simple_name(filename):
@@ -10,10 +11,12 @@ def simple_name(filename):
 
 
 path = os.path.dirname(os.path.realpath(__file__))
-files = [pytest.param(f, id=simple_name(f))
-         for f in glob.glob(path + "/samples/**/*.yml", recursive=True)]
+files = [
+    pytest.param(f, id=simple_name(f))
+    for f in glob.glob(path + "/samples/**/*.yml", recursive=True)
+]
 
-os.environ['YGLU_ENABLE_ENV'] = 'true'
+os.environ["YGLU_ENABLE_ENV"] = "true"
 
 
 @pytest.mark.parametrize("filename", files)
