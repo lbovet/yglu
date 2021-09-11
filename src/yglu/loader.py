@@ -47,9 +47,7 @@ class PositionalContructor(ruamel.yaml.constructor.RoundTripConstructor):
 
         if node.style == "|" and isinstance(node.value, str):
             ret_val = PreservedScalarString(node.value)
-        elif bool(self._preserve_quotes) and isinstance(
-            node.value, str
-        ):
+        elif bool(self._preserve_quotes) and isinstance(node.value, str):
             if node.style == "'":
                 ret_val = SingleQuotedScalarString(node.value)
             elif node.style == '"':
