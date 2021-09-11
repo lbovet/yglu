@@ -45,10 +45,10 @@ class PositionalContructor(ruamel.yaml.constructor.RoundTripConstructor):
                 node.start_mark,
             )
 
-        if node.style == "|" and isinstance(node.value, ruamel.yaml.compat.text_type):
+        if node.style == "|" and isinstance(node.value, str):
             ret_val = PreservedScalarString(node.value)
         elif bool(self._preserve_quotes) and isinstance(
-            node.value, ruamel.yaml.compat.text_type
+            node.value, str
         ):
             if node.style == "'":
                 ret_val = SingleQuotedScalarString(node.value)
