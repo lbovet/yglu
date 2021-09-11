@@ -22,5 +22,12 @@ os.environ["YGLU_ENABLE_ENV"] = "true"
 @pytest.mark.parametrize("filename", files)
 def test_sample(filename):
     with open(filename) as file_handle:
-        (input, output) = process_all(file_handle, filename)
+        (input, output) = process_all(file_handle, filename, FailingErrorHandler())
         assert_like(input, output)
+
+class FailingErrorHandler(list):
+    def __init__(self):
+        self.nodes = set()
+
+    def append(self, error):
+        raise error
