@@ -1,0 +1,13 @@
+# input
+a: hello
+b: 'foo:'
+c: "!bar"
+d: |-
+  hello
+  world
+---
+
+a: hello
+b: 'foo:'
+c: "!bar"
+d: "hello\nworld"

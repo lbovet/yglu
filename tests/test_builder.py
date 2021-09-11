@@ -19,6 +19,7 @@ def test_no_tags():
     assert data["key2"] == "item2"
     assert data["list"][1] == 2
     assert data["key4"]["key5"] == "item5"
+    assert "item6" in data["key4"]["key6"]
 
 
 def test_invisible():
