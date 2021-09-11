@@ -1,6 +1,7 @@
-''' Built-in functions  '''
+""" Built-in functions  """
 
 import os
+
 from .builder import build
 from .expression import Holder
 
@@ -8,7 +9,7 @@ base_dir = None
 
 
 def import_definition(context, root):
-    if hasattr(root, 'doc') and hasattr(root.doc, 'filepath') and root.doc.filepath:
+    if hasattr(root, "doc") and hasattr(root.doc, "filepath") and root.doc.filepath:
         current_dir = os.path.dirname(root.doc.filepath)
     else:
         current_dir = os.getcwd()
@@ -23,7 +24,7 @@ def import_definition(context, root):
             filepath = os.path.join(current_dir, filename)
 
         import_dirs = [base_dir]
-        import_path = os.environ.get('YGLU_IMPORT_ALLOW')
+        import_path = os.environ.get("YGLU_IMPORT_ALLOW")
         if import_path is not None:
             import_dirs.extend(import_path.split(os.pathsep))
 
@@ -35,17 +36,21 @@ def import_definition(context, root):
                 break
         if not allow:
             raise Exception(
-                'Import not allowed. Set $YGLU_IMPORT_ALLOW to allow import from other directories')
+                """
+                Import not allowed. Set $YGLU_IMPORT_ALLOW to allow
+                import from other directories
+                """
+            )
 
         with open(filepath) as file:
-            if hasattr(root, 'doc'):
+            if hasattr(root, "doc"):
                 errors = root.doc.errors
             else:
                 errors = None
             result = build(file, filepath, errors)
             return Holder(result)
 
-    context['$import'] = import_function
+    context["$import"] = import_function
 
 
 definitions = [import_definition]

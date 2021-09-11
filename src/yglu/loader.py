@@ -1,7 +1,8 @@
-''' Loads YAML structure from text input '''
+""" Loads YAML structure from text input """
 
-import sys
 import io
+import sys
+
 import ruamel.yaml
 
 
@@ -10,7 +11,7 @@ class String:
 
 
 class SimpleString(ruamel.yaml.scalarstring.ScalarString, String):
-    __slots__ = ('lc')
+    __slots__ = "lc"
 
     style = ""
 
@@ -19,28 +20,36 @@ class SimpleString(ruamel.yaml.scalarstring.ScalarString, String):
 
 
 class PreservedScalarString(ruamel.yaml.scalarstring.PreservedScalarString, String):
-    __slots__ = ('lc')
+    __slots__ = "lc"
 
 
-class DoubleQuotedScalarString(ruamel.yaml.scalarstring.DoubleQuotedScalarString, String):
-    __slots__ = ('lc')
+class DoubleQuotedScalarString(
+    ruamel.yaml.scalarstring.DoubleQuotedScalarString, String
+):
+    __slots__ = "lc"
 
 
-class SingleQuotedScalarString(ruamel.yaml.scalarstring.SingleQuotedScalarString, String):
-    __slots__ = ('lc')
+class SingleQuotedScalarString(
+    ruamel.yaml.scalarstring.SingleQuotedScalarString, String
+):
+    __slots__ = "lc"
 
 
 class PositionalContructor(ruamel.yaml.constructor.RoundTripConstructor):
     def construct_scalar(self, node):
         if not isinstance(node, ruamel.yaml.nodes.ScalarNode):
             raise ruamel.yaml.constructor.ConstructorError(
-                None, None,
-                'expected a scalar node, but found %s' % node.id,
-                node.start_mark)
+                None,
+                None,
+                "expected a scalar node, but found %s" % node.id,
+                node.start_mark,
+            )
 
-        if node.style == '|' and isinstance(node.value, ruamel.yaml.compat.text_type):
+        if node.style == "|" and isinstance(node.value, ruamel.yaml.compat.text_type):
             ret_val = PreservedScalarString(node.value)
-        elif bool(self._preserve_quotes) and isinstance(node.value, ruamel.yaml.compat.text_type):
+        elif bool(self._preserve_quotes) and isinstance(
+            node.value, ruamel.yaml.compat.text_type
+        ):
             if node.style == "'":
                 ret_val = SingleQuotedScalarString(node.value)
             elif node.style == '"':
@@ -71,7 +80,7 @@ def load_all(source, errors=[]):
         buffer = io.StringIO()
         try:
             for line in source:
-                if line.replace(' ', '').startswith('---'):
+                if line.replace(" ", "").startswith("---"):
                     yield create_loader().load(buffer.getvalue())
                     buffer = io.StringIO()
                 else:

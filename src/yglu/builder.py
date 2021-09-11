@@ -1,12 +1,11 @@
-''' Transforms the parsed YAML structure into a tree '''
+""" Transforms the parsed YAML structure into a tree """
+
+from ruamel.yaml.constructor import ConstructorError
+from ruamel.yaml.nodes import MappingNode, ScalarNode, SequenceNode
 
 from . import loader
-from .tree import (Document, Scalar, Sequence,
-                   Mapping, MergeKey, NodeException)
-from .expression import (Expression, Function, FunctionBlock)
-from ruamel.yaml.constructor import ConstructorError
-from ruamel.yaml.nodes import (ScalarNode, SequenceNode, MappingNode)
-from ruamel.yaml.comments import TaggedScalar
+from .expression import Expression, Function, FunctionBlock
+from .tree import Document, Mapping, MergeKey, NodeException, Scalar, Sequence
 
 
 def build(source, filepath=None, errors=None):
@@ -32,7 +31,9 @@ def create_tree(yaml_doc, filepath, errors=None):
 
 def convert(node, doc):
     if isinstance(node, dict):
-        return Mapping([(convert(k, doc), convert(v, doc)) for (k, v) in node.items()], doc)
+        return Mapping(
+            [(convert(k, doc), convert(v, doc)) for (k, v) in node.items()], doc
+        )
     if isinstance(node, list):
         return Sequence([convert(v, doc) for v in node], doc)
     if isinstance(node, TaggedNode):
@@ -70,7 +71,7 @@ def invisible_constructor(self, node):
     return InvisibleNode(construct_node(self, node), node)
 
 
-loader.add_constructor('!-', invisible_constructor)
+loader.add_constructor("!-", invisible_constructor)
 
 
 class ExpressionNode(TaggedNode):
@@ -84,12 +85,14 @@ def expression_constructor(self, node):
         return ExpressionNode(self.construct_scalar(node), node)
     else:
         raise ConstructorError(
-            None, None,
-            'expected a scalar node, but found %s' % node.id,
-            node.start_mark)
+            None,
+            None,
+            "expected a scalar node, but found %s" % node.id,
+            node.start_mark,
+        )
 
 
-loader.add_constructor('!?', expression_constructor)
+loader.add_constructor("!?", expression_constructor)
 
 
 class FunctionNode(TaggedNode):
@@ -116,7 +119,7 @@ def function_constructor(self, node):
         return FunctionBlockNode(node, self)
 
 
-loader.add_constructor('!()', function_constructor)
+loader.add_constructor("!()", function_constructor)
 
 
 class IfNode(TaggedNode, MergeKey):
@@ -136,10 +139,10 @@ class IfNode(TaggedNode, MergeKey):
 def if_constructor(self, node):
     if isinstance(node, ScalarNode):
         return IfNode(self.construct_scalar(node), node)
-    assert False, 'expression nodes must be scalar'
+    assert False, "expression nodes must be scalar"
 
 
-loader.add_constructor('!if', if_constructor)
+loader.add_constructor("!if", if_constructor)
 
 
 class ForNode(TaggedNode, MergeKey):
@@ -162,10 +165,10 @@ class ForNode(TaggedNode, MergeKey):
 def for_constructor(self, node):
     if isinstance(node, ScalarNode):
         return ForNode(self.construct_scalar(node), node)
-    assert False, 'expression nodes must be scalar'
+    assert False, "expression nodes must be scalar"
 
 
-loader.add_constructor('!for', for_constructor)
+loader.add_constructor("!for", for_constructor)
 
 
 class ApplyNode(TaggedNode, MergeKey):
@@ -184,7 +187,7 @@ class ApplyNode(TaggedNode, MergeKey):
 def apply_constructor(self, node):
     if isinstance(node, ScalarNode):
         return ApplyNode(self.construct_scalar(node), node)
-    assert False, 'expression nodes must be scalar'
+    assert False, "expression nodes must be scalar"
 
 
-loader.add_constructor('!apply', apply_constructor)
+loader.add_constructor("!apply", apply_constructor)
