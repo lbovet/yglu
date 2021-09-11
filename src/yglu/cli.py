@@ -2,7 +2,7 @@
 
 import sys
 
-from . import version
+from . import __version__
 from .main import process
 from .tree import NodeException
 
@@ -24,7 +24,7 @@ def main():
     errors = ErrorList()
     if len(sys.argv) > 1:
         if sys.argv[1] == "-v":
-            print("yglu " + version)
+            print("yglu " + __version__)
             sys.exit(0)
         if sys.argv[1].startswith("-"):
             print("Usage: yglu [options] [<filename>]")
