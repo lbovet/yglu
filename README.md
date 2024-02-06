@@ -153,3 +153,7 @@ In addition to the [standard YAQL library](https://yaql.readthedocs.io/en/latest
 | **Function**         | **Description** |
 |----------------------|-----------------|
 | `$import(filename)`  | Imports another document in the current node. By default, it is only permitted to import files from within the directory hierarchy of the input file. Set `$YGLU_IMPORT_ALLOW` to a list of permitted directories. |
+
+## Vaguely related projects
+
+* [YAMLScript](https://yamlscript.org)
